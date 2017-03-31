@@ -39,8 +39,7 @@ public class CategoryService {
 
     public List<Category> findAllWithSubcategories() {
         List<Category> categories = new ArrayList<>();
-        categoryRepository.findAll().forEach(categories::add);
-        categories.forEach(category -> Hibernate.initialize(category.getSubCategories()));
+        // // TODO: 31.03.17 Implement correctly
         return categories;
     }
 

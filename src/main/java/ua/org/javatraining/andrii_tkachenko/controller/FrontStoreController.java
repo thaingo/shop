@@ -1,12 +1,11 @@
 package ua.org.javatraining.andrii_tkachenko.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
-import ua.org.javatraining.andrii_tkachenko.data.model.Product;
 import ua.org.javatraining.andrii_tkachenko.data.model.category.Category;
 import ua.org.javatraining.andrii_tkachenko.service.CategoryService;
 import ua.org.javatraining.andrii_tkachenko.service.ProductService;
@@ -30,7 +29,7 @@ public class FrontStoreController {
     }
 
     @GetMapping("/")
-    public ModelAndView categories() {
+    public ModelAndView home() {
         loadCategories();
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("index");
@@ -44,9 +43,14 @@ public class FrontStoreController {
         return modelAndView;
     }
 
-    @GetMapping("/category/{categoryId}")
-    public List<Product> category(@PathVariable("id") int categoryId) {
-        return productService.findAllByCategoryId(categoryId);
+    @GetMapping("/category")
+    public ModelAndView category(@RequestParam("id") int categoryId) {
+        loadCategories();
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("index");
+        modelAndView.addObject("categories", categories);
+        modelAndView.addObject("products", productService.findAllByCategoryId(categoryId));
+        return modelAndView;
     }
 
     private void loadCategories() {
