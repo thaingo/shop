@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+    <category
+            id="1"
+            name="Category 1"
+            description="Lorem ipsum dolor sit amet"/>
+    <category
+            id="2"
+            name="Subcategory 1"
+            description="Lorem ipsum dolor sit amet"
+            parent_category_id="1"/>
+    <product
+            sku="s1"
+            name="Product 1"
+            price="100"
+            amount="10"
+            likes="5"
+            dislikes="2"
+            description="Lorem ipsum dolor sit amet"/>
+    <attribute
+            name="at1"/>
+    <attribute
+            name="at2"/>
+    <attribute
+            name="at3"/>
+    <visualization
+            id="1"
+            type="0"
+            url="url1"
+            product_sku="s1"/>
+    <visualization
+            id="2"
+            type="1"
+            url="url2"
+            product_sku="s1"/>
+    <visualization
+            id="3"
+            type="2"
+            url="url3"
+            product_sku="s1"/>
+    <value
+            id="1"
+            value="Cool stuff"
+            attribute_name="at1"
+            product_sku="s1"/>
+    <value
+            id="5"
+            value="Cool stuff"
+            attribute_name="at2"
+            product_sku="s1"/>
+    <value
+            id="6"
+            value="Cool stuff"
+            attribute_name="at3"
+            product_sku="s1"/>
+    <category_association
+            id="1"
+            category_id="1"
+            product_sku="s1"/>
+    <category_association
+            id="2"
+            category_id="2"
+            product_sku="s1"/>
+    <order_item/>
+</dataset>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+    <category
+            id="1"
+            name="Category 1"
+            description="Lorem ipsum dolor sit amet"/>
+    <category
+            id="2"
+            name="Subcategory 1"
+            description="Lorem ipsum dolor sit amet"
+            parent_category_id="1"/>
+    <category
+            id="3"
+            name="Subcategory 2"
+            description="Lorem ipsum dolor sit amet"
+            parent_category_id="1"/>
+    <category
+            id="4"
+            name="Category 2"
+            description="Lorem ipsum dolor sit amet"/>
+    <category
+            id="5"
+            name="Subcategory 1"
+            description="Lorem ipsum dolor sit amet"
+            parent_category_id="4"/>
+    <category
+            id="6"
+            name="Subcategory 2"
+            description="Lorem ipsum dolor sit amet"
+            parent_category_id="4"/>
+    <category_association/>
+</dataset>

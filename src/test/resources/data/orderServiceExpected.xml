@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+    <customer
+            email="home@mail.com"
+            first_name="Andrii"
+            subscribed="true"/>
+    <custom_order
+            id="1"
+            status="0"
+            address="Mykolaiv"
+            customer_email="home@mail.com"/>
+</dataset>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+    <product
+            sku="s1"
+            name="Product 1"
+            price="100"
+            amount="10"
+            likes="5"
+            dislikes="2"
+            description="Lorem ipsum dolor sit amet"/>
+    <product
+            sku="s2"
+            name="Product 2"
+            price="200"
+            amount="20"
+            likes="10"
+            dislikes="2"
+            description="Lorem ipsum dolor sit amet"/>
+    <customer
+            email="home@mail.com"
+            first_name="Andrii"
+            subscribed="true"/>
+    <custom_order
+            id="1"
+            status="0"
+            address="Mykolaiv"
+            customer_email="home@mail.com"/>
+    <order_item
+            id="2"
+            amount="2"
+            subtotal="200"
+            order_id="1"
+            product_sku="s1"/>
+    <order_item
+            id="3"
+            amount="1"
+            subtotal="200"
+            order_id="1"
+            product_sku="s2"/>
+</dataset>
