@@ -17,6 +17,7 @@ import ua.org.javatraining.andrii_tkachenko.data.model.category.Category;
 import java.util.List;
 
 import static org.hamcrest.Matchers.*;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
 /**
@@ -38,7 +39,8 @@ public class CategoryServiceTest {
     @Test
     @DatabaseSetup("/data/categoryService.xml")
     public void whenRowsExistsShouldReturnThose() throws Exception {
-        List<Category> actual = categoryService.findAll();
+        List<Category> actual = categoryService.findAllWithSubcategories();
+        assertEquals(2, actual.size());
         assertThat(actual.size(), is(6));
         assertThat(actual.get(0), allOf(
                 hasProperty("id", is(1)),

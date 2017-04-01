@@ -3,13 +3,12 @@
     <footer>
         <div id="footer_container">
             <ul class="navigation">
-                <li><a href="index.html" target="_blank">Home</a></li>
-                <li><a href="shop.html" target="_blank">Shop</a></li>
-                <li><a href="contact.html" target="_blank">Contact us</a></li>
-                <li><a href="#" target="_blank">Login</a></li>
+                <li><a href="index.html" target="_blank">Главная</a></li>
+                <li><a href="shop.html" target="_blank">Магазин</a></li>
+                <li><a href="contact.html" target="_blank">Обратная связь</a></li>
+                <li><a href="#" target="_blank">Войти</a></li>
             </ul>
-            <p class="copyright-text">&copy; Copyright 2017 tkaczenko. All Rights Reserved.<br> Designed and
-                developed by tkaczenko</p>
+            <p class="copyright-text">&copy; Интернет-магазин "DJ" 2017.</p>
         </div>
     </footer>
 </div>

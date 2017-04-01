@@ -1,6 +1,7 @@
 package ua.org.javatraining.andrii_tkachenko.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -15,7 +16,7 @@ import java.util.List;
 /**
  * Created by tkaczenko on 20.03.17.
  */
-@RestController
+@Controller
 public class FrontStoreController {
     private final CategoryService categoryService;
     private final ProductService productService;
@@ -55,7 +56,7 @@ public class FrontStoreController {
 
     private void loadCategories() {
         if (categories == null) {
-            categories = categoryService.findAll();
+            categories = categoryService.findAllWithSubcategories();
         }
     }
 }

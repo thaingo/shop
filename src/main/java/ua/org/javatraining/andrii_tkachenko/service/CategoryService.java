@@ -8,7 +8,9 @@ import ua.org.javatraining.andrii_tkachenko.data.model.category.Category;
 import ua.org.javatraining.andrii_tkachenko.data.repository.CategoryRepository;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by tkaczenko on 12.03.17.
@@ -31,15 +33,9 @@ public class CategoryService {
         return categoryRepository.findOne(id);
     }
 
-    public List<Category> findAll() {
-        List<Category> categories = new ArrayList<>();
-        categoryRepository.findAll().forEach(categories::add);
-        return categories;
-    }
-
     public List<Category> findAllWithSubcategories() {
         List<Category> categories = new ArrayList<>();
-        // // TODO: 31.03.17 Implement correctly
+        categories.addAll(categoryRepository.findAllByParentCategory(null));
         return categories;
     }
 

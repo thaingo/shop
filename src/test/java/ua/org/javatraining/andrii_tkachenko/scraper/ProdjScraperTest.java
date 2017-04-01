@@ -54,7 +54,7 @@ public class ProdjScraperTest {
 
     @Test
     public void process() throws Exception {
-        scraper.setNumOfCategories(30);
+        scraper.setNumOfCategories(1);
         long start = System.currentTimeMillis();
         scraper.process();
         long delta = System.currentTimeMillis() - start;
