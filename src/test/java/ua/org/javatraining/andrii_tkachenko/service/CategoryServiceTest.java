@@ -39,7 +39,7 @@ public class CategoryServiceTest {
     @Test
     @DatabaseSetup("/data/categoryService.xml")
     public void whenRowsExistsShouldReturnThose() throws Exception {
-        List<Category> actual = categoryService.findAllWithSubcategories();
+        List<Category> actual = categoryService.findAllParentCategory();
         assertEquals(2, actual.size());
         assertThat(actual.size(), is(6));
         assertThat(actual.get(0), allOf(

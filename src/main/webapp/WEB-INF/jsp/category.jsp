@@ -28,6 +28,16 @@
     <div class="content">
         <jsp:include page="_categories-menu.jsp"/>
 
+        <p>
+            <c:if test="${not empty category.parentCategory}">
+                <a href="${pageContext.request.contextPath}/category/${category.parentCategory.name}">${category.parentCategory.name}</a>
+                &nbsp;&nbsp;&nbsp;/&nbsp;&nbsp;&nbsp;
+            </c:if>
+            <a href="${pageContext.request.contextPath}/category/${category.name}">${category.name}</a>
+        </p>
+
+        <jsp:include page="_subcategories-list.jsp"/>
+
         <div class="relative-section">
             <jsp:include page="_products.jsp"/>
         </div>

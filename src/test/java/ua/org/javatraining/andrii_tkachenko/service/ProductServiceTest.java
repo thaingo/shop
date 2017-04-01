@@ -42,9 +42,9 @@ public class ProductServiceTest {
     @Test
     @DatabaseSetup("/data/productService.xml")
     public void whenOneRowExistsShouldReturnOneProductByCategory() throws Exception {
-        List<Product> actual = productService.findAllByCategoryId(2);
+        Set<Product> actual = productService.findAllByCategoryId(2);
         assertThat(actual.size(), is(1));
-        assertThat(actual.get(0), allOf(
+        assertThat(actual.iterator().next(), allOf(
                 hasProperty("sku", is("s1")),
                 hasProperty("name", is("Product 1")),
                 hasProperty("price", is(100)),
