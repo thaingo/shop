@@ -5,7 +5,8 @@
     <c:forEach var="product" items="${products}">
         <li>
             <div class="product">
-                <a href="product?id=${product.sku}">
+                <c:set var="category" value="${product.categories.iterator().next().getCategory()}"/>
+                <a href="${pageContext.request.contextPath}/category/${category.name}/product/${product.name}">
                     <div class="relative-box">
                         <c:forEach var="visualization" items="${product.visualizations}">
                             <c:if test="${visualization.type == 0}">
@@ -14,7 +15,7 @@
                         </c:forEach>
                     </div>
                 </a>
-                <a href="product.jsp?id=${product.sku}">
+                <a href="${pageContext.request.contextPath}/category/${category.name}/product/${product.name}">
                     <div class="price">
                         <span><strong>${product.price}</strong> грн.</span>
                     </div>
@@ -24,7 +25,7 @@
                 </div>
             </div>
             <div class="title">
-                <a href="product.jsp?id=${product.sku}">${product.name}</a>
+                <a href="${pageContext.request.contextPath}/category/${category.name}/product/${product.name}">${product.name}</a>
             </div>
         </li>
     </c:forEach>

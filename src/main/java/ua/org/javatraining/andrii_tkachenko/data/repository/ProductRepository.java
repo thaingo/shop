@@ -9,4 +9,5 @@ import ua.org.javatraining.andrii_tkachenko.data.model.Product;
  */
 @Repository
 public interface ProductRepository extends CrudRepository<Product, String> {
+    Product findByName(String name);
 }

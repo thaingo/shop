@@ -53,11 +53,19 @@ public class ProductService {
         return productRepository.save(product);
     }
 
+    @Transactional
+    public Product findByName(String name) {
+        Product product = productRepository.findByName(name);
+        product.getAttributes();
+        product.getVisualizations();
+        return product;
+    }
+
+    @Transactional
     public Product findById(String sku) {
         Product product = productRepository.findOne(sku);
-        Hibernate.initialize(product.getCategories());
-        Hibernate.initialize(product.getAttributes());
-        Hibernate.initialize(product.getVisualizations());
+        product.getAttributes();
+        product.getVisualizations();
         return product;
     }
 

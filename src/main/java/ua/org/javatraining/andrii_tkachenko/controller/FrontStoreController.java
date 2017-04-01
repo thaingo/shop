@@ -1,6 +1,5 @@
 package ua.org.javatraining.andrii_tkachenko.controller;
 
-import com.google.common.collect.Sets;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,7 +28,7 @@ public class FrontStoreController {
         this.productService = productService;
     }
 
-    @GetMapping("/")
+    @GetMapping(value = {"/", "/shop"})
     public ModelAndView home() {
         loadCategories();
         Set<Product> products = null;
@@ -49,7 +48,7 @@ public class FrontStoreController {
 
         Category found = findCategoryByName(name);
 
-        Map<Category,Long> categoryCountMap = new HashMap<>();
+        Map<Category, Long> categoryCountMap = new HashMap<>();
         List<Map.Entry<Category, Long>> entries = null;
         Set<Product> products = null;
         if (found.getParentCategory() == null) {
@@ -71,6 +70,19 @@ public class FrontStoreController {
                 .addObject("step", 6)
                 .addObject("entries", entries)
                 .addObject("products", products);
+    }
+
+    @GetMapping("/category/{categoryName}/product/{productName}")
+    public ModelAndView product(@PathVariable String categoryName,
+                                @PathVariable String productName) {
+        loadCategories();
+        Category found = findCategoryByName(categoryName);
+
+        Product product = productService.findByName(productName);
+
+        return new ModelAndView("product")
+                .addObject("category", found)
+                .addObject("product", product);
     }
 
     private Category findCategoryByName(String name) {
