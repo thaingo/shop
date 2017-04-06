@@ -49,7 +49,7 @@ public class FrontStoreControllerTest {
 
     @Before
     public void setUp() throws Exception {
-        System.setProperty("webdriver.chrome.driver", "/home/tkaczenko/Desktop/chromedriver");
+        System.setProperty("webdriver.chrome.driver", "/chromedriver");
         webDriver = new ChromeDriver();
         webDriver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
     }

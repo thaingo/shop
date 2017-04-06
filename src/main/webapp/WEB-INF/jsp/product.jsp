@@ -12,6 +12,8 @@
 
     <script async custom-element="amp-sidebar" src="https://cdn.ampproject.org/v0/amp-sidebar-0.1.js"></script>
     <script async custom-element="amp-fit-text" src="https://cdn.ampproject.org/v0/amp-fit-text-0.1.js"></script>
+    <script async custom-element="amp-form" src="https://cdn.ampproject.org/v0/amp-form-0.1.js"></script>
+    <script async custom-element="amp-accordion" src="https://cdn.ampproject.org/v0/amp-accordion-0.1.js"></script>
 
     <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
     <meta name="description" content="Интернет-магазин DJ оборудования"/>
@@ -430,6 +432,73 @@
         input[type=search]:focus {
             width: 100%;
         }
+
+        amp-accordion h4 {
+            font-size: 18px;
+        }
+
+        .feedback-input {
+            color: #3c3c3c;
+            font-family: 'Roboto', sans-serif;
+            font-weight: 500;
+            font-size: 18px;
+            border-radius: 0;
+            line-height: 22px;
+            background-color: #fbfbfb;
+            padding: 13px 13px 13px 54px;
+            margin-bottom: 10px;
+            width: 100%;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            -ms-box-sizing: border-box;
+            box-sizing: border-box;
+            border: 3px solid rgba(0, 0, 0, 0);
+        }
+
+        .input {
+            padding: 13px 13px 13px 13px;
+        }
+
+        .feedback-input:focus {
+            background: #fff;
+            box-shadow: 0;
+            border: 3px solid #FF4081;
+            color: #FF4081;
+            outline: none;
+            padding: 13px 13px 13px 54px;
+        }
+
+        .input:focus {
+            padding: 13px 13px 13px 13px;
+        }
+
+        .focused {
+            color: #FF4081;
+            border: #FF4081 solid 3px;
+        }
+
+        input:hover, textarea:hover,
+        input:focus, textarea:focus {
+            background-color: white;
+        }
+
+        #btn-send {
+            font-family: 'Roboto', sans-serif;
+            float: left;
+            width: 100%;
+            border: #3F51B5 solid 4px;
+            cursor: pointer;
+            background-color: #3F51B5;
+            color: white;
+            font-size: 24px;
+            padding-top: 22px;
+            padding-bottom: 22px;
+            -webkit-transition: all 0.3s;
+            -moz-transition: all 0.3s;
+            transition: all 0.3s;
+            margin-top: -4px;
+            font-weight: 700;
+        }
     </style>
     <style amp-boilerplate>body {
         -webkit-animation: -amp-start 8s steps(1, end) 0s 1 normal both;
@@ -512,9 +581,39 @@
         </a>
     </p>
 
+    <div>
+        <amp-accordion>
+            <section>
+                <h4 class="p1">Купить в 1 клик</h4>
+                <form method="post"
+                      action="${pageContext.request.contextPath}/buyByOne">
+                    <input name="name" type="text"
+                           class="feedback-input" placeholder="Ваше имя"
+                           id="name"/>
+
+                    <input name="phone" type="tel" class="feedback-input" id="phone"
+                           placeholder="Ваш номер телефона"/>
+
+                    <input type="submit" value="Заказать" id="btn-send"/>
+                </form>
+            </section>
+        </amp-accordion>
+    </div>
+
+    <form action-xhr="${pageContext.request.contextPath}/buyByOne"
+          method="post"
+          target="_top">
+        <input name="name" type="text"
+               class="feedback-input" placeholder="Ваше имя"
+               id="name1"/>
+
+        <input name="phone" type="tel" class="feedback-input" id="phone1"
+               placeholder="Ваш номер телефона"/>
+
+        <input type="submit" value="Заказать" id="btn-send1"/>
+    </form>
     <table style="width: 100%">
         <tr>
-            <th>Visualizations</th>
             <th>Name</th>
             <th>Price</th>
             <th>Likes</th>
@@ -523,7 +622,6 @@
             <th>Specification</th>
         </tr>
         <tr>
-            <td></td>
             <td>${product.name}</td>
             <td>${product.price}</td>
             <td>${product.likes}</td>
@@ -543,6 +641,11 @@
                     </c:forEach>
                 </table>
             </td>
+        </tr>
+    </table>
+    <table style="width: 100%;">
+        <tr>
+            <th>Visualizations</th>
         </tr>
         <c:forEach var="visualization" items="${product.visualizations}">
             <tr>

@@ -20,7 +20,7 @@
     <title>Online store</title>
     <link rel="canonical" href="index.jsp">
     <link rel="shortcut icon" href="<c:url value="/resources/images/favicon.ico"/>" type="image/x-icon">
-    <link rel="icon" href="/resources/images/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="<c:url value="/resources/images/favicon.ico"/>" type="image/x-icon">
 
     <style amp-custom>
         @import 'https://fonts.googleapis.com/css?family=Roboto';

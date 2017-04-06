@@ -3,10 +3,14 @@ package ua.org.javatraining.andrii_tkachenko.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
+import ua.org.javatraining.andrii_tkachenko.data.model.Customer;
 import ua.org.javatraining.andrii_tkachenko.data.model.Product;
 import ua.org.javatraining.andrii_tkachenko.data.model.category.Category;
+import ua.org.javatraining.andrii_tkachenko.data.session.Cart;
 import ua.org.javatraining.andrii_tkachenko.service.CategoryService;
 import ua.org.javatraining.andrii_tkachenko.service.ProductService;
 
@@ -17,13 +21,15 @@ import java.util.*;
  */
 @Controller
 public class FrontStoreController {
+    private final Cart cart;
     private final CategoryService categoryService;
     private final ProductService productService;
 
     private List<Category> categories;
 
     @Autowired
-    public FrontStoreController(CategoryService categoryService, ProductService productService) {
+    public FrontStoreController(Cart cart, CategoryService categoryService, ProductService productService) {
+        this.cart = cart;
         this.categoryService = categoryService;
         this.productService = productService;
     }
@@ -48,6 +54,10 @@ public class FrontStoreController {
 
         Category found = findCategoryByName(name);
 
+        if (found == null) {
+            return getNotFoundPage();
+        }
+
         Map<Category, Long> categoryCountMap = new HashMap<>();
         List<Map.Entry<Category, Long>> entries = null;
         Set<Product> products = null;
@@ -63,7 +73,6 @@ public class FrontStoreController {
         } else {
             products = productService.findAllByCategoryName(name);
         }
-
         return new ModelAndView("category")
                 .addObject("category", found)
                 .addObject("categories", categories)
@@ -78,11 +87,23 @@ public class FrontStoreController {
         loadCategories();
         Category found = findCategoryByName(categoryName);
 
-        Product product = productService.findByName(productName);
+        if (found == null) {
+            return getNotFoundPage();
+        } else {
+            Product product = productService.findByName(productName);
+            if (product == null) {
+                return getNotFoundPage();
+            }
+            return new ModelAndView("product")
+                    .addObject("category", found)
+                    .addObject("product", product);
+        }
+    }
 
-        return new ModelAndView("product")
-                .addObject("category", found)
-                .addObject("product", product);
+    private ModelAndView getNotFoundPage() {
+        //// TODO: 02.04.17 Fix Not Found page
+        return new ModelAndView("index")
+                .addObject("categories", categories);
     }
 
     private Category findCategoryByName(String name) {
