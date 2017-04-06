@@ -600,8 +600,8 @@
         </amp-accordion>
     </div>
 
-    <form action-xhr="${pageContext.request.contextPath}/buyByOne"
-          method="post"
+    <form action="${pageContext.request.contextPath}/buyByOne"
+          method="get"
           target="_top">
         <input name="name" type="text"
                class="feedback-input" placeholder="Ваше имя"
