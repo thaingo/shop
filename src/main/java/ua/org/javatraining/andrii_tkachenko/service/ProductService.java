@@ -1,9 +1,7 @@
 package ua.org.javatraining.andrii_tkachenko.service;
 
-import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import ua.org.javatraining.andrii_tkachenko.data.model.Product;
 import ua.org.javatraining.andrii_tkachenko.data.model.category.Category;
 import ua.org.javatraining.andrii_tkachenko.data.model.category.CategoryAssociation;
@@ -42,7 +40,6 @@ public class ProductService {
                 .collect(Collectors.toSet());
     }
 
-    @Transactional
     public Set<Product> findAllByCategoryId(int id) {
         return categoryRepository.findOne(id).getProducts().parallelStream()
                 .map(CategoryAssociation::getProduct)
@@ -53,20 +50,12 @@ public class ProductService {
         return productRepository.save(product);
     }
 
-    @Transactional
     public Product findByName(String name) {
-        Product product = productRepository.findByName(name);
-        product.getAttributes();
-        product.getVisualizations();
-        return product;
+        return productRepository.findByName(name);
     }
 
-    @Transactional
     public Product findById(String sku) {
-        Product product = productRepository.findOne(sku);
-        product.getAttributes();
-        product.getVisualizations();
-        return product;
+        return productRepository.findOne(sku);
     }
 
     public void delete(String id) {

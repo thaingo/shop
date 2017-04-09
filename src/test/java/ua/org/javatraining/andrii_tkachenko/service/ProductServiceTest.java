@@ -7,7 +7,6 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestExecutionListeners;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
@@ -17,7 +16,6 @@ import ua.org.javatraining.andrii_tkachenko.data.model.Visualization;
 import ua.org.javatraining.andrii_tkachenko.data.model.attribute.AttributeAssociation;
 import ua.org.javatraining.andrii_tkachenko.data.model.category.CategoryAssociation;
 
-import java.util.List;
 import java.util.Set;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -34,7 +32,6 @@ import static org.hamcrest.Matchers.*;
         TransactionalTestExecutionListener.class,
         DbUnitTestExecutionListener.class
 })
-@TestPropertySource(locations = "classpath:application.properties")
 public class ProductServiceTest {
     @Autowired
     private ProductService productService;

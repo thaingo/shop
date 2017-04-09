@@ -1,14 +1,12 @@
 package ua.org.javatraining.andrii_tkachenko.scraper;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
-import ua.org.javatraining.andrii_tkachenko.ShopApplication;
 import ua.org.javatraining.andrii_tkachenko.data.model.Product;
 import ua.org.javatraining.andrii_tkachenko.data.model.Visualization;
 import ua.org.javatraining.andrii_tkachenko.data.model.attribute.Attribute;
@@ -25,7 +23,6 @@ import java.util.Set;
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@TestPropertySource(locations = "classpath:application.properties")
 public class ProdjScraperTest {
     private ProdjScraper scraper;
 
@@ -52,6 +49,7 @@ public class ProdjScraperTest {
         scraper = new ProdjScraper();
     }
 
+    @Ignore
     @Test
     public void process() throws Exception {
         scraper.setNumOfCategories(1);

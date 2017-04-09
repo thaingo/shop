@@ -31,6 +31,13 @@ public class OrderService {
         return customOrderRepository.save(order);
     }
 
+    public CustomOrder save(Customer customer, int status) {
+        CustomOrder order = new CustomOrder();
+        order.setCustomer(customer);
+        order.setStatus(status);
+        return customOrderRepository.save(order);
+    }
+
     public CustomOrder save(CustomOrder entity) {
         return customOrderRepository.save(entity);
     }

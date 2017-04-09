@@ -17,7 +17,7 @@ public class CustomOrder implements Serializable {
     @Column(nullable = false)
     private int status;
 
-    @Column(nullable = false)
+    @Column
     private String address;
 
     @ManyToOne(fetch = FetchType.LAZY)

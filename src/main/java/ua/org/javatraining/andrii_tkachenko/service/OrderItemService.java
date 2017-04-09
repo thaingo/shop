@@ -42,11 +42,18 @@ public class OrderItemService {
             orderItem.setOrder(order);
             orderItem.setProduct(e.getKey());
             orderItem.setAmount(e.getValue());
-            int sum = e.getKey().getPrice()
-                    * e.getValue();
+            int sum = e.getKey().getPrice() * e.getValue();
             orderItem.setSubtotal(sum);
             orderItems.add(orderItemRepository.save(orderItem));
         }
         return orderItems;
+    }
+
+    public OrderItem save(CustomOrder order, Product product, int amount) {
+        OrderItem orderItem = new OrderItem();
+        orderItem.setAmount(1);
+        orderItem.setOrder(order);
+        orderItem.setProduct(product);
+        return orderItemRepository.save(orderItem);
     }
 }

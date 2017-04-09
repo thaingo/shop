@@ -1,7 +1,5 @@
 package ua.org.javatraining.andrii_tkachenko.data.session;
 
-import org.springframework.context.annotation.Scope;
-import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 import ua.org.javatraining.andrii_tkachenko.data.model.Product;
 
@@ -12,7 +10,6 @@ import java.util.*;
  * Created by tkaczenko on 05.03.17.
  */
 @Component
-@Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class Cart {
     private Map<Product, Integer> items = new HashMap<>(0);
 

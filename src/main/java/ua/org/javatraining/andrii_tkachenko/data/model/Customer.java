@@ -12,6 +12,8 @@ public class Customer implements Serializable {
     @Id
     private String email;
 
+    private String phone;
+
     private String firstName;
 
     private boolean subscribed = false;
@@ -49,5 +51,13 @@ public class Customer implements Serializable {
 
     public void setOrders(Set<CustomOrder> orders) {
         this.orders = orders;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 }

@@ -7,7 +7,6 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestExecutionListeners;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
@@ -15,6 +14,7 @@ import org.springframework.test.context.transaction.TransactionalTestExecutionLi
 import ua.org.javatraining.andrii_tkachenko.data.model.category.Category;
 
 import java.util.List;
+import java.util.Set;
 
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertEquals;
@@ -31,7 +31,6 @@ import static org.junit.Assert.assertThat;
         TransactionalTestExecutionListener.class,
         DbUnitTestExecutionListener.class
 })
-@TestPropertySource(locations = "classpath:application.properties")
 public class CategoryServiceTest {
     @Autowired
     private CategoryService categoryService;
@@ -39,10 +38,10 @@ public class CategoryServiceTest {
     @Test
     @DatabaseSetup("/data/categoryService.xml")
     public void whenRowsExistsShouldReturnThose() throws Exception {
-        List<Category> actual = categoryService.findAllParentCategory();
+        Set<Category> actual = categoryService.findAllByParent(null);
         assertEquals(2, actual.size());
         assertThat(actual.size(), is(6));
-        assertThat(actual.get(0), allOf(
+        assertThat(actual.iterator().next(), allOf(
                 hasProperty("id", is(1)),
                 hasProperty("name", is("Category 1")),
                 hasProperty("description", is("Lorem ipsum dolor sit amet"))

@@ -25,6 +25,7 @@ import java.util.regex.Pattern;
 /**
  * Class for scraping data at prodj.com.ua
  */
+//// TODO: 09.04.17 Fix category name without / %20
 public class ProdjScraper {
     private static final String PRODJ =
             "https://www.prodj.com.ua/";

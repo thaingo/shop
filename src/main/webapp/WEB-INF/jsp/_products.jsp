@@ -5,7 +5,6 @@
     <c:forEach var="product" items="${products}">
         <li>
             <div class="product">
-                <c:set var="category" value="${product.categories.iterator().next().getCategory()}"/>
                 <a href="${pageContext.request.contextPath}/category/${category.name}/product/${product.name}">
                     <div class="relative-box">
                         <c:forEach var="visualization" items="${product.visualizations}">
