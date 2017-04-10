@@ -16,11 +16,6 @@
 </head>
 <body>
 <div class="wrapper">
-    <c:url var="home" value="/"/>
-    <c:url var="shop" value="/shop"/>
-    <c:url var="contact" value="#"/>
-    <c:url var="login" value="#"/>
-
     <jsp:include page="_header.jsp"/>
 
     <div class="content">

@@ -4,10 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ua.org.javatraining.andrii_tkachenko.data.model.CustomOrder;
 import ua.org.javatraining.andrii_tkachenko.data.model.Customer;
@@ -125,7 +122,7 @@ public class FrontStoreController {
         }
     }
 
-    @PostMapping(value = "/category/{categoryName}/product/{productName}/buyByOne")
+    @PostMapping("/category/{categoryName}/product/{productName}/buyByOne")
     public String buyByOne(@PathVariable("categoryName") String categoryName,
                            @PathVariable("productName") String productName,
                            @ModelAttribute("customerForm") @Valid CustomerForm customerForm,
@@ -149,6 +146,68 @@ public class FrontStoreController {
 
         redirectAttributes.addFlashAttribute("mess", "Ваш заказ добавлен");
         return "redirect:/category/" + URLUtil.encode(categoryName) + "/product/" + URLUtil.encode(productName);
+    }
+
+    @PostMapping("/cart/buyByOne")
+    public String cartBuy(@ModelAttribute("customerForm") @Valid CustomerForm customerForm,
+                          BindingResult result, RedirectAttributes redirectAttributes) {
+        if (result.hasErrors()) {
+            return "cart";
+        }
+        // Save customer
+        Customer customer = new Customer();
+        customer.setEmail(customerForm.getEmail());
+        customer.setPhone(customerForm.getPhone());
+        customer.setFirstName(customerForm.getName());
+        customerService.save(customer);
+
+        // Save order
+        double subTotal = cart.calculateSubTotal();
+        double total = cart.calculateTotal(subTotal);
+        CustomOrder order = orderService.save(customer, OrderType.IN_PROGRESS.getCode());
+
+        // Save ordered products
+        Map<Product, Integer> itemMap = new HashMap<>(cart.getItems());
+        orderItemService.save(order, itemMap);
+
+        redirectAttributes.addFlashAttribute("mess", "Ваш заказ добавлен");
+        cart.clear();
+
+        return "redirect:/cart";
+    }
+
+    @GetMapping("/cart")
+    public String cart(Model model) {
+        Map<Product, Integer> itemMap = cart.getItems();
+        double subTotal = cart.calculateSubTotal();
+        double total = cart.calculateTotal(subTotal);
+        Integer numOfItems = cart.sumQuantity();
+        model.addAttribute("itemMap", itemMap)
+                .addAttribute("subTotal", subTotal)
+                .addAttribute("total", subTotal == 0 ? 0 : total)
+                .addAttribute("numOfItems", numOfItems)
+                .addAttribute("customerForm", new CustomerForm());
+        return "cart";
+    }
+
+    @GetMapping("/addToCart")
+    @ResponseBody
+    public String addToCart(@RequestParam("sku") String sku) {
+        Product product = productService.findByIdWithVisualizations(sku);
+        cart.addItem(product);
+        return cart.sumQuantity().toString();
+    }
+
+    @GetMapping("/clearCart")
+    public String clearCart() {
+        cart.clear();
+        return "redirect:/cart";
+    }
+
+    @PostMapping("/updateCart")
+    public String updateCart(@RequestParam("sku") String sku, @RequestParam("quantity") Integer quantity) {
+        cart.updateItem(sku, quantity);
+        return "redirect:/cart";
     }
 
     private Category findCategoryByName(String name) {

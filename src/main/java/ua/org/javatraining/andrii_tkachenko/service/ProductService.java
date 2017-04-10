@@ -8,6 +8,7 @@ import ua.org.javatraining.andrii_tkachenko.data.model.category.CategoryAssociat
 import ua.org.javatraining.andrii_tkachenko.data.repository.CategoryAssociationRepository;
 import ua.org.javatraining.andrii_tkachenko.data.repository.CategoryRepository;
 import ua.org.javatraining.andrii_tkachenko.data.repository.ProductRepository;
+import ua.org.javatraining.andrii_tkachenko.data.repository.VisualizationRepository;
 
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -18,13 +19,16 @@ import java.util.stream.Collectors;
 @Service
 public class ProductService {
     private final ProductRepository productRepository;
+    private final VisualizationRepository visualizationRepository;
     private final CategoryRepository categoryRepository;
     private final CategoryAssociationRepository categoryAssociationRepository;
 
     @Autowired
-    public ProductService(ProductRepository productRepository, CategoryRepository categoryRepository,
+    public ProductService(ProductRepository productRepository, VisualizationRepository visualizationRepository,
+                          CategoryRepository categoryRepository,
                           CategoryAssociationRepository categoryAssociationRepository) {
         this.productRepository = productRepository;
+        this.visualizationRepository = visualizationRepository;
         this.categoryRepository = categoryRepository;
         this.categoryAssociationRepository = categoryAssociationRepository;
     }
@@ -54,7 +58,9 @@ public class ProductService {
         return productRepository.findByName(name);
     }
 
-    public Product findById(String sku) {
+    public Product findByIdWithVisualizations(String sku) {
+        Product product = productRepository.findOne(sku);
+        product.setVisualizations(visualizationRepository.findAllByProductSku(sku));
         return productRepository.findOne(sku);
     }
 

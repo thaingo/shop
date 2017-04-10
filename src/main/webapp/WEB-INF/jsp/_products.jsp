@@ -5,7 +5,8 @@
     <c:forEach var="product" items="${products}">
         <li>
             <div class="product">
-                <a href="${pageContext.request.contextPath}/category/${category.name}/product/${product.name}">
+                <c:url var="productLink" value="/category/${category.name}/product/${product.name}"/>
+                <a href="${productLink}">
                     <div class="relative-box">
                         <c:forEach var="visualization" items="${product.visualizations}">
                             <c:if test="${visualization.type == 0}">
@@ -14,17 +15,18 @@
                         </c:forEach>
                     </div>
                 </a>
-                <a href="${pageContext.request.contextPath}/category/${category.name}/product/${product.name}">
+                <a href="${productLink}">
                     <div class="price">
                         <span><strong>${product.price}</strong> грн.</span>
                     </div>
                 </a>
                 <div class="actions">
-                    <a href="#">Add to cart</a>
+                    <c:url var="addToCart" value="/addToCart?sku=${product.sku}"/>
+                    <a href="${addToCart}">Добавить в корзину</a>
                 </div>
             </div>
             <div class="title">
-                <a href="${pageContext.request.contextPath}/category/${category.name}/product/${product.name}">${product.name}</a>
+                <a href="${productLink}">${product.name}</a>
             </div>
         </li>
     </c:forEach>

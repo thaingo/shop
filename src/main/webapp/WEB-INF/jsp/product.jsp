@@ -41,11 +41,13 @@
                    target="_top">
             <table>
                 <tr>
-                    <td><form:input path="name" type="text" class="feedback-input" id="name" placeholder="Ваше имя"/></td>
+                    <td><form:input path="name" type="text" class="feedback-input" id="name"
+                                    placeholder="Ваше имя"/></td>
                     <td><form:errors path="name" cssClass="error"/></td>
                 </tr>
                 <tr>
-                    <td><form:input path="email" type="email" class="feedback-input" id="phone" placeholder="Ваш e-mail"/></td>
+                    <td><form:input path="email" type="email" class="feedback-input" id="phone"
+                                    placeholder="Ваш e-mail"/></td>
                     <td><form:errors path="email" cssClass="error"/></td>
                 </tr>
                 <tr>
@@ -58,6 +60,8 @@
                 </tr>
             </table>
         </form:form>
+        <c:url var="addToCart" value="/addToCart?sku=${product.sku}"/>
+        <a href="${addToCart}">Добавить в корзину</a>
         <table style="width: 100%">
             <tr>
                 <th>Name</th>
