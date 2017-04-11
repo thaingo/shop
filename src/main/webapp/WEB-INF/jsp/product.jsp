@@ -62,20 +62,20 @@
         </form:form>
         <c:url var="addToCart" value="/addToCart?sku=${product.sku}"/>
         <a href="${addToCart}">Добавить в корзину</a>
+        <c:url var="addLike" value="/addLike?sku=${product.sku}"/>
+        <a href="${addLike}">Лайк (${product.likes})</a>
+        <c:url var="addDislike" value="/addDislike?sku=${product.sku}"/>
+        <a href="${addDislike}">Дизлайк (${product.dislikes})</a>
         <table style="width: 100%">
             <tr>
                 <th>Name</th>
                 <th>Price</th>
-                <th>Likes</th>
-                <th>Dislikes</th>
                 <th>Description</th>
                 <th>Specification</th>
             </tr>
             <tr>
                 <td>${product.name}</td>
                 <td>${product.price}</td>
-                <td>${product.likes}</td>
-                <td>${product.dislikes}</td>
                 <td>${product.description}</td>
                 <td>
                     <table>

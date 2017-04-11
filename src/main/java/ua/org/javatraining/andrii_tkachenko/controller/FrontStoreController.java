@@ -198,6 +198,24 @@ public class FrontStoreController {
         return cart.sumQuantity().toString();
     }
 
+    @GetMapping("/addLike")
+    @ResponseBody
+    public String addLike(@RequestParam("sku") String sku) {
+        Product product = productService.findById(sku);
+        product.setLikes(product.getLikes() + 1);
+        productService.save(product);
+        return String.valueOf(product.getLikes());
+    }
+
+    @GetMapping("/addDislike")
+    @ResponseBody
+    public String addDislike(@RequestParam("sku") String sku) {
+        Product product = productService.findById(sku);
+        product.setDislikes(product.getDislikes() + 1);
+        productService.save(product);
+        return String.valueOf(product.getDislikes());
+    }
+
     @GetMapping("/clearCart")
     public String clearCart() {
         cart.clear();
@@ -212,7 +230,7 @@ public class FrontStoreController {
 
     @GetMapping("/search")
     public String search(String query, Model model) {
-        List<Product> searchResults = null;
+        List<Product> searchResults;
         try {
             searchResults = productService.search(query);
         } catch (Exception ex) {
@@ -242,6 +260,8 @@ public class FrontStoreController {
     private void loadCategories() {
         if (categories == null) {
             categories = categoryService.findAllByParent(null);
+            categories.parallelStream()
+                    .forEach(category -> category.setSubCategories(categoryService.findAllByParent(category)));
         }
     }
 }
