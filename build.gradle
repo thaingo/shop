@@ -32,6 +32,8 @@ dependencies {
 	runtime('org.springframework.boot:spring-boot-starter-tomcat')
 	runtime('org.apache.tomcat.embed:tomcat-embed-jasper')
 	runtime('org.postgresql:postgresql')
+	compile group: 'org.hibernate', name: 'hibernate-core', version: '5.2.9.Final'
+	compile('org.hibernate:hibernate-search-orm:5.7.0.Final')
 	compile('org.seleniumhq.selenium:selenium-java:3.3.1')
 	compile('org.seleniumhq.selenium:selenium-support:3.3.1')
 	testCompile('org.springframework.boot:spring-boot-starter-test')

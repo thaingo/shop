@@ -1,5 +1,7 @@
 package ua.org.javatraining.andrii_tkachenko.data.model;
 
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Indexed;
 import ua.org.javatraining.andrii_tkachenko.data.model.attribute.AttributeAssociation;
 import ua.org.javatraining.andrii_tkachenko.data.model.category.CategoryAssociation;
 
@@ -10,11 +12,13 @@ import java.util.Set;
 /**
  * Created by tkaczenko on 12.03.17.
  */
+@Indexed
 @Entity
 public class Product implements Serializable {
     @Id
     private String sku;
 
+    @Field
     @Column(nullable = false)
     private String name;
 
@@ -28,6 +32,7 @@ public class Product implements Serializable {
 
     private int dislikes;
 
+    @Field
     @Column(columnDefinition = "text")
     private String description;
 

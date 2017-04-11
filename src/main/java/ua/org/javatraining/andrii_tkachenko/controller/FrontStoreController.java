@@ -210,6 +210,20 @@ public class FrontStoreController {
         return "redirect:/cart";
     }
 
+    @GetMapping("/search")
+    public String search(String query, Model model) {
+        List<Product> searchResults = null;
+        try {
+            searchResults = productService.search(query);
+        } catch (Exception ex) {
+            return "";
+        }
+        model.addAttribute("mess", "Found")
+                .addAttribute("categories", categories)
+                .addAttribute("products", searchResults);
+        return "search";
+    }
+
     private Category findCategoryByName(String name) {
         Category found = categories.parallelStream()
                 .filter(c -> name.equals(c.getName()))

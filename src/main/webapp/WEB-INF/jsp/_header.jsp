@@ -12,7 +12,17 @@
     <nav>
         <a href="#" id="menu_icon"></a>
         <ul class="main-menu">
-            <li><input id="search" type="text" name="search" placeholder="Search.."/></li>
+            <li>
+                <form method="get" action="${pageContext.request.contextPath}/search"
+                      target="_top">
+                    <table>
+                        <tr>
+                            <td><input id="search" type="text" name="query" value="${query}" placeholder="Search.."/>
+                            <td><input type="submit" value="Найти"/></td>
+                        </tr>
+                    </table>
+                </form>
+            </li>
             <li><a href="${home}">Главная</a></li>
             <li><a href="${shop}">Магазин</a></li>
             <li><a href="${cart}">Корзина</a></li>
