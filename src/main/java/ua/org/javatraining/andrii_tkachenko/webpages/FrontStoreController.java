@@ -1,4 +1,4 @@
-package ua.org.javatraining.andrii_tkachenko.controller;
+package ua.org.javatraining.andrii_tkachenko.webpages;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -126,7 +126,10 @@ public class FrontStoreController {
     public String buyByOne(@PathVariable("categoryName") String categoryName,
                            @PathVariable("productName") String productName,
                            @ModelAttribute("customerForm") @Valid CustomerForm customerForm,
-                           BindingResult result, RedirectAttributes redirectAttributes) throws UnsupportedEncodingException {
+                           BindingResult result, RedirectAttributes redirectAttributes)
+            throws UnsupportedEncodingException {
+        loadCategories();
+
         if (result.hasErrors()) {
             return "product";
         }
@@ -151,9 +154,12 @@ public class FrontStoreController {
     @PostMapping("/cart/buyByOne")
     public String cartBuy(@ModelAttribute("customerForm") @Valid CustomerForm customerForm,
                           BindingResult result, RedirectAttributes redirectAttributes) {
+        loadCategories();
+
         if (result.hasErrors()) {
             return "cart";
         }
+
         // Save customer
         Customer customer = new Customer();
         customer.setEmail(customerForm.getEmail());
@@ -230,6 +236,8 @@ public class FrontStoreController {
 
     @GetMapping("/search")
     public String search(String query, Model model) {
+        loadCategories();
+
         List<Product> searchResults;
         try {
             searchResults = productService.search(query);
@@ -260,8 +268,6 @@ public class FrontStoreController {
     private void loadCategories() {
         if (categories == null) {
             categories = categoryService.findAllByParent(null);
-            categories.parallelStream()
-                    .forEach(category -> category.setSubCategories(categoryService.findAllByParent(category)));
         }
     }
 }
