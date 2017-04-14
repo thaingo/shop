@@ -49,7 +49,7 @@ public class FrontStoreController {
     }
 
     @GetMapping(value = {"/", "/shop"})
-    public String home(Model model) {
+    public String home(Model model, HttpSession session) {
         loadCategories();
         Category category = null;
         Set<Product> products = null;
@@ -59,6 +59,7 @@ public class FrontStoreController {
                     category.getSubCategories().iterator().next().getId()
             );
         }
+        session.setAttribute("cartSize", cart.sumQuantity());
         model.addAttribute("category", category)
                 .addAttribute("categories", categories)
                 .addAttribute("products", products);
@@ -172,8 +173,8 @@ public class FrontStoreController {
 
     @PostMapping("/category/{categoryName}/product/{productName}/buyByOne")
     public String buyByOne(@PathVariable("categoryName") String categoryName,
-                             @PathVariable("productName") String productName,
-                             @RequestParam("sku") String sku, HttpSession session) throws UnsupportedEncodingException {
+                           @PathVariable("productName") String productName,
+                           @RequestParam("sku") String sku, HttpSession session) throws UnsupportedEncodingException {
         Product product = productService.findByIdWithVisualization(sku, VisualizationType.ORIGINAL_PICTURE.getCode());
         cart.addItem(product);
         return "redirect:/cart";
@@ -182,7 +183,11 @@ public class FrontStoreController {
     @PostMapping("/cart/buyByOne")
     public String buyByOne(@ModelAttribute("customerForm") @Valid CustomerForm customerForm,
                            BindingResult result, RedirectAttributes redirectAttributes, Model model) {
-        if (result.hasErrors()) {
+        boolean isEmpty = cart.getItems().size() == 0;
+        if (result.hasErrors() || isEmpty) {
+            if (isEmpty) {
+                model.addAttribute("mess", "Корзина пуста");
+            }
             Map<Product, Integer> itemMap = cart.getItems();
             double subTotal = cart.calculateSubTotal();
             double total = cart.calculateTotal(subTotal);
@@ -192,6 +197,21 @@ public class FrontStoreController {
                     .addAttribute("total", subTotal == 0 ? 0 : total)
                     .addAttribute("numOfItems", numOfItems);
             return "cart";
+        }
+
+        for (Map.Entry<Product, Integer> item : cart.getItems().entrySet()) {
+            if (item.getKey().getAmount() < item.getValue()) {
+                Map<Product, Integer> itemMap = cart.getItems();
+                double subTotal = cart.calculateSubTotal();
+                double total = cart.calculateTotal(subTotal);
+                Integer numOfItems = cart.sumQuantity();
+                model.addAttribute("itemMap", itemMap)
+                        .addAttribute("subTotal", subTotal)
+                        .addAttribute("total", subTotal == 0 ? 0 : total)
+                        .addAttribute("numOfItems", numOfItems)
+                        .addAttribute("mess", "Невозможно столько купить");
+                return "cart";
+            }
         }
 
         // Save customer
@@ -209,6 +229,15 @@ public class FrontStoreController {
         // Save ordered products
         Map<Product, Integer> itemMap = new HashMap<>(cart.getItems());
         orderItemService.save(order, itemMap);
+
+        // Submit
+        itemMap.entrySet().parallelStream().forEach(e -> {
+            Product key = e.getKey();
+            key.setAmount(key.getAmount() - e.getValue());
+        });
+        productService.save(itemMap.keySet());
+        order.setStatus(OrderType.SUBMITTED.getCode());
+        orderService.save(order);
 
         redirectAttributes.addFlashAttribute("orderId", order.getId());
         cart.clear();
@@ -237,9 +266,10 @@ public class FrontStoreController {
 
     @PostMapping("/addToCart")
     @ResponseBody
-    public String addToCart(@RequestParam("sku") String sku) {
+    public String addToCart(@RequestParam("sku") String sku, HttpSession session) {
         Product product = productService.findByIdWithVisualization(sku, VisualizationType.ORIGINAL_PICTURE.getCode());
         cart.addItem(product);
+        session.setAttribute("cartSize", cart.sumQuantity());
         return cart.sumQuantity().toString();
     }
 

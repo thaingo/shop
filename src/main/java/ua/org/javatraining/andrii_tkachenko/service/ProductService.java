@@ -85,6 +85,10 @@ public class ProductService {
         return productRepository.save(product);
     }
 
+    public void save(Iterable<Product> products) {
+        productRepository.save(products);
+    }
+
     public Product findByName(String name) {
         return productRepository.findByName(name);
     }

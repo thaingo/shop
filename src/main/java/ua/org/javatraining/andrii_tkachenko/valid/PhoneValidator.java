@@ -14,6 +14,6 @@ public class PhoneValidator implements ConstraintValidator<Phone, String> {
 
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
-        return value != null && value.matches("\\d{10}") && value.charAt(0) == '0';
+        return value == null || value.isEmpty() || (value.matches("\\d{10}") && value.charAt(0) == '0');
     }
 }

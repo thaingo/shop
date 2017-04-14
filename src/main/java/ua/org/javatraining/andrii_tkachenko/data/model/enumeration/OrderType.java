@@ -9,7 +9,8 @@ import java.util.Map;
  */
 public enum OrderType {
     IN_PROGRESS(0),
-    DELIVERED(1);
+    SUBMITTED(1),
+    DELIVERED(2);
 
     private static final Map<Integer, OrderType> lookup = Collections.unmodifiableMap(initializeMapping());
     private int code;

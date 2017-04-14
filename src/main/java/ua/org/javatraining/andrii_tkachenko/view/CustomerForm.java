@@ -13,19 +13,17 @@ import javax.validation.constraints.Size;
  */
 @Component
 public class CustomerForm {
-    @NotNull
-    @Size(min = 2, max = 30)
-    private String name;
-
     @NotEmpty
     @Email
     private String email;
 
+    @NotEmpty
+    private String address;
+
     @Phone
     private String phone;
 
-    @NotEmpty
-    private String address;
+    private String name;
 
     public String getName() {
         return name;

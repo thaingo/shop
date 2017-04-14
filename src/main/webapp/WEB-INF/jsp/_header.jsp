@@ -25,7 +25,7 @@
             </li>
             <li><a href="${home}">Главная</a></li>
             <li><a href="${shop}">Магазин</a></li>
-            <li><a href="${cart}">Корзина</a></li>
+            <li><a href="${cart}">Корзина (${cartSize})</a></li>
             <li><a href="${contact}">Обратная связь</a></li>
             <li><a href="${login}">Войти</a></li>
         </ul>
