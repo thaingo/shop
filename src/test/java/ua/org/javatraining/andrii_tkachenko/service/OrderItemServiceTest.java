@@ -46,8 +46,8 @@ public class OrderItemServiceTest {
     public void save() throws Exception {
         CustomOrder order = orderService.findById(1);
         Map<Product, Integer> items = new LinkedHashMap<>();
-        Product product1 = productService.findByIdWithVisualizations("s1");
-        Product product2 = productService.findByIdWithVisualizations("s2");
+        Product product1 = productService.findById("s1");
+        Product product2 = productService.findById("s2");
         items.put(product1, 2);
         items.put(product2, 1);
         orderItemService.save(order, items);

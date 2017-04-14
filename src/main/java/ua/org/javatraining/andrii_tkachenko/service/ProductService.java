@@ -93,9 +93,9 @@ public class ProductService {
         return productRepository.findOne(sku);
     }
 
-    public Product findByIdWithVisualizations(String sku) {
+    public Product findByIdWithVisualization(String sku, int type) {
         Product product = productRepository.findOne(sku);
-        product.setVisualizations(visualizationRepository.findAllByProductSku(sku));
+        product.setVisualizations(visualizationRepository.findAllByProductSkuAndType(sku, type));
         return productRepository.findOne(sku);
     }
 

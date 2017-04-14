@@ -60,6 +60,10 @@ public class Cart {
         }
     }
 
+    public boolean removeItem(String id) {
+        return items.entrySet().removeIf(e -> id.equals(e.getKey().getSku()));
+    }
+
     public double calculateSubTotal() {
         double sum = 0;
         if (items.size() != 0) {

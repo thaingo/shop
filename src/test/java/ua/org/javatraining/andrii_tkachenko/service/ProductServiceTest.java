@@ -55,7 +55,7 @@ public class ProductServiceTest {
     @Test
     @DatabaseSetup("/data/productService.xml")
     public void whenOneRowExistsShouldReturnOneProduct() throws Exception {
-        Product actual = productService.findByIdWithVisualizations("s1");
+        Product actual = productService.findById("s1");
         assertThat(actual, allOf(
                 hasProperty("sku", is("s1")),
                 hasProperty("name", is("Product 1")),

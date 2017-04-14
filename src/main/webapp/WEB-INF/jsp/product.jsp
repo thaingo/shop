@@ -16,13 +16,6 @@
     <meta name="description" content="Интернет-магазин dj оборудования"/>
     <meta name="author" content="tkaczenko"/>
     <title>${pageContext.request.contextPath} | ${product.name}</title>
-    <style>
-        .error {
-            color: #ff0000;
-            font-style: italic;
-            font-weight: bold;
-        }
-    </style>
 </head>
 <body>
 <div class="wrapper">
@@ -32,40 +25,32 @@
         <jsp:include page="_categories-menu.jsp"/>
         <jsp:include page="_category-nav.jsp"/>
 
-        <h2>${mess}</h2>
-
         <c:url var="linkToProduct" value="/category/${category.name}/product/${product.name}"/>
 
-        <form:form method="post" modelAttribute="customerForm"
-                   action="${linkToProduct}/buyByOne"
-                   target="_top">
-            <table>
-                <tr>
-                    <td><form:input path="name" type="text" class="feedback-input" id="name"
-                                    placeholder="Ваше имя"/></td>
-                    <td><form:errors path="name" cssClass="error"/></td>
-                </tr>
-                <tr>
-                    <td><form:input path="email" type="email" class="feedback-input" id="phone"
-                                    placeholder="Ваш e-mail"/></td>
-                    <td><form:errors path="email" cssClass="error"/></td>
-                </tr>
-                <tr>
-                    <td><form:input path="phone" name="phone" type="tel" class="feedback-input" id="phone1"
-                                    placeholder="Ваш номер телефона"/></td>
-                    <td><form:errors path="phone" cssClass="error"/></td>
-                </tr>
-                <tr>
-                    <td><input type="submit" value="Заказать" id="btn-send1"/></td>
-                </tr>
-            </table>
-        </form:form>
+        <form method="post" action="${linkToProduct}/buyByOne?sku=${product.sku}">
+            <input type="submit"
+                    <c:if test="${product.amount <= 0}"><c:out value="disabled='disabled'"/></c:if>
+                   value="Купить в 1 клик"/>
+        </form>
+
         <c:url var="addToCart" value="/addToCart?sku=${product.sku}"/>
-        <a href="${addToCart}">Добавить в корзину</a>
-        <c:url var="addLike" value="/addLike?sku=${product.sku}"/>
-        <a href="${addLike}">Лайк (${product.likes})</a>
-        <c:url var="addDislike" value="/addDislike?sku=${product.sku}"/>
-        <a href="${addDislike}">Дизлайк (${product.dislikes})</a>
+        <form method="post" action="${addToCart}">
+            <input type="submit"
+                    <c:if test="${product.amount <= 0}"><c:out value="disabled='disabled'"/></c:if>
+                   value="Добавить в корзину"/>
+        </form>
+        <c:url var="addLike" value="${linkToProduct}/addLike?sku=${product.sku}"/>
+        <form method="post" action="${addLike}">
+            <input type="submit"
+                    <c:if test="${liked == true}"><c:out value="disabled='disabled'"/></c:if>
+                   value="Лайк (${product.likes})"/>
+        </form>
+        <c:url var="addDislike" value="${linkToProduct}/addDislike?sku=${product.sku}"/>
+        <form method="post" action="${addDislike}">
+            <input type="submit"
+                    <c:if test="${disliked == true}"><c:out value="disabled='disabled'"/></c:if>
+                   value="Дизалайк (${product.dislikes})"/>
+        </form>
         <table style="width: 100%">
             <tr>
                 <th>Name</th>

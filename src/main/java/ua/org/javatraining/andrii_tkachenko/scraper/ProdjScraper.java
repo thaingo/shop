@@ -25,17 +25,19 @@ import java.util.regex.Pattern;
 /**
  * Class for scraping data at prodj.com.ua
  */
-//// TODO: 09.04.17 Fix category name without / %20
 public class ProdjScraper {
     private static final String PRODJ =
             "https://www.prodj.com.ua/";
+
+    private static final String pathToDriver =
+            "/home/tkaczenko/Desktop/chromedriver";
 
     private static final int NUM_OF_CATEGORIES = 5;
 
     private static WebDriver driver;
 
     static {
-        System.setProperty("webdriver.chrome.driver", "/home/tkaczenko/Desktop/chromedriver");
+        System.setProperty("webdriver.chrome.driver", pathToDriver);
 
         driver = new ChromeDriver();
         ((RemoteWebDriver) driver).setLogLevel(Level.SEVERE);
@@ -105,6 +107,9 @@ public class ProdjScraper {
                 String text = element.getText();
                 Matcher m = p.matcher(text);
                 String name = correctTitle(m, text);
+                if (name.contains("/")) {
+                    continue;
+                }
 
                 Category category = new Category(name, "");
                 Category parentCategory = categories.get(count);
@@ -151,6 +156,7 @@ public class ProdjScraper {
                         Integer.parseInt(prices.get(i).getText()
                                 .replaceAll("\\D", ""))
                 );
+                product.setAmount(10);
 
                 Category c = null;
                 for (Category category1 : categories) {
@@ -228,6 +234,7 @@ public class ProdjScraper {
                     if (products.get(j).getName().toLowerCase().equals(name.getText().trim().toLowerCase())) {
                         real = products.get(j);
                         count = j;
+                        break;
                     }
                 }
 

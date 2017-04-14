@@ -1,4 +1,4 @@
-package ua.org.javatraining.andrii_tkachenko.webpages;
+package ua.org.javatraining.andrii_tkachenko.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,11 +11,13 @@ import ua.org.javatraining.andrii_tkachenko.data.model.Customer;
 import ua.org.javatraining.andrii_tkachenko.data.model.Product;
 import ua.org.javatraining.andrii_tkachenko.data.model.category.Category;
 import ua.org.javatraining.andrii_tkachenko.data.model.enumeration.OrderType;
+import ua.org.javatraining.andrii_tkachenko.data.model.enumeration.VisualizationType;
 import ua.org.javatraining.andrii_tkachenko.data.session.Cart;
 import ua.org.javatraining.andrii_tkachenko.service.*;
 import ua.org.javatraining.andrii_tkachenko.util.URLUtil;
 import ua.org.javatraining.andrii_tkachenko.view.CustomerForm;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.io.UnsupportedEncodingException;
 import java.util.*;
@@ -99,9 +101,9 @@ public class FrontStoreController {
     }
 
     @GetMapping("/category/{categoryName}/product/{productName}")
-    public String product(Model model,
-                          @PathVariable String categoryName,
-                          @PathVariable String productName) {
+    public String product(@PathVariable String categoryName,
+                          @PathVariable String productName,
+                          Model model, HttpSession session) {
         loadCategories();
         Category found = findCategoryByName(categoryName);
         if (found == null) {
@@ -115,6 +117,12 @@ public class FrontStoreController {
                 model.addAttribute("categories", categories);
                 return "index";
             }
+            Boolean liked = (Boolean) session.getAttribute("liked");
+            Boolean disliked = (Boolean) session.getAttribute("disliked");
+            if (liked == null && disliked == null) {
+                session.setAttribute("liked", false);
+                session.setAttribute("disliked", false);
+            }
             model.addAttribute("category", found)
                     .addAttribute("product", product)
                     .addAttribute("customerForm", new CustomerForm());
@@ -122,41 +130,67 @@ public class FrontStoreController {
         }
     }
 
+    @PostMapping("/category/{categoryName}/product/{productName}/addLike")
+    public String addLike(@PathVariable("categoryName") String categoryName,
+                          @PathVariable("productName") String productName,
+                          @RequestParam("sku") String sku, HttpSession session) throws UnsupportedEncodingException {
+        Boolean liked = (Boolean) session.getAttribute("liked");
+        Boolean disliked = (Boolean) session.getAttribute("disliked");
+        if (!liked) {
+            Product product = productService.findById(sku);
+            if (disliked) {
+                product.setDislikes(product.getDislikes() - 1);
+                session.setAttribute("disliked", false);
+            }
+            product.setLikes(product.getLikes() + 1);
+            session.setAttribute("liked", true);
+            productService.save(product);
+        }
+        return "redirect:/category/" + URLUtil.encode(categoryName) + "/product/" + URLUtil.encode(productName);
+        // String.valueOf(product.getLikes());
+    }
+
+    @PostMapping("/category/{categoryName}/product/{productName}/addDislike")
+    public String addDislike(@PathVariable("categoryName") String categoryName,
+                             @PathVariable("productName") String productName,
+                             @RequestParam("sku") String sku, HttpSession session) throws UnsupportedEncodingException {
+        Boolean liked = (Boolean) session.getAttribute("liked");
+        Boolean disliked = (Boolean) session.getAttribute("disliked");
+        if (!disliked) {
+            Product product = productService.findById(sku);
+            if (liked) {
+                product.setLikes(product.getLikes() - 1);
+                session.setAttribute("liked", false);
+            }
+            product.setDislikes(product.getDislikes() + 1);
+            session.setAttribute("disliked", true);
+            productService.save(product);
+        }
+        return "redirect:/category/" + URLUtil.encode(categoryName) + "/product/" + URLUtil.encode(productName);
+        // String.valueOf(product.getLikes());
+    }
+
     @PostMapping("/category/{categoryName}/product/{productName}/buyByOne")
     public String buyByOne(@PathVariable("categoryName") String categoryName,
-                           @PathVariable("productName") String productName,
-                           @ModelAttribute("customerForm") @Valid CustomerForm customerForm,
-                           BindingResult result, RedirectAttributes redirectAttributes)
-            throws UnsupportedEncodingException {
-        loadCategories();
-
-        if (result.hasErrors()) {
-            return "product";
-        }
-        // Save customer
-        Customer customer = new Customer();
-        customer.setEmail(customerForm.getEmail());
-        customer.setPhone(customerForm.getPhone());
-        customer.setFirstName(customerForm.getName());
-        customerService.save(customer);
-
-        // Save order
-        CustomOrder order = orderService.save(customer, OrderType.IN_PROGRESS.getCode());
-
-        // Save ordered product
-        Product product = productService.findByName(productName);
-        orderItemService.save(order, product, 1);
-
-        redirectAttributes.addFlashAttribute("mess", "Ваш заказ добавлен");
-        return "redirect:/category/" + URLUtil.encode(categoryName) + "/product/" + URLUtil.encode(productName);
+                             @PathVariable("productName") String productName,
+                             @RequestParam("sku") String sku, HttpSession session) throws UnsupportedEncodingException {
+        Product product = productService.findByIdWithVisualization(sku, VisualizationType.ORIGINAL_PICTURE.getCode());
+        cart.addItem(product);
+        return "redirect:/cart";
     }
 
     @PostMapping("/cart/buyByOne")
-    public String cartBuy(@ModelAttribute("customerForm") @Valid CustomerForm customerForm,
-                          BindingResult result, RedirectAttributes redirectAttributes) {
-        loadCategories();
-
+    public String buyByOne(@ModelAttribute("customerForm") @Valid CustomerForm customerForm,
+                           BindingResult result, RedirectAttributes redirectAttributes, Model model) {
         if (result.hasErrors()) {
+            Map<Product, Integer> itemMap = cart.getItems();
+            double subTotal = cart.calculateSubTotal();
+            double total = cart.calculateTotal(subTotal);
+            Integer numOfItems = cart.sumQuantity();
+            model.addAttribute("itemMap", itemMap)
+                    .addAttribute("subTotal", subTotal)
+                    .addAttribute("total", subTotal == 0 ? 0 : total)
+                    .addAttribute("numOfItems", numOfItems);
             return "cart";
         }
 
@@ -170,16 +204,21 @@ public class FrontStoreController {
         // Save order
         double subTotal = cart.calculateSubTotal();
         double total = cart.calculateTotal(subTotal);
-        CustomOrder order = orderService.save(customer, OrderType.IN_PROGRESS.getCode());
+        CustomOrder order = orderService.save(customer, OrderType.IN_PROGRESS.getCode(), customerForm.getAddress());
 
         // Save ordered products
         Map<Product, Integer> itemMap = new HashMap<>(cart.getItems());
         orderItemService.save(order, itemMap);
 
-        redirectAttributes.addFlashAttribute("mess", "Ваш заказ добавлен");
+        redirectAttributes.addFlashAttribute("orderId", order.getId());
         cart.clear();
 
-        return "redirect:/cart";
+        return "redirect:/order";
+    }
+
+    @GetMapping("/order")
+    public String order(Model model) {
+        return "order";
     }
 
     @GetMapping("/cart")
@@ -196,33 +235,15 @@ public class FrontStoreController {
         return "cart";
     }
 
-    @GetMapping("/addToCart")
+    @PostMapping("/addToCart")
     @ResponseBody
     public String addToCart(@RequestParam("sku") String sku) {
-        Product product = productService.findByIdWithVisualizations(sku);
+        Product product = productService.findByIdWithVisualization(sku, VisualizationType.ORIGINAL_PICTURE.getCode());
         cart.addItem(product);
         return cart.sumQuantity().toString();
     }
 
-    @GetMapping("/addLike")
-    @ResponseBody
-    public String addLike(@RequestParam("sku") String sku) {
-        Product product = productService.findById(sku);
-        product.setLikes(product.getLikes() + 1);
-        productService.save(product);
-        return String.valueOf(product.getLikes());
-    }
-
-    @GetMapping("/addDislike")
-    @ResponseBody
-    public String addDislike(@RequestParam("sku") String sku) {
-        Product product = productService.findById(sku);
-        product.setDislikes(product.getDislikes() + 1);
-        productService.save(product);
-        return String.valueOf(product.getDislikes());
-    }
-
-    @GetMapping("/clearCart")
+    @PostMapping("/clearCart")
     public String clearCart() {
         cart.clear();
         return "redirect:/cart";
@@ -231,6 +252,12 @@ public class FrontStoreController {
     @PostMapping("/updateCart")
     public String updateCart(@RequestParam("sku") String sku, @RequestParam("quantity") Integer quantity) {
         cart.updateItem(sku, quantity);
+        return "redirect:/cart";
+    }
+
+    @PostMapping("/deleteFromCart")
+    public String deleteFromCart(@RequestParam("sku") String sku) {
+        cart.removeItem(sku);
         return "redirect:/cart";
     }
 

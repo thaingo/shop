@@ -45,10 +45,17 @@
                             <table>
                                 <tr>
                                     <td><input type="number" name="quantity" min="1" max="100" step="1"
-                                               placeholder="${item.value}"/></td>
-                                    <td><input type="submit" value="Обновить" id="btn-send1"/></td>
+                                               value="${item.value}"/></td>
+                                    <td><input type="submit" value="Обновить"/></td>
                                 </tr>
                             </table>
+                        </form>
+                    </td>
+                    <td>
+                        <form method="post"
+                              action="${pageContext.request.contextPath}/deleteFromCart?sku=${item.key.sku}"
+                              target="_top">
+                            <input type="submit" value="Удалить"/>
                         </form>
                     </td>
                 </tr>
@@ -58,7 +65,9 @@
                 <td>Кол-во: ${numOfItems}</td>
                 <td>
                     <c:url var="clearCart" value="/clearCart"/>
-                    <a href="${clearCart}">Очистить корзину</a>
+                    <form method="post" action="${clearCart}">
+                        <input type="submit" value="Очистить корзину"/>
+                    </form>
                 </td>
             </tr>
             <tr>
@@ -69,19 +78,24 @@
                                target="_top">
                         <table>
                             <tr>
-                                <td><form:input path="name" type="text" class="feedback-input" id="name"
+                                <td><form:input path="name" type="text"
                                                 placeholder="Ваше имя"/></td>
-                                <td><form:errors path="name" cssClass="error"/></td>
+                                <td><form:errors path="name"/></td>
                             </tr>
                             <tr>
-                                <td><form:input path="email" type="email" class="feedback-input" id="phone"
+                                <td><form:input path="email" type="email"
                                                 placeholder="Ваш e-mail"/></td>
-                                <td><form:errors path="email" cssClass="error"/></td>
+                                <td><form:errors path="email"/></td>
                             </tr>
                             <tr>
-                                <td><form:input path="phone" name="phone" type="tel" class="feedback-input" id="phone1"
+                                <td><form:input path="address" type="text"
+                                                placeholder="Ваш адрес"/></td>
+                                <td><form:errors path="address"/></td>
+                            </tr>
+                            <tr>
+                                <td><form:input path="phone" name="phone" type="tel"
                                                 placeholder="Ваш номер телефона"/></td>
-                                <td><form:errors path="phone" cssClass="error"/></td>
+                                <td><form:errors path="phone"/></td>
                             </tr>
                             <tr>
                                 <td><input type="submit" value="Заказать"/></td>

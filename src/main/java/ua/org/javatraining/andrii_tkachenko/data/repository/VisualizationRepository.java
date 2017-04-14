@@ -12,5 +12,5 @@ import java.util.Set;
  */
 @Repository
 public interface VisualizationRepository extends CrudRepository<Visualization, Integer> {
-    Set<Visualization> findAllByProductSku(String sku);
+    Set<Visualization> findAllByProductSkuAndType(String sku, int type);
 }

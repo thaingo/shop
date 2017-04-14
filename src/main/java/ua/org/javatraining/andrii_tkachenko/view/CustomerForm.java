@@ -17,12 +17,15 @@ public class CustomerForm {
     @Size(min = 2, max = 30)
     private String name;
 
+    @NotEmpty
+    @Email
+    private String email;
+
     @Phone
     private String phone;
 
     @NotEmpty
-    @Email
-    private String email;
+    private String address;
 
     public String getName() {
         return name;
@@ -46,5 +49,13 @@ public class CustomerForm {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 }

@@ -31,10 +31,11 @@ public class OrderService {
         return customOrderRepository.save(order);
     }
 
-    public CustomOrder save(Customer customer, int status) {
+    public CustomOrder save(Customer customer, int status, String address) {
         CustomOrder order = new CustomOrder();
         order.setCustomer(customer);
         order.setStatus(status);
+        order.setAddress(address);
         return customOrderRepository.save(order);
     }
 

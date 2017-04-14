@@ -22,7 +22,11 @@
                 </a>
                 <div class="actions">
                     <c:url var="addToCart" value="/addToCart?sku=${product.sku}"/>
-                    <a href="${addToCart}">Добавить в корзину</a>
+                    <form method="post" action="${addToCart}">
+                        <input type="submit"
+                                <c:if test="${product.amount <= 0}"><c:out value="disabled='disabled'"/></c:if>
+                               value="Добавить в корзину"/>
+                    </form>
                 </div>
             </div>
             <div class="title">

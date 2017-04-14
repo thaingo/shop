@@ -1,4 +1,4 @@
-package ua.org.javatraining.andrii_tkachenko.webpages;
+package ua.org.javatraining.andrii_tkachenko.controller;
 
 import com.github.springtestdbunit.DbUnitTestExecutionListener;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
