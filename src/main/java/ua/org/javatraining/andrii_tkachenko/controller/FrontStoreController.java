@@ -182,7 +182,8 @@ public class FrontStoreController {
 
     @PostMapping("/cart/buyByOne")
     public String buyByOne(@ModelAttribute("customerForm") @Valid CustomerForm customerForm,
-                           BindingResult result, RedirectAttributes redirectAttributes, Model model) {
+                           BindingResult result, RedirectAttributes redirectAttributes,
+                           Model model, HttpSession session) {
         boolean isEmpty = cart.getItems().size() == 0;
         if (result.hasErrors() || isEmpty) {
             if (isEmpty) {
@@ -241,6 +242,8 @@ public class FrontStoreController {
 
         redirectAttributes.addFlashAttribute("orderId", order.getId());
         cart.clear();
+
+        session.setAttribute("cartSize", cart.sumQuantity());
 
         return "redirect:/order";
     }
