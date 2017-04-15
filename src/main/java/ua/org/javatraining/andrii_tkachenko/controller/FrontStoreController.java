@@ -1,6 +1,7 @@
 package ua.org.javatraining.andrii_tkachenko.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -21,6 +22,8 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.io.UnsupportedEncodingException;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by tkaczenko on 20.03.17.
@@ -55,9 +58,10 @@ public class FrontStoreController {
         Set<Product> products = null;
         if (categories.size() != 0) {
             category = categories.iterator().next();
-            products = productService.findAllByCategoryId(
-                    category.getSubCategories().iterator().next().getId()
-            );
+            Iterator<Category> iterator = category.getSubCategories().iterator();
+            if (iterator.hasNext()) {
+                products = productService.findAllByCategoryId(iterator.next().getId());
+            }
         }
         session.setAttribute("cartSize", cart.sumQuantity());
         model.addAttribute("category", category)
@@ -182,36 +186,23 @@ public class FrontStoreController {
 
     @PostMapping("/cart/buyByOne")
     public String buyByOne(@ModelAttribute("customerForm") @Valid CustomerForm customerForm,
-                           BindingResult result, RedirectAttributes redirectAttributes,
-                           Model model, HttpSession session) {
+                           BindingResult binding, RedirectAttributes attributes, HttpSession session) {
         boolean isEmpty = cart.getItems().size() == 0;
-        if (result.hasErrors() || isEmpty) {
+        if (binding.hasErrors() || isEmpty) {
             if (isEmpty) {
-                model.addAttribute("mess", "Корзина пуста");
+                attributes.addFlashAttribute("mess", "Корзина пуста");
             }
-            Map<Product, Integer> itemMap = cart.getItems();
-            double subTotal = cart.calculateSubTotal();
-            double total = cart.calculateTotal(subTotal);
-            Integer numOfItems = cart.sumQuantity();
-            model.addAttribute("itemMap", itemMap)
-                    .addAttribute("subTotal", subTotal)
-                    .addAttribute("total", subTotal == 0 ? 0 : total)
-                    .addAttribute("numOfItems", numOfItems);
-            return "cart";
+            attributes.addFlashAttribute(
+                    "org.springframework.validation.BindingResult.customerForm", binding
+            );
+            attributes.addFlashAttribute("customerForm", customerForm);
+            return "redirect:/cart";
         }
 
         for (Map.Entry<Product, Integer> item : cart.getItems().entrySet()) {
             if (item.getKey().getAmount() < item.getValue()) {
-                Map<Product, Integer> itemMap = cart.getItems();
-                double subTotal = cart.calculateSubTotal();
-                double total = cart.calculateTotal(subTotal);
-                Integer numOfItems = cart.sumQuantity();
-                model.addAttribute("itemMap", itemMap)
-                        .addAttribute("subTotal", subTotal)
-                        .addAttribute("total", subTotal == 0 ? 0 : total)
-                        .addAttribute("numOfItems", numOfItems)
-                        .addAttribute("mess", "Невозможно столько купить");
-                return "cart";
+                attributes.addFlashAttribute("mess", "Невозможно столько купить");
+                return "redirect:/cart";
             }
         }
 
@@ -240,7 +231,7 @@ public class FrontStoreController {
         order.setStatus(OrderType.SUBMITTED.getCode());
         orderService.save(order);
 
-        redirectAttributes.addFlashAttribute("orderId", order.getId());
+        attributes.addFlashAttribute("orderId", order.getId());
         cart.clear();
 
         session.setAttribute("cartSize", cart.sumQuantity());
@@ -262,35 +253,41 @@ public class FrontStoreController {
         model.addAttribute("itemMap", itemMap)
                 .addAttribute("subTotal", subTotal)
                 .addAttribute("total", subTotal == 0 ? 0 : total)
-                .addAttribute("numOfItems", numOfItems)
-                .addAttribute("customerForm", new CustomerForm());
+                .addAttribute("numOfItems", numOfItems);
+        if (!model.containsAttribute("customerForm")) {
+            model.addAttribute("customerForm", new CustomerForm());
+        }
         return "cart";
     }
 
     @PostMapping("/addToCart")
-    @ResponseBody
-    public String addToCart(@RequestParam("sku") String sku, HttpSession session) {
+    public String addToCart(@RequestParam("sku") String sku,
+                            @RequestHeader("referer") String referer, HttpSession session) {
         Product product = productService.findByIdWithVisualization(sku, VisualizationType.ORIGINAL_PICTURE.getCode());
         cart.addItem(product);
         session.setAttribute("cartSize", cart.sumQuantity());
-        return cart.sumQuantity().toString();
+        return "redirect:" + referer;
     }
 
     @PostMapping("/clearCart")
-    public String clearCart() {
+    public String clearCart(HttpSession session) {
         cart.clear();
+        session.setAttribute("cartSize", cart.sumQuantity());
         return "redirect:/cart";
     }
 
     @PostMapping("/updateCart")
-    public String updateCart(@RequestParam("sku") String sku, @RequestParam("quantity") Integer quantity) {
+    public String updateCart(@RequestParam("sku") String sku,
+                             @RequestParam("quantity") Integer quantity, HttpSession session) {
         cart.updateItem(sku, quantity);
+        session.setAttribute("cartSize", cart.sumQuantity());
         return "redirect:/cart";
     }
 
     @PostMapping("/deleteFromCart")
-    public String deleteFromCart(@RequestParam("sku") String sku) {
+    public String deleteFromCart(@RequestParam("sku") String sku, HttpSession session) {
         cart.removeItem(sku);
+        session.setAttribute("cartSize", cart.sumQuantity());
         return "redirect:/cart";
     }
 

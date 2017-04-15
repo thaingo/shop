@@ -80,25 +80,29 @@
                             <tr>
                                 <td><form:label path="email">E-mail *</form:label></td>
                                 <td><form:input path="email" type="email"
-                                                placeholder="Ваш e-mail"/></td>
+                                                placeholder="Ваш e-mail"
+                                                value="${customerForm.email}"/></td>
                                 <td><form:errors path="email"/></td>
                             </tr>
                             <tr>
                                 <td><form:label path="address">Адрес *</form:label></td>
                                 <td><form:input path="address" type="text"
-                                                placeholder="Ваш адрес"/></td>
+                                                placeholder="Ваш адрес"
+                                                value="${customerForm.address}"/></td>
                                 <td><form:errors path="address"/></td>
                             </tr>
                             <tr>
                                 <td><form:label path="phone">Номер телефона</form:label></td>
                                 <td><form:input path="phone" name="phone" type="tel"
-                                                placeholder="Ваш номер телефона"/></td>
+                                                placeholder="Ваш номер телефона"
+                                                value="${customerForm.phone}"/></td>
                                 <td><form:errors path="phone"/></td>
                             </tr>
                             <tr>
                                 <td><form:label path="name">Имя</form:label></td>
                                 <td><form:input path="name" type="text"
-                                                placeholder="Ваше имя"/></td>
+                                                placeholder="Ваше имя"
+                                                value="${customerForm.name}"/></td>
                                 <td><form:errors path="name"/></td>
                             </tr>
                             <tr>
