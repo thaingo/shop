@@ -24,7 +24,7 @@
         <jsp:include page="_subcategories-list.jsp"/>
 
         <div class="relative-section">
-            <jsp:include page="_products.jsp"/>
+            <jsp:include page="_products_by_category.jsp"/>
         </div>
 
         <jsp:include page="_footer.jsp"/>

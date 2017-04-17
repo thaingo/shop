@@ -20,6 +20,9 @@
     <div class="content">
         <h2>Ваш заказ добавлен ${orderId}</h2>
 
+        <c:url var="shop" value="/shop"/>
+        <a href="${shop}">Продолжить покупки</a>
+
         <jsp:include page="_footer.jsp"/>
     </div>
 </div>

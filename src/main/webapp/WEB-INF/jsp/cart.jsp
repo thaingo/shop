@@ -44,8 +44,8 @@
                               target="_top">
                             <table>
                                 <tr>
-                                    <td><input type="number" name="quantity" min="1" max="100" step="1"
-                                               value="${item.value}"/></td>
+                                    <td><input type="number" name="quantity" min="1" max="${item.key.amount}" step="1"
+                                               value="${item.value}" required/></td>
                                     <td><input type="submit" value="Обновить"/></td>
                                 </tr>
                             </table>
@@ -81,14 +81,14 @@
                                 <td><form:label path="email">E-mail *</form:label></td>
                                 <td><form:input path="email" type="email"
                                                 placeholder="Ваш e-mail"
-                                                value="${customerForm.email}"/></td>
+                                                value="${customerForm.email}" required="required"/></td>
                                 <td><form:errors path="email"/></td>
                             </tr>
                             <tr>
                                 <td><form:label path="address">Адрес *</form:label></td>
                                 <td><form:input path="address" type="text"
                                                 placeholder="Ваш адрес"
-                                                value="${customerForm.address}"/></td>
+                                                value="${customerForm.address}" required="required"/></td>
                                 <td><form:errors path="address"/></td>
                             </tr>
                             <tr>
