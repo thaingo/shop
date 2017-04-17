@@ -26,10 +26,9 @@ public class Visualization implements Serializable {
 
     }
 
-    public Visualization(int type, String url, Product product) {
-        this.type = type;
-        this.url = url;
-        this.product = product;
+    @Deprecated
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getId() {

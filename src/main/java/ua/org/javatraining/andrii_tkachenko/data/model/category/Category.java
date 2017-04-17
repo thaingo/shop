@@ -43,6 +43,11 @@ public class Category implements Serializable {
         this.description = description;
     }
 
+    @Deprecated
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public int getId() {
         return id;
     }

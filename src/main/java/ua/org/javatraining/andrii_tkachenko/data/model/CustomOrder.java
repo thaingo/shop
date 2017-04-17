@@ -31,11 +31,9 @@ public class CustomOrder implements Serializable {
 
     }
 
-    public CustomOrder(int id, int status, String address, Customer customer) {
+    @Deprecated
+    public void setId(int id) {
         this.id = id;
-        this.status = status;
-        this.address = address;
-        this.customer = customer;
     }
 
     public int getId() {
