@@ -3,24 +3,19 @@ package ua.org.javatraining.andrii_tkachenko.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import ua.org.javatraining.andrii_tkachenko.data.model.CustomOrder;
-import ua.org.javatraining.andrii_tkachenko.data.model.Customer;
 import ua.org.javatraining.andrii_tkachenko.data.model.Product;
 import ua.org.javatraining.andrii_tkachenko.data.model.category.Category;
 import ua.org.javatraining.andrii_tkachenko.data.model.category.CategoryAssociation;
-import ua.org.javatraining.andrii_tkachenko.data.model.enumeration.OrderType;
 import ua.org.javatraining.andrii_tkachenko.data.model.enumeration.VisualizationType;
 import ua.org.javatraining.andrii_tkachenko.data.session.Cart;
 import ua.org.javatraining.andrii_tkachenko.data.session.LikedCart;
-import ua.org.javatraining.andrii_tkachenko.service.*;
+import ua.org.javatraining.andrii_tkachenko.service.CategoryService;
+import ua.org.javatraining.andrii_tkachenko.service.ProductService;
 import ua.org.javatraining.andrii_tkachenko.util.URLUtil;
 import ua.org.javatraining.andrii_tkachenko.view.CustomerForm;
 
 import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
 import java.io.UnsupportedEncodingException;
 import java.util.*;
 
@@ -28,33 +23,27 @@ import java.util.*;
  * Created by tkaczenko on 20.03.17.
  */
 @Controller
-public class FrontStoreController {
-    private final Cart cart;
+public class BrowsingController {
     private final CategoryService categoryService;
     private final ProductService productService;
-    private final CustomerService customerService;
-    private final OrderService orderService;
-    private final OrderItemService orderItemService;
+    private final Cart cart;
     private final LikedCart likedCart;
 
     private Set<Category> categories;
 
     @Autowired
-    public FrontStoreController(Cart cart, CategoryService categoryService, ProductService productService,
-                                CustomerService customerService, OrderService orderService,
-                                OrderItemService orderItemService, LikedCart likedCart) {
+    public BrowsingController(Cart cart, CategoryService categoryService, ProductService productService,
+                              LikedCart likedCart) {
         this.cart = cart;
         this.categoryService = categoryService;
         this.productService = productService;
-        this.customerService = customerService;
-        this.orderService = orderService;
-        this.orderItemService = orderItemService;
         this.likedCart = likedCart;
     }
 
     @GetMapping(value = {"/", "/shop"})
     public String home(Model model, HttpSession session) {
-        Category category = null;
+        // // TODO: 17.04.17 Implement Best products
+        Category category;
         Set<Product> products = null;
         if (categories.size() != 0) {
             category = categories.iterator().next();
@@ -178,115 +167,6 @@ public class FrontStoreController {
         return "redirect:/cart";
     }
 
-    @PostMapping("/cart/buyByOne")
-    public String buyByOne(@ModelAttribute("customerForm") @Valid CustomerForm customerForm,
-                           BindingResult binding, RedirectAttributes attributes, HttpSession session) {
-        // Validate form
-        boolean isEmpty = cart.getItems().size() == 0;
-        if (binding.hasErrors() || isEmpty) {
-            if (isEmpty) {
-                attributes.addFlashAttribute("mess", "Корзина пуста");
-            }
-            attributes.addFlashAttribute(
-                    "org.springframework.validation.BindingResult.customerForm", binding
-            );
-            attributes.addFlashAttribute("customerForm", customerForm);
-            return "redirect:/cart";
-        }
-
-        // Check amount and quantity of the product from cart
-        for (Map.Entry<Product, Integer> item : cart.getItems().entrySet()) {
-            if (item.getKey().getAmount() < item.getValue()) {
-                attributes.addFlashAttribute("mess", "Невозможно столько купить");
-                attributes.addFlashAttribute("customerForm", customerForm);
-                return "redirect:/cart";
-            }
-        }
-
-        // Save customer
-        Customer customer = new Customer();
-        customer.setEmail(customerForm.getEmail());
-        customer.setPhone(customerForm.getPhone());
-        customer.setFirstName(customerForm.getName());
-        customerService.save(customer);
-
-        // Save order
-        double subTotal = cart.calculateSubTotal();
-        double total = cart.calculateTotal(subTotal);
-        CustomOrder order = orderService.save(customer, OrderType.IN_PROGRESS.getCode(), customerForm.getAddress());
-
-        // Save ordered products
-        Map<Product, Integer> itemMap = new HashMap<>(cart.getItems());
-        orderItemService.save(order, itemMap);
-
-        // Submit
-        itemMap.entrySet().parallelStream().forEach(e -> {
-            Product key = e.getKey();
-            key.setAmount(key.getAmount() - e.getValue());
-        });
-        productService.save(itemMap.keySet());
-        order.setStatus(OrderType.SUBMITTED.getCode());
-        orderService.save(order);
-
-        attributes.addFlashAttribute("orderId", order.getId());
-        cart.clear();
-
-        session.setAttribute("cartSize", cart.sumQuantity());
-
-        return "redirect:/order";
-    }
-
-    @GetMapping("/order")
-    public String order(Model model) {
-        return "order";
-    }
-
-    @GetMapping("/cart")
-    public String cart(Model model) {
-        Map<Product, Integer> itemMap = cart.getItems();
-        double subTotal = cart.calculateSubTotal();
-        double total = cart.calculateTotal(subTotal);
-        Integer numOfItems = cart.sumQuantity();
-        model.addAttribute("itemMap", itemMap)
-                .addAttribute("subTotal", subTotal)
-                .addAttribute("total", subTotal == 0 ? 0 : total)
-                .addAttribute("numOfItems", numOfItems);
-        if (!model.containsAttribute("customerForm")) {
-            model.addAttribute("customerForm", new CustomerForm());
-        }
-        return "cart";
-    }
-
-    @PostMapping("/addToCart")
-    public String addToCart(@RequestParam("sku") String sku,
-                            @RequestHeader("referer") String referer, HttpSession session) {
-        Product product = productService.findByIdWithVisualization(sku, VisualizationType.ORIGINAL_PICTURE.getCode());
-        cart.addItem(product);
-        session.setAttribute("cartSize", cart.sumQuantity());
-        return "redirect:" + referer;
-    }
-
-    @PostMapping("/clearCart")
-    public String clearCart(HttpSession session) {
-        cart.clear();
-        session.setAttribute("cartSize", cart.sumQuantity());
-        return "redirect:/cart";
-    }
-
-    @PostMapping("/updateCart")
-    public String updateCart(@RequestParam("sku") String sku,
-                             @RequestParam("quantity") Integer quantity, HttpSession session) {
-        cart.updateItem(sku, quantity);
-        session.setAttribute("cartSize", cart.sumQuantity());
-        return "redirect:/cart";
-    }
-
-    @PostMapping("/deleteFromCart")
-    public String deleteFromCart(@RequestParam("sku") String sku, HttpSession session) {
-        cart.removeItem(sku);
-        session.setAttribute("cartSize", cart.sumQuantity());
-        return "redirect:/cart";
-    }
 
     @GetMapping("/search")
     public String search(String query, Model model) {
@@ -294,9 +174,9 @@ public class FrontStoreController {
         try {
             searchResults = productService.search(query);
         } catch (Exception ex) {
+            //// TODO: 17.04.17 Implement not found page
             return "";
         }
-
         model.addAttribute("mess", "Найдено " + searchResults.size() + " результатов")
                 .addAttribute("products", prepareMapProductCategoryName(searchResults));
         return "search";
