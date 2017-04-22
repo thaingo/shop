@@ -1,6 +1,7 @@
 package ua.org.javatraining.andrii_tkachenko.data.dao;
 
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Component;
 import ua.org.javatraining.andrii_tkachenko.data.model.Product;
 
 /**
@@ -44,7 +45,7 @@ public class ProductDAO extends AbstractJdbcDAO<Product, String> {
     }
 
     public int update(Product entity) {
-        String sql = "update " + "Product" +
+        String sql = "update " + "product" +
                 " set " +
                 "sku" + " = ?, " +
                 "amount" + " = ?, " +

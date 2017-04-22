@@ -2,6 +2,7 @@ package ua.org.javatraining.andrii_tkachenko.data.model;
 
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Indexed;
+import org.hibernate.validator.constraints.NotEmpty;
 import ua.org.javatraining.andrii_tkachenko.data.model.attribute.AttributeAssociation;
 import ua.org.javatraining.andrii_tkachenko.data.model.category.CategoryAssociation;
 
@@ -18,6 +19,7 @@ public class Product implements Serializable {
     @Id
     private String sku;
 
+    @NotEmpty
     @Field
     @Column(nullable = false)
     private String name;

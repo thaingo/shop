@@ -51,6 +51,10 @@
                     <c:if test="${disliked == true}"><c:out value="disabled='disabled'"/></c:if>
                    value="Дизалайк (${product.dislikes})"/>
         </form>
+
+        <c:url var="edit" value="/edit/product/${product.sku}"/>
+        <a href="${edit}">Редактировать</a>
+
         <table style="width: 100%">
             <tr>
                 <th>Name</th>

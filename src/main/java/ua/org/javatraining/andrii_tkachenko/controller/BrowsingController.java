@@ -53,7 +53,7 @@ public class BrowsingController {
             }
         }
         session.setAttribute("cartSize", cart.sumQuantity());
-        model.addAttribute("products", prepareMapProductCategoryName(products));
+        model.addAttribute("products", products == null ? null : prepareMapProductCategoryName(products));
         return "index";
     }
 
@@ -178,7 +178,7 @@ public class BrowsingController {
             return "";
         }
         model.addAttribute("mess", "Найдено " + searchResults.size() + " результатов")
-                .addAttribute("products", prepareMapProductCategoryName(searchResults));
+                .addAttribute("products", searchResults.isEmpty() ? null : prepareMapProductCategoryName(searchResults));
         return "search";
     }
 

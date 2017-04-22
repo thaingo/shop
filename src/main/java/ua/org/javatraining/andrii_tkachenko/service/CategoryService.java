@@ -1,13 +1,10 @@
 package ua.org.javatraining.andrii_tkachenko.service;
 
-import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import ua.org.javatraining.andrii_tkachenko.data.model.category.Category;
 import ua.org.javatraining.andrii_tkachenko.data.repository.CategoryRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
