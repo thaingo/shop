@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement />
+  <nodes>
+    <node x="641.0" y="1998.0">ua.org.javatraining.andrii_tkachenko.controller.AdminController</node>
+    <node x="1820.0" y="1998.0">ua.org.javatraining.andrii_tkachenko.valid.PhoneValidator</node>
+    <node x="3386.796258503401" y="1226.0">ua.org.javatraining.andrii_tkachenko.service.CustomerService</node>
+    <node x="1184.202551020408" y="936.5">ua.org.javatraining.andrii_tkachenko.data.repository.VisualizationRepository</node>
+    <node x="1407.0664965986398" y="0.0">ua.org.javatraining.andrii_tkachenko.data.model.category.Category</node>
+    <node x="2376.796258503401" y="1204.0">ua.org.javatraining.andrii_tkachenko.service.OrderItemService</node>
+    <node x="0.0" y="1998.0">ua.org.javatraining.andrii_tkachenko.data.model.enumeration.OrderType</node>
+    <node x="770.5" y="1238.0">ua.org.javatraining.andrii_tkachenko.view.CustomerForm</node>
+    <node x="2851.796258503401" y="1193.0">ua.org.javatraining.andrii_tkachenko.service.OrderService</node>
+    <node x="2083.0" y="1998.0">ua.org.javatraining.andrii_tkachenko.ShopApplication</node>
+    <node x="427.375" y="1569.0">ua.org.javatraining.andrii_tkachenko.controller.BrowsingController</node>
+    <node x="2988.2904761904756" y="947.5">ua.org.javatraining.andrii_tkachenko.data.repository.CustomOrderRepository</node>
+    <node x="128.25" y="925.5">ua.org.javatraining.andrii_tkachenko.data.repository.CategoryRepository</node>
+    <node x="979.5" y="1105.0">ua.org.javatraining.andrii_tkachenko.service.ProductService</node>
+    <node x="313.0" y="1998.0">ua.org.javatraining.andrii_tkachenko.data.model.enumeration.VisualizationType</node>
+    <node x="1725.2071428571426" y="1182.0">ua.org.javatraining.andrii_tkachenko.data.session.Cart</node>
+    <node x="2544.410884353741" y="568.0">ua.org.javatraining.andrii_tkachenko.data.model.CustomOrder</node>
+    <node x="921.2025510204081" y="936.5">ua.org.javatraining.andrii_tkachenko.data.repository.ProductRepository</node>
+    <node x="1931.9999999999998" y="257.0">ua.org.javatraining.andrii_tkachenko.data.model.attribute.AttributeAssociation</node>
+    <node x="1640.202551020408" y="936.5">ua.org.javatraining.andrii_tkachenko.data.repository.CategoryAssociationRepository</node>
+    <node x="2387.7916666666665" y="1602.0">ua.org.javatraining.andrii_tkachenko.controller.CartController</node>
+    <node x="2635.546258503401" y="947.5">ua.org.javatraining.andrii_tkachenko.data.repository.OrderItemRepository</node>
+    <node x="1449.0664965986398" y="268.0">ua.org.javatraining.andrii_tkachenko.data.model.category.CategoryAssociation</node>
+    <node x="2653.7656462585023" y="268.5">ua.org.javatraining.andrii_tkachenko.data.model.Customer</node>
+    <node x="1555.0" y="1998.0">ua.org.javatraining.andrii_tkachenko.util.URLUtil</node>
+    <node x="10.5" y="1204.0">ua.org.javatraining.andrii_tkachenko.service.CategoryService</node>
+    <node x="287.0" y="2252.0">ua.org.javatraining.andrii_tkachenko.data.repository.AttributeRepository</node>
+    <node x="0.0" y="2252.0">ua.org.javatraining.andrii_tkachenko.data.repository.AttributeAssociationRepository</node>
+    <node x="1966.4999999999998" y="21.5">ua.org.javatraining.andrii_tkachenko.data.model.attribute.Attribute</node>
+    <node x="3456.796258503401" y="947.5">ua.org.javatraining.andrii_tkachenko.data.repository.CustomerRepository</node>
+    <node x="469.5" y="1237.0">ua.org.javatraining.andrii_tkachenko.data.session.LikedCart</node>
+    <node x="2394.7656462585023" y="268.0">ua.org.javatraining.andrii_tkachenko.data.model.Visualization</node>
+    <node x="976.0" y="1998.0">ua.org.javatraining.andrii_tkachenko.valid.Phone</node>
+    <node x="2348.546258503401" y="870.0">ua.org.javatraining.andrii_tkachenko.data.model.OrderItem</node>
+    <node x="1234.0" y="1998.0">ua.org.javatraining.andrii_tkachenko.BuildSearchIndex</node>
+    <node x="1832.4571428571426" y="480.0">ua.org.javatraining.andrii_tkachenko.data.model.Product</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="ua.org.javatraining.andrii_tkachenko.data.model.CustomOrder" target="ua.org.javatraining.andrii_tkachenko.data.model.OrderItem">
+      <point x="0.0" y="82.0" />
+      <point x="2708.910884353741" y="850.0" />
+      <point x="2571.046258503401" y="850.0" />
+      <point x="89.0" y="-92.5" />
+    </edge>
+    <edge source="ua.org.javatraining.andrii_tkachenko.data.model.CustomOrder" target="ua.org.javatraining.andrii_tkachenko.data.model.Customer">
+      <point x="-82.25" y="-82.0" />
+      <point x="2626.660884353741" y="460.0" />
+      <point x="2703.598979591836" y="460.0" />
+      <point x="-99.66666666666669" y="70.0" />
+    </edge>
+    <edge source="ua.org.javatraining.andrii_tkachenko.service.OrderService" target="ua.org.javatraining.andrii_tkachenko.data.repository.CustomOrderRepository">
+      <point x="0.0" y="-104.0" />
+      <point x="3109.296258503401" y="1085.0" />
+      <point x="3089.2904761904756" y="1085.0" />
+      <point x="0.0" y="15.0" />
+    </edge>
+    <edge source="ua.org.javatraining.andrii_tkachenko.controller.CartController" target="ua.org.javatraining.andrii_tkachenko.data.model.Customer">
+      <point x="155.57142857142856" y="-159.0" />
+      <point x="2724.863095238095" y="1549.0" />
+      <point x="3804.296258503401" y="1549.0" />
+      <point x="3804.296258503401" y="460.0" />
+      <point x="2902.9323129251693" y="460.0" />
+      <point x="99.66666666666674" y="70.0" />
+    </edge>
+    <edge source="ua.org.javatraining.andrii_tkachenko.controller.BrowsingController" target="ua.org.javatraining.andrii_tkachenko.data.session.Cart">
+      <point x="238.75" y="-192.0" />
+      <point x="952.625" y="1549.0" />
+      <point x="1827.7071428571426" y="1549.0" />
+      <point x="-102.5" y="115.0" />
+    </edge>
+    <edge source="ua.org.javatraining.andrii_tkachenko.data.session.Cart" target="ua.org.javatraining.andrii_tkachenko.data.model.Product">
+      <point x="0.0" y="-115.0" />
+      <point x="-97.75" y="170.0" />
+    </edge>
+    <edge source="ua.org.javatraining.andrii_tkachenko.service.OrderItemService" target="ua.org.javatraining.andrii_tkachenko.data.model.OrderItem">
+      <point x="-113.75" y="-93.0" />
+      <point x="2490.546258503401" y="1085.0" />
+      <point x="2482.046258503401" y="1085.0" />
+      <point x="0.0" y="92.5" />
+    </edge>
+    <edge source="ua.org.javatraining.andrii_tkachenko.controller.BrowsingController" target="ua.org.javatraining.andrii_tkachenko.service.ProductService">
+      <point x="143.25" y="-192.0" />
+      <point x="857.125" y="1539.0" />
+      <point x="1130.5" y="1539.0" />
+      <point x="-151.0" y="192.0" />
+    </edge>
+    <edge source="ua.org.javatraining.andrii_tkachenko.data.model.Product" target="ua.org.javatraining.andrii_tkachenko.data.model.Visualization">
+      <point x="97.75" y="-170.0" />
+      <point x="2125.7071428571426" y="450.0" />
+      <point x="2454.5156462585023" y="450.0" />
+      <point x="-59.75" y="70.5" />
+    </edge>
+    <edge source="ua.org.javatraining.andrii_tkachenko.data.model.OrderItem" target="ua.org.javatraining.andrii_tkachenko.data.model.Product">
+      <point x="-89.0" y="-92.5" />
+      <point x="2393.046258503401" y="850.0" />
+      <point x="2125.7071428571426" y="850.0" />
+      <point x="97.75" y="170.0" />
+    </edge>
+    <edge source="ua.org.javatraining.andrii_tkachenko.service.ProductService" target="ua.org.javatraining.andrii_tkachenko.data.repository.ProductRepository">
+      <point x="-75.5" y="-192.0" />
+      <point x="1206.0" y="1075.0" />
+      <point x="1042.702551020408" y="1075.0" />
+      <point x="0.0" y="26.0" />
+    </edge>
+    <edge source="ua.org.javatraining.andrii_tkachenko.service.CategoryService" target="ua.org.javatraining.andrii_tkachenko.data.repository.CategoryRepository">
+      <point x="0.0" y="-93.0" />
+      <point x="-101.75" y="37.0" />
+    </edge>
+    <edge source="ua.org.javatraining.andrii_tkachenko.service.OrderService" target="ua.org.javatraining.andrii_tkachenko.data.model.CustomOrder">
+      <point x="-171.66666666666652" y="-104.0" />
+      <point x="2937.6295918367346" y="1085.0" />
+      <point x="2917.171258503401" y="1085.0" />
+      <point x="2917.171258503401" y="850.0" />
+      <point x="2818.577551020408" y="850.0" />
+      <point x="109.66666666666674" y="82.0" />
+    </edge>
+    <edge source="ua.org.javatraining.andrii_tkachenko.service.ProductService" target="ua.org.javatraining.andrii_tkachenko.data.repository.CategoryAssociationRepository">
+      <point x="226.5" y="-192.0" />
+      <point x="1508.0" y="1085.0" />
+      <point x="1779.202551020408" y="1085.0" />
+      <point x="0.0" y="26.0" />
+    </edge>
+    <edge source="ua.org.javatraining.andrii_tkachenko.data.model.Customer" target="ua.org.javatraining.andrii_tkachenko.data.model.CustomOrder">
+      <point x="0.0" y="70.0" />
+      <point x="2803.2656462585023" y="460.0" />
+      <point x="2791.160884353741" y="460.0" />
+      <point x="82.25" y="-82.0" />
+    </edge>
+    <edge source="ua.org.javatraining.andrii_tkachenko.controller.BrowsingController" target="ua.org.javatraining.andrii_tkachenko.data.model.category.Category">
+      <point x="-238.75" y="-192.0" />
+      <point x="475.125" y="1549.0" />
+      <point x="0.0" y="1549.0" />
+      <point x="0.0" y="232.0" />
+      <point x="1453.5664965986398" y="232.0" />
+      <point x="-93.0" y="103.5" />
+    </edge>
+    <edge source="ua.org.javatraining.andrii_tkachenko.data.model.attribute.Attribute" target="ua.org.javatraining.andrii_tkachenko.data.model.attribute.AttributeAssociation">
+      <point x="59.5" y="82.0" />
+      <point x="2145.0" y="232.0" />
+      <point x="2162.25" y="232.0" />
+      <point x="76.75" y="-81.5" />
+    </edge>
+    <edge source="ua.org.javatraining.andrii_tkachenko.data.model.Visualization" target="ua.org.javatraining.andrii_tkachenko.data.model.Product">
+      <point x="59.75" y="70.5" />
+      <point x="2574.0156462585023" y="460.0" />
+      <point x="2190.873809523809" y="460.0" />
+      <point x="162.91666666666669" y="-170.0" />
+    </edge>
+    <edge source="ua.org.javatraining.andrii_tkachenko.data.model.Product" target="ua.org.javatraining.andrii_tkachenko.data.model.category.CategoryAssociation">
+      <point x="-162.91666666666669" y="-170.0" />
+      <point x="1865.0404761904758" y="460.0" />
+      <point x="1521.0664965986398" y="460.0" />
+      <point x="-72.0" y="70.5" />
+    </edge>
+    <edge source="ua.org.javatraining.andrii_tkachenko.service.OrderItemService" target="ua.org.javatraining.andrii_tkachenko.data.repository.OrderItemRepository">
+      <point x="113.75" y="-93.0" />
+      <point x="2718.046258503401" y="1085.0" />
+      <point x="2726.546258503401" y="1085.0" />
+      <point x="0.0" y="15.0" />
+    </edge>
+    <edge source="ua.org.javatraining.andrii_tkachenko.controller.BrowsingController" target="ua.org.javatraining.andrii_tkachenko.data.session.LikedCart">
+      <point x="-47.75" y="-192.0" />
+      <point x="666.125" y="1549.0" />
+      <point x="610.0" y="1549.0" />
+      <point x="0.0" y="60.0" />
+    </edge>
+    <edge source="ua.org.javatraining.andrii_tkachenko.service.ProductService" target="ua.org.javatraining.andrii_tkachenko.data.repository.VisualizationRepository">
+      <point x="75.5" y="-192.0" />
+      <point x="1357.0" y="1085.0" />
+      <point x="1402.202551020408" y="1085.0" />
+      <point x="0.0" y="26.0" />
+    </edge>
+    <edge source="ua.org.javatraining.andrii_tkachenko.service.ProductService" target="ua.org.javatraining.andrii_tkachenko.data.repository.CategoryRepository">
+      <point x="-226.5" y="-192.0" />
+      <point x="1055.0" y="1085.0" />
+      <point x="433.5" y="1085.0" />
+      <point x="101.75" y="37.0" />
+    </edge>
+    <edge source="ua.org.javatraining.andrii_tkachenko.data.model.category.CategoryAssociation" target="ua.org.javatraining.andrii_tkachenko.data.model.category.Category">
+      <point x="-72.0" y="-70.5" />
+      <point x="1521.0664965986398" y="232.0" />
+      <point x="1546.5664965986398" y="232.0" />
+      <point x="0.0" y="103.5" />
+    </edge>
+    <edge source="ua.org.javatraining.andrii_tkachenko.controller.BrowsingController" target="ua.org.javatraining.andrii_tkachenko.view.CustomerForm">
+      <point x="47.75" y="-192.0" />
+      <point x="761.625" y="1549.0" />
+      <point x="817.75" y="1549.0" />
+      <point x="-47.25" y="59.0" />
+    </edge>
+    <edge source="ua.org.javatraining.andrii_tkachenko.service.CustomerService" target="ua.org.javatraining.andrii_tkachenko.data.repository.CustomerRepository">
+      <point x="0.0" y="-71.0" />
+      <point x="44.5" y="15.0" />
+    </edge>
+    <edge source="ua.org.javatraining.andrii_tkachenko.controller.CartController" target="ua.org.javatraining.andrii_tkachenko.service.ProductService">
+      <point x="-103.71428571428578" y="-159.0" />
+      <point x="2465.5773809523807" y="1519.0" />
+      <point x="1432.5" y="1519.0" />
+      <point x="151.0" y="192.0" />
+    </edge>
+    <edge source="ua.org.javatraining.andrii_tkachenko.service.OrderService" target="ua.org.javatraining.andrii_tkachenko.data.repository.CustomerRepository">
+      <point x="171.66666666666674" y="-104.0" />
+      <point x="3280.962925170068" y="1085.0" />
+      <point x="3501.296258503401" y="1085.0" />
+      <point x="-44.5" y="15.0" />
+    </edge>
+    <edge source="ua.org.javatraining.andrii_tkachenko.controller.CartController" target="ua.org.javatraining.andrii_tkachenko.service.OrderItemService">
+      <point x="0.0" y="-159.0" />
+      <point x="2569.2916666666665" y="1549.0" />
+      <point x="2604.296258503401" y="1549.0" />
+      <point x="0.0" y="93.0" />
+    </edge>
+    <edge source="ua.org.javatraining.andrii_tkachenko.controller.BrowsingController" target="ua.org.javatraining.andrii_tkachenko.service.CategoryService">
+      <point x="-143.25" y="-192.0" />
+      <point x="570.625" y="1539.0" />
+      <point x="230.0" y="1539.0" />
+      <point x="0.0" y="93.0" />
+    </edge>
+    <edge source="ua.org.javatraining.andrii_tkachenko.data.model.OrderItem" target="ua.org.javatraining.andrii_tkachenko.data.model.CustomOrder">
+      <point x="0.0" y="-92.5" />
+      <point x="2482.046258503401" y="840.0" />
+      <point x="2599.2442176870745" y="840.0" />
+      <point x="-109.66666666666669" y="82.0" />
+    </edge>
+    <edge source="ua.org.javatraining.andrii_tkachenko.data.model.Product" target="ua.org.javatraining.andrii_tkachenko.data.model.attribute.AttributeAssociation">
+      <point x="-32.583333333333314" y="-170.0" />
+      <point x="1995.3738095238093" y="460.0" />
+      <point x="2008.7499999999998" y="460.0" />
+      <point x="-76.75" y="81.5" />
+    </edge>
+    <edge source="ua.org.javatraining.andrii_tkachenko.data.model.attribute.AttributeAssociation" target="ua.org.javatraining.andrii_tkachenko.data.model.attribute.Attribute">
+      <point x="-76.75" y="-81.5" />
+      <point x="2008.7499999999998" y="232.0" />
+      <point x="2025.9999999999998" y="232.0" />
+      <point x="-59.5" y="82.0" />
+    </edge>
+    <edge source="ua.org.javatraining.andrii_tkachenko.controller.CartController" target="ua.org.javatraining.andrii_tkachenko.service.OrderService">
+      <point x="51.85714285714289" y="-159.0" />
+      <point x="2621.148809523809" y="1529.0" />
+      <point x="3109.296258503401" y="1529.0" />
+      <point x="0.0" y="104.0" />
+    </edge>
+    <edge source="ua.org.javatraining.andrii_tkachenko.data.model.category.Category" target="ua.org.javatraining.andrii_tkachenko.data.model.category.CategoryAssociation">
+      <point x="93.0" y="103.5" />
+      <point x="1639.5664965986398" y="232.0" />
+      <point x="1665.0664965986398" y="232.0" />
+      <point x="72.0" y="-70.5" />
+    </edge>
+    <edge source="ua.org.javatraining.andrii_tkachenko.controller.CartController" target="ua.org.javatraining.andrii_tkachenko.service.CustomerService">
+      <point x="103.71428571428567" y="-159.0" />
+      <point x="2673.0059523809523" y="1539.0" />
+      <point x="3590.296258503401" y="1539.0" />
+      <point x="0.0" y="71.0" />
+    </edge>
+    <edge source="ua.org.javatraining.andrii_tkachenko.controller.CartController" target="ua.org.javatraining.andrii_tkachenko.view.CustomerForm">
+      <point x="-155.57142857142856" y="-159.0" />
+      <point x="2413.7202380952376" y="1529.0" />
+      <point x="912.25" y="1529.0" />
+      <point x="47.25" y="59.0" />
+    </edge>
+    <edge source="ua.org.javatraining.andrii_tkachenko.data.model.attribute.AttributeAssociation" target="ua.org.javatraining.andrii_tkachenko.data.model.Product">
+      <point x="76.75" y="81.5" />
+      <point x="2162.25" y="440.0" />
+      <point x="2060.540476190476" y="440.0" />
+      <point x="32.58333333333334" y="-170.0" />
+    </edge>
+    <edge source="ua.org.javatraining.andrii_tkachenko.controller.CartController" target="ua.org.javatraining.andrii_tkachenko.data.session.Cart">
+      <point x="-51.85714285714289" y="-159.0" />
+      <point x="2517.4345238095234" y="1509.0" />
+      <point x="2032.7071428571426" y="1509.0" />
+      <point x="102.5" y="115.0" />
+    </edge>
+    <edge source="ua.org.javatraining.andrii_tkachenko.data.model.category.CategoryAssociation" target="ua.org.javatraining.andrii_tkachenko.data.model.Product">
+      <point x="72.0" y="70.5" />
+      <point x="1665.0664965986398" y="450.0" />
+      <point x="1930.2071428571426" y="450.0" />
+      <point x="-97.75" y="-170.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.5468206592265766" x="1054.1853508364313" y="927.8152300185875" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Fields</Category>
+    <Category>Constructors</Category>
+    <Category>Properties</Category>
+    <Category>Methods</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
