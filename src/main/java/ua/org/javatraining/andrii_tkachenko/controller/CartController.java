@@ -112,11 +112,10 @@ public class CartController {
         Map<Product, Integer> itemMap = cart.getItems();
         double subTotal = cart.calculateSubTotal();
         double total = cart.calculateTotal(subTotal);
-        Integer numOfItems = cart.sumQuantity();
         model.addAttribute("itemMap", itemMap)
                 .addAttribute("subTotal", subTotal)
                 .addAttribute("total", subTotal == 0 ? 0 : total)
-                .addAttribute("numOfItems", numOfItems);
+                .addAttribute("estimated", cart.getEstimated());
         if (!model.containsAttribute("customerForm")) {
             model.addAttribute("customerForm", new CustomerForm());
         }

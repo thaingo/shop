@@ -14,6 +14,9 @@ import java.util.*;
 @Component
 @Scope(proxyMode = ScopedProxyMode.TARGET_CLASS, value = "session")
 public class Cart {
+    private static final double DEFAULT_ESTIMATED = 36;
+    private double estimated = DEFAULT_ESTIMATED;
+
     private Map<Product, Integer> items = new HashMap<>(0);
 
     public Map<Product, Integer> getItems() {
@@ -79,7 +82,7 @@ public class Cart {
 
     public double calculateTotal(double subTotal) {
         DecimalFormat form = new DecimalFormat("#.##");
-        return Double.valueOf(form.format(subTotal + 3));
+        return Double.valueOf(form.format(subTotal + estimated));
     }
 
     public Integer sumQuantity() {
@@ -89,5 +92,13 @@ public class Cart {
             count += items.get(key);
         }
         return count;
+    }
+
+    public double getEstimated() {
+        return estimated;
+    }
+
+    public void setEstimated(double estimated) {
+        this.estimated = estimated;
     }
 }
