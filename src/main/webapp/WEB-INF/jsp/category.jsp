@@ -37,8 +37,8 @@
 <div class="container">
     <div class="page-header">
         <jsp:include page="_categories-menu.jsp"/>
-        <jsp:include page="_category-nav.jsp"/>
     </div>
+    <jsp:include page="_category-nav.jsp"/>
     <jsp:include page="_subcategories-list.jsp"/>
     <jsp:include page="_products_by_category.jsp"/>
 </div>

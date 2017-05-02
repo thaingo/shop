@@ -15,81 +15,172 @@
     <meta name="viewport" content="width=device-width; initial-scale=1; maximum-scale=1"/>
     <meta name="description" content="Интернет-магазин dj оборудования"/>
     <meta name="author" content="tkaczenko"/>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="<c:url value="/resources/css/styles.css"/>"/>
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <%--jQuery--%>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
+
     <title>${pageContext.request.contextPath} | ${product.name}</title>
 </head>
 <body>
-<div class="wrapper">
-    <jsp:include page="_header.jsp"/>
-
-    <div class="content">
+<jsp:include page="_header.jsp"/>
+<div class="container">
+    <div class="page-header">
         <jsp:include page="_categories-menu.jsp"/>
-        <jsp:include page="_category-nav.jsp"/>
-
-        <c:url var="linkToProduct" value="/category/${category.name}/product/${product.name}"/>
-
-        <form method="post" action="${linkToProduct}/buyByOne?sku=${product.sku}">
-            <input type="submit"
-                    <c:if test="${product.amount <= 0}"><c:out value="disabled='disabled'"/></c:if>
-                   value="Купить в 1 клик"/>
-        </form>
-
-        <c:url var="addToCart" value="/addToCart?sku=${product.sku}"/>
-        <form method="post" action="${addToCart}">
-            <input type="submit"
-                    <c:if test="${product.amount <= 0}"><c:out value="disabled='disabled'"/></c:if>
-                   value="Добавить в корзину"/>
-        </form>
-        <c:url var="addLike" value="${linkToProduct}/addLike?sku=${product.sku}"/>
-        <form method="post" action="${addLike}">
-            <input type="submit"
-                    <c:if test="${liked == true}"><c:out value="disabled='disabled'"/></c:if>
-                   value="Лайк (${product.likes})"/>
-        </form>
-        <c:url var="addDislike" value="${linkToProduct}/addDislike?sku=${product.sku}"/>
-        <form method="post" action="${addDislike}">
-            <input type="submit"
-                    <c:if test="${disliked == true}"><c:out value="disabled='disabled'"/></c:if>
-                   value="Дизалайк (${product.dislikes})"/>
-        </form>
-
-        <c:url var="edit" value="/edit/product/${product.sku}"/>
-        <a href="${edit}">Редактировать</a>
-
-        <table style="width: 100%">
-            <tr>
-                <th>Name</th>
-                <th>Price</th>
-                <th>Description</th>
-                <th>Specification</th>
-            </tr>
-            <tr>
-                <td>${product.name}</td>
-                <td>${product.price}</td>
-                <td>${product.description}</td>
-                <td>
-                    <table>
-                        <tr>
-                            <th>Key</th>
-                            <th>Value</th>
-                        </tr>
-                        <c:forEach var="attribute" items="${product.attributes}">
-                            <tr>
-                                <td>${attribute.attribute.name}</td>
-                                <td>${attribute.value}</td>
-                            </tr>
-                        </c:forEach>
-                    </table>
-                </td>
-            </tr>
-            <c:forEach var="visualization" items="${product.visualizations}">
-                <tr>
-                    <td><img src="${visualization.url}" alt="Image"/></td>
-                </tr>
-            </c:forEach>
-        </table>
-
-        <jsp:include page="_footer.jsp"/>
     </div>
+    <jsp:include page="_category-nav.jsp"/>
+    <div class="container-fluid">
+        <div class="content-wrapper">
+            <div class="item-container">
+                <div class="container">
+                    <div class="col-md-12">
+                        <div id="myCarousel" class="carousel slide" data-ride="carousel">
+                            <!-- Indicators -->
+                            <ol class="carousel-indicators">
+                                <c:forEach begin="0" end="${product.visualizations.size()}" varStatus="loop">
+                                    <c:if test="${loop.index == 0}">
+                                        <li data-target="#myCarousel" data-slide-to="${loop.index}" class="active"></li>
+                                    </c:if>
+                                    <li data-target="#myCarousel" data-slide-to="${loop.index}"></li>
+                                </c:forEach>
+                            </ol>
+
+                            <!-- Wrapper for slides -->
+                            <div class="carousel-inner">
+                                <c:forEach var="visualization" items="${product.visualizations}" varStatus="loop">
+                                    <c:if test="${loop.index == 0}">
+                                        <div class="item active">
+                                            <img src="${visualization.url}" class="responsive-image" alt="Image">
+                                        </div>
+                                    </c:if>
+                                    <div class="item">
+                                        <img src="${visualization.url}" class="responsive-image" alt="Image">
+                                    </div>
+                                </c:forEach>
+                            </div>
+
+                            <!-- Left and right controls -->
+                            <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+                                <span class="glyphicon glyphicon-chevron-left"></span>
+                                <span class="sr-only">Предыдущий</span>
+                            </a>
+                            <a class="right carousel-control" href="#myCarousel" data-slide="next">
+                                <span class="glyphicon glyphicon-chevron-right"></span>
+                                <span class="sr-only">Следующий</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="col-md-7">
+                        <c:url var="linkToProduct" value="/category/${category.name}/product/${product.name}"/>
+                        <div class="product-title">${product.name}</div>
+                        <%--<div class="product-desc">${product.description}</div>--%>
+                        <div class="ratings">
+                            <form>
+                                <c:url var="addLike" value="${linkToProduct}/addLike?sku=${product.sku}"/>
+                                <button class="btn btn-default btn-sm" formmethod="post"
+                                        formaction="${addLike}"
+                                        <c:if test="${liked == true}"><c:out value="disabled='disabled'"/></c:if>>
+                                    <span class="glyphicon glyphicon-thumbs-up"></span> ${product.likes}
+                                </button>
+                                <c:url var="addDislike" value="${linkToProduct}/addDislike?sku=${product.sku}"/>
+                                <button class="btn btn-default btn-sm" formmethod="post"
+                                        formaction="${addDislike}"
+                                        <c:if test="${disliked == true}"><c:out value="disabled='disabled'"/></c:if>>
+                                    <span class="glyphicon glyphicon-thumbs-down"></span> ${product.dislikes}
+                                </button>
+                            </form>
+                        </div>
+                        <hr>
+                        <div class="product-price">${product.price}</div>
+                        <c:choose>
+                            <c:when test="${product.amount > 0}">
+                                <div class="product-stock">В наличии</div>
+                            </c:when>
+                            <c:otherwise>
+                                <div class="product-stock">Нет в наличии</div>
+                            </c:otherwise>
+                        </c:choose>
+                        <hr>
+                        <div class="btn-group cart">
+                            <form>
+                                <c:url var="addToCart" value="/addToCart?sku=${product.sku}"/>
+                                <button class="btn btn-success" formmethod="post"
+                                        formaction="${addToCart}"
+                                        <c:if test="${product.amount <= 0}"><c:out value="disabled='disabled'"/></c:if>>
+                                    <span class="glyphicon glyphicon-shopping-cart"></span> Добавить
+                                </button>
+                            </form>
+                        </div>
+                        <div class="btn-group wishlist">
+                            <form>
+                                <c:url var="buyByOne" value="${linkToProduct}/buyByOne?sku=${product.sku}"/>
+                                <button class="btn btn-danger" formmethod="post"
+                                        formaction="${buyByOnel}"
+                                        <c:if test="${product.amount <= 0}"><c:out value="disabled='disabled'"/></c:if>>
+                                    Купить
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container-fluid">
+                <div class="col-md-12 product-info">
+                    <ul id="myTab" class="nav nav-tabs nav_tabs">
+                        <li class="active"><a href="#service-one" data-toggle="tab">ОПИСАНИЕ</a></li>
+                        <li><a href="#service-two" data-toggle="tab">ХАРАКТЕРИСТИКИ</a></li>
+                    </ul>
+                    <div id="myTabContent" class="tab-content">
+                        <div class="tab-pane fade in active" id="service-one">
+                            <section class="container product-info">
+                                ${product.description}
+                            </section>
+                        </div>
+                        <div class="tab-pane fade" id="service-two">
+                            <section class="container">
+                                <table class="table-responsive table">
+                                    <thead>
+                                    <tr>
+                                        <th>Имя</th>
+                                        <th>Значение</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <c:forEach var="attribute" items="${product.attributes}">
+                                        <tr>
+                                            <td>${attribute.attribute.name}</td>
+                                            <td>${attribute.value}</td>
+                                        </tr>
+                                    </c:forEach>
+                                    </tbody>
+                                </table>
+                            </section>
+                        </div>
+                    </div>
+                    <hr>
+                </div>
+            </div>
+        </div>
+    </div>
+    <%--
+     </form>
+     <c:url var="edit" value="/edit/product/${product.sku}"/>
+     <a href="${edit}">Редактировать</a>--%>
 </div>
+<jsp:include page="_footer.jsp"/>
 </body>
 </html>

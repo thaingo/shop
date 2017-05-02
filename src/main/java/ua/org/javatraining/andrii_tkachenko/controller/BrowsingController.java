@@ -41,7 +41,7 @@ public class BrowsingController {
     }
 
     @GetMapping(value = {"/", "/shop"})
-    public String home(Model model, HttpSession session) {
+    public String home(Model model) {
         // // TODO: 17.04.17 Implement Best products
         Category category;
         Set<Product> products = null;
@@ -52,7 +52,6 @@ public class BrowsingController {
                 products = productService.findAllByCategoryId(iterator.next().getId());
             }
         }
-        session.setAttribute("cartSize", cart.sumQuantity());
         model.addAttribute("products", products == null ? null : prepareMapProductCategoryName(products));
         return "index";
     }
@@ -213,5 +212,10 @@ public class BrowsingController {
     @ModelAttribute("categories")
     public Set<Category> loadCategories() {
         return categories = categoryService.findAllByParent(null);
+    }
+
+    @ModelAttribute("cartSize")
+    private int cartSize() {
+        return cart.sumQuantity();
     }
 }
