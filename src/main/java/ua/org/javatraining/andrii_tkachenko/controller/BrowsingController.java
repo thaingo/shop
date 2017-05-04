@@ -82,7 +82,7 @@ public class BrowsingController {
         }
 
         model.addAttribute("category", found)
-                .addAttribute("step", 6)
+                .addAttribute("step", 3)
                 .addAttribute("entries", entries)
                 .addAttribute("products", products);
         return "category";

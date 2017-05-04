@@ -3,11 +3,10 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 <div class="container">
-    <div class="row">
-        <c:forEach var="product" items="${products}">
-            <div class="col-md-3 col-sm-6">
-                <c:url var="productLink" value="/category/${category.name}/product/${product.name}"/>
-                <span class="thumbnail">
+    <c:forEach var="product" items="${products}">
+        <div class="col-md-3 col-sm-6">
+            <c:url var="productLink" value="/category/${category.name}/product/${product.name}"/>
+            <span class="thumbnail">
             <a href="${productLink}">
                 <c:forEach var="visualization" items="${product.visualizations}">
                     <c:if test="${visualization.type == 0}">
@@ -55,7 +54,6 @@
                     </div>
       			</div>
     		</span>
-            </div>
-        </c:forEach>
-    </div>
+        </div>
+    </c:forEach>
 </div>
