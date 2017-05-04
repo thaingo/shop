@@ -36,6 +36,11 @@ public class AttributeAssociation implements Serializable {
         this.value = value;
     }
 
+    @Deprecated
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public int getId() {
         return id;
     }

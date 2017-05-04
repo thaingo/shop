@@ -43,6 +43,13 @@ public class Category implements Serializable {
         this.description = description;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (o == null) return false;
+        if (o == this) return true;
+        return o instanceof Category && this.getId() == ((Category) o).getId();
+    }
+
     @Deprecated
     public void setId(int id) {
         this.id = id;

@@ -50,4 +50,7 @@
     <bean id="categoryAssociationDAO"
           class="ua.org.javatraining.andrii_tkachenko.data.dao.category.CategoryAssociationDAO" parent="dao">
     </bean>
+    <bean id="attributeAssociationDAO"
+          class="ua.org.javatraining.andrii_tkachenko.data.dao.attribute.AttributeAssociationDAO" parent="dao">
+    </bean>
 </beans>

@@ -22,20 +22,20 @@ public class VisualizationDAO extends AbstractJdbcDAO<Visualization, Integer> {
 
     public Visualization get(Integer id) {
         String sql = "select * from " +
-                "Visualization" + " where " +
+                "visualization" + " where " +
                 "id" + " = ?";
         return template.queryForObject(sql, new Object[]{id}, visualizationRowMapper);
     }
 
     public List<Visualization> getAllByProduct(String sku) {
         String sql = "select * from " +
-                "Visualization" + " where " +
+                "visualization" + " where " +
                 "product_sku" + " = ?";
         return template.query(sql, new Object[]{sku}, visualizationRowMapper);
     }
 
     public int create(Visualization entity) {
-        String sql = "insert into " + "Visualization" + "(" +
+        String sql = "insert into " + "visualization" + "(" +
                 "id" + ", " +
                 "type" + ", " +
                 "url" + ", " +
@@ -48,7 +48,7 @@ public class VisualizationDAO extends AbstractJdbcDAO<Visualization, Integer> {
     }
 
     public int update(Visualization entity) {
-        String sql = "UPDATE " + "Visualization" +
+        String sql = "UPDATE " + "visualization" +
                 " SET " +
                 "id" + " = ?, " +
                 "type" + " = ?, " +

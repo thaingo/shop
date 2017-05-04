@@ -41,7 +41,6 @@
     <div class="page-header">
         <jsp:include page="_categories-menu.jsp"/>
     </div>
-    <jsp:include page="_category-nav.jsp"/>
     <div class="container-fluid">
         <div class="content-wrapper">
             <div class="item-container">
@@ -135,6 +134,8 @@
                                 </button>
                             </form>
                         </div>
+                        <c:url var="edit" value="/edit/product/${product.sku}"/>
+                        <a href="${edit}">Редактировать</a>
                     </div>
                 </div>
             </div>
@@ -176,10 +177,6 @@
             </div>
         </div>
     </div>
-    <%--
-     </form>
-     <c:url var="edit" value="/edit/product/${product.sku}"/>
-     <a href="${edit}">Редактировать</a>--%>
 </div>
 <jsp:include page="_footer.jsp"/>
 </body>

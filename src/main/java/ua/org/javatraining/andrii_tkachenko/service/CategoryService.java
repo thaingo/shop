@@ -1,5 +1,6 @@
 package ua.org.javatraining.andrii_tkachenko.service;
 
+import com.google.common.collect.Sets;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.org.javatraining.andrii_tkachenko.data.model.category.Category;
@@ -30,6 +31,10 @@ public class CategoryService {
 
     public Set<Category> findAllByParent(Category category) {
         return categoryRepository.findAllByParentCategory(category);
+    }
+
+    public Set<Category> findAll() {
+        return Sets.newHashSet(categoryRepository.findAll());
     }
 
     public List<Category> findByName(String name) {

@@ -26,7 +26,7 @@ public class CategoryAssociationDAO extends AbstractJdbcDAO<CategoryAssociation,
 
     public CategoryAssociation get(String categoryID, String sku) {
         String sql = "select * from " +
-                "categoryassociation" + " where " +
+                "category_association" + " where " +
                 "category_id" + " = ?" + " and " +
                 "product_sku" + " = ?";
         return template.queryForObject(sql, new Object[]{categoryID, sku}, associationRowMapper);
@@ -34,30 +34,49 @@ public class CategoryAssociationDAO extends AbstractJdbcDAO<CategoryAssociation,
 
     public List<CategoryAssociation> getAllByCategory(int category) {
         String sql = "select * from " +
-                "Category" + " where " +
+                "category_association" + " where " +
                 "category_id" + " = ?";
         return template.query(sql, new Object[]{category}, associationRowMapper);
     }
 
+    public List<CategoryAssociation> getAllByProduct(String sku) {
+        String sql = "select * from " +
+                "category_association" + " where " +
+                "product_sku" + " = ?";
+        return template.query(sql, new Object[]{sku}, associationRowMapper);
+    }
+
     public int create(CategoryAssociation entity) {
-        String sql = "insert into " + "Category" + "(" +
+        String sql = "select nextval('hibernate_sequence')";
+        Integer res = template.queryForObject(sql, Integer.class);
+        if (res == null) {
+            return 0;
+        }
+        sql = "insert into " + "category_association" + "(" +
+                "id" + ", " +
                 "category_id" + ", " +
                 "product_sku" +
-                ") values(?, ?)";
+                ") values(?, ?, ?)";
+        return template.update(
+                sql, res, entity.getCategory().getId(), entity.getProduct().getSku()
+        );
+    }
+
+    public int update(CategoryAssociation entity) {
+        String sql = "update " + "category_association" +
+                " set " +
+                "category_id" + " = ?, " +
+                "product_sku" + " = ?" +
+                " where " + "category_id" + " = ?" +
+                " and " + "product_sku" + " = ?";
         return template.update(
                 sql, entity.getCategory().getId(), entity.getProduct().getSku()
         );
     }
 
-    public int update(CategoryAssociation entity) {
-        String sql = "update " + "Category" +
-                " set " +
-                "category_id" + " = ?, " +
-                "product_sku" + " = ?" +
-                " where " + "category_id" + " = ?" +
-                " and " + "product_id" + " = ?";
-        return template.update(
-                sql, entity.getCategory().getId(), entity.getProduct().getSku()
-        );
+    public void deleteByProduct(String sku) {
+        String sql = "delete from " + "category_association" +
+                " where " + "product_sku" + "= ?";
+        template.update(sql, sku);
     }
 }

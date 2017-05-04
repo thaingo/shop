@@ -16,7 +16,7 @@ public class CategoryDAO extends AbstractJdbcDAO<Category, Integer> {
         category.setDescription(rs.getString("description"));
         category.setName(rs.getString("name"));
         Category parentCategory = new Category();
-        parentCategory.setId(rs.getInt("parentCategory_id"));
+        parentCategory.setId(rs.getInt("parent_category_id"));
         return category;
     };
 
