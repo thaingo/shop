@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 import ua.org.javatraining.andrii_tkachenko.data.model.category.Category;
 import ua.org.javatraining.andrii_tkachenko.data.repository.CategoryRepository;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -23,6 +25,12 @@ public class CategoryService {
 
     public Category save(Category entity) {
         return categoryRepository.save(entity);
+    }
+
+    public List<Category> save(Collection<Category> entities) {
+        List<Category> categories = new ArrayList<>();
+        categoryRepository.save(entities).forEach(categories::add);
+        return categories;
     }
 
     public Category findById(Integer id) {

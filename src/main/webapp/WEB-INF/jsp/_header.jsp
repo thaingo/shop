@@ -38,7 +38,8 @@
                                 <a href="${addProduct}">Продукт</a>
                             </li>
                             <li>
-                                <a href="#">Категорию</a>
+                                <c:url var="addCategory" value="/admin/add/category"/>
+                                <a href="${addCategory}">Категорию</a>
                             </li>
                             <li>
                                 <a href="#">Атрибут</a>

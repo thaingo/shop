@@ -12,6 +12,8 @@
                             <c:set var="entry" value="${entries.get(j)}"/>
                             <c:url var="link" value="/category/${entry.getKey().getName()}"/>
                             <a href="${link}">${entry.getKey().getName()} (${entry.getValue()})</a>
+                            <c:url var="edit" value="/admin/edit/category/${entry.getKey().getId()}"/>
+                            <a href="${edit}">Редактировать</a>
                         </td>
                     </c:if>
                 </c:forEach>

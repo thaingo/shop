@@ -15,6 +15,7 @@ import ua.org.javatraining.andrii_tkachenko.service.AdminProductService;
 import ua.org.javatraining.andrii_tkachenko.service.AttributeService;
 import ua.org.javatraining.andrii_tkachenko.service.CategoryService;
 import ua.org.javatraining.andrii_tkachenko.util.URLUtil;
+import ua.org.javatraining.andrii_tkachenko.view.CategoryForm;
 import ua.org.javatraining.andrii_tkachenko.view.ProductForm;
 
 import javax.validation.Valid;
@@ -108,7 +109,7 @@ public class AdminController {
             return "redirect:/admin/edit/product/" + URLUtil.encode(sku);
         }
 
-        Product product = new Product();
+        Product product = productService.findById(sku);
         product.setSku(productForm.getSku());
         product.setName(productForm.getName());
         product.setPrice(productForm.getPrice());
@@ -186,6 +187,105 @@ public class AdminController {
         productService.create(product);
         attributes.addFlashAttribute("mess", "Продукт добавлен");
         return "redirect:/admin/add/product/";
+    }
+
+    @GetMapping("/edit/category/{categoryId}")
+    public String category(@PathVariable("categoryId") int categoryId, Model model) {
+        Category category = categoryService.findById(categoryId);
+        Set<Category> categoryChildren = categoryService.findAllByParent(category);
+
+        Set<Category> children = categoryService.findAll().parallelStream()
+                .filter(c -> !categories.contains(c))
+                .collect(Collectors.toSet());
+
+        CategoryForm categoryForm = new CategoryForm();
+        categoryForm.setId(categoryId);
+        categoryForm.setName(category.getName());
+        categoryForm.setDescription(category.getDescription());
+        categoryForm.setParentCategory(category.getParentCategory());
+
+        model.addAttribute("category", category)
+                .addAttribute("categoryForm", categoryForm)
+                .addAttribute("roots", categories)
+                .addAttribute("children", children)
+                .addAttribute("categoryChildren", categoryChildren);
+        return "edit_category";
+    }
+
+    @PostMapping("/edit/category/{categoryId}")
+    public String updateCategory(@PathVariable("categoryId") int categoryId,
+                                 @ModelAttribute("categoryForm") @Valid CategoryForm categoryForm,
+                                 BindingResult binding, RedirectAttributes attributes)
+            throws UnsupportedEncodingException {
+        if (binding.hasErrors()) {
+            attributes.addFlashAttribute(
+                    "org.springframework.validation.BindingResult.categoryForm", binding
+            );
+            attributes.addFlashAttribute("categoryForm", categoryForm);
+            return "redirect:/admin/edit/category/" + categoryId;
+        }
+
+        Category category = categoryService.findById(categoryId);
+        category.setName(categoryForm.getName());
+        category.setDescription(categoryForm.getDescription());
+        category.setParentCategory(categoryForm.getParentCategory());
+        category.getSubCategories().parallelStream().forEach(c -> c.setParentCategory(null));
+        List<Category> subCategories = categoryForm.getSubCategories().parallelStream()
+                .map(c -> {
+                    Category temp = categoryService.findById(c.getId());
+                    temp.setParentCategory(category);
+                    return temp;
+                })
+                .collect(Collectors.toList());
+
+        categoryService.save(category);
+        categoryService.save(category.getSubCategories());
+        categoryService.save(subCategories);
+        attributes.addFlashAttribute("mess", "Категория обновлена");
+        return "redirect:/admin/edit/category/" + categoryId;
+    }
+
+    @GetMapping("/add/category")
+    public String category(Model model) {
+        Set<Category> children = categoryService.findAll().parallelStream()
+                .filter(c -> !categories.contains(c))
+                .collect(Collectors.toSet());
+        if (!model.containsAttribute("categoryForm")) {
+            model.addAttribute("categoryForm", new CategoryForm());
+        }
+        model.addAttribute("roots", categories)
+                .addAttribute("children", children);
+        return "add_category";
+    }
+
+    @PostMapping("/add/category")
+    public String addCategory(@ModelAttribute("categoryForm") @Valid CategoryForm categoryForm,
+                              BindingResult binding, RedirectAttributes attributes)
+            throws UnsupportedEncodingException {
+        if (binding.hasErrors()) {
+            attributes.addFlashAttribute(
+                    "org.springframework.validation.BindingResult.categoryForm", binding
+            );
+            attributes.addFlashAttribute("categoryForm", categoryForm);
+            return "redirect:/admin/add/category";
+        }
+
+        Category category = new Category();
+        category.setName(categoryForm.getName());
+        category.setDescription(categoryForm.getDescription());
+        category.setParentCategory(categoryForm.getParentCategory());
+        List<Category> subCategories = categoryForm.getSubCategories().parallelStream()
+                .map(c -> {
+                    Category temp = categoryService.findById(c.getId());
+                    temp.setParentCategory(category);
+                    return temp;
+                })
+                .collect(Collectors.toList());
+
+        categoryService.save(category);
+        categoryService.save(subCategories);
+        attributes.addFlashAttribute("mess", "Категория добавлена");
+        return "redirect:/admin/add/category";
     }
 
     @ModelAttribute("categories")

@@ -39,6 +39,10 @@ public class AdminProductService {
         return product;
     }
 
+    public Product findById(String sku) {
+        return productDAO.get(sku);
+    }
+
     public void create(Product product) {
         productDAO.create(product);
         product.getCategories().parallelStream()

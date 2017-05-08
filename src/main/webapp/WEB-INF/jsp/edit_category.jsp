@@ -41,36 +41,27 @@
         <jsp:include page="_categories-menu.jsp"/>
         <jsp:include page="_category-nav.jsp"/>
     </div>
-    <h2>Добавить продукт</h2>
+    <h2>Редактировать категорию</h2>
     <h3>${mess}</h3>
-    <c:url var="addProduct" value="/admin/add/product"/>
-    <form:form method="post" modelAttribute="productForm" action="${refreshProduct}" target="_top">
+    <c:url var="refreshCategory" value="/admin/edit/category/${category.id}"/>
+    <form:form method="post" modelAttribute="categoryForm" action="${refreshCategory}" target="_top">
         <div class="form-group">
-            <form:input path="sku" type="text" cssClass="hidden"/>
+            <form:input path="id" type="text" cssClass="hidden"/>
             <form:label path="name">Имя</form:label>
             <form:input path="name" type="text" class="form-control"
                         placeholder="Наименование" required="required"/>
             <form:errors path="name"/>
             <br>
-            <form:label path="price">Цена</form:label>
-            <form:input path="price" type="number" class="form-control"
-                        placeholder="Цена" required="required"/>
-            <form:errors path="price"/>
-            <br>
-            <form:label path="amount">Количество</form:label>
-            <form:input path="amount" type="number" class="form-control"
-                        placeholder="Количество" required="required"/>
-            <form:errors path="amount"/>
-            <br>
             <form:label path="description">Описание</form:label>
             <form:textarea path="description" class="form-control" rows="10"/>
             <form:errors path="description"/>
             <br>
-            <form:label path="categories">Категории</form:label>
-            <form:select path="categories" multiple="true" class="form-control">
-                <c:forEach var="item" items="${cats}">
+            <form:label path="parentCategory">Родительская категория</form:label>
+            <form:select path="parentCategory" class="form-control">
+                <form:option value="">NONE</form:option>
+                <c:forEach var="item" items="${roots}">
                     <c:choose>
-                        <c:when test="${productCats.contains(item)}">
+                        <c:when test="${category.parentCategory.equals(item)}">
                             <form:option value="${item.id}" selected="selected">${item.name}</form:option>
                         </c:when>
                         <c:otherwise>
@@ -79,45 +70,29 @@
                     </c:choose>
                 </c:forEach>
             </form:select>
-            <form:errors path="categories"/>
+            <form:errors path="parentCategory"/>
             <br>
-            <form:label path="attributeValues">Спецификация</form:label>
-            <table class="table table-hover table-condensed">
-                <thead>
-                <tr>
-                    <th>Ключ</th>
-                    <th>Значение</th>
-                </tr>
-                </thead>
-                <tbody>
-                <c:forEach items="${productForm.attributeValues}" var="attributeValue" varStatus="i" begin="0">
-                    <tr>
-                        <td>
-                            <form:select path="attributeValues[${i.index}].attribute" id="attribute${i.index}"
-                                         class="form-control">
-                                <form:option value="${attributeValue.attribute}" selected="selected">
-                                    ${attributeValue.attribute}
-                                </form:option>
-                                <form:options items="${attributes}"/>
-                            </form:select>
-                        </td>
-                        <td>
-                            <form:input path="attributeValues[${i.index}].value" type="text" class="form-control"/>
-                        </td>
-                    </tr>
+            <div class="alert alert-warning">
+                <strong>Внимание!</strong> Убедитесь, что <strong>Родительская категория</strong> NONE.
+            </div>
+            <form:label path="subCategories">Дочерние категории</form:label>
+            <form:select path="subCategories" multiple="true" class="form-control">
+                <c:forEach var="item" items="${children}">
+                    <c:choose>
+                        <c:when test="${categoryChildren.contains(item)}">
+                            <form:option value="${item.id}" selected="selected">${item.name}</form:option>
+                        </c:when>
+                        <c:otherwise>
+                            <form:option value="${item.id}">${item.name}</form:option>
+                        </c:otherwise>
+                    </c:choose>
                 </c:forEach>
-                </tbody>
-                <tfoot>
-                <tr>
-                    <td><form:label path="size">Количество атрибутов для добавления</form:label></td>
-                    <td><form:input path="size" type="number" class="form-control" min="0" max="100" step="1"/></td>
-                    <td><form:errors path="size"/></td>
-                </tr>
-                </tfoot>
-            </table>
-            <label for="add" class="btn btn-info btn-sm"><i
-                    class="glyphicon glyphicon-plus"></i> Добавить</label>
-            <input id="add" type="submit" class="hidden"/>
+            </form:select>
+            <form:errors path="subCategories"/>
+            <br>
+            <label for="update" class="btn btn-info btn-sm"><i
+                    class="glyphicon glyphicon-refresh"></i> Обновить</label>
+            <input id="update" type="submit" class="hidden"/>
         </div>
     </form:form>
 </div>
