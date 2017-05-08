@@ -19,9 +19,9 @@ import ua.org.javatraining.andrii_tkachenko.view.ProductForm;
 
 import javax.validation.Valid;
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -95,17 +95,19 @@ public class AdminController {
             attributes.addFlashAttribute(
                     "org.springframework.validation.BindingResult.productForm", binding
             );
+            attributes.addFlashAttribute("productForm", productForm);
             return "redirect:/admin/edit/product/" + URLUtil.encode(sku);
         }
         if (productForm.getSize() > 0) {
             for (int i = 0; i < productForm.getSize(); i++) {
                 productForm.getAttributeValues().add(productForm.getAttributeValues().get(0));
             }
+            productForm.setSize(0);
             attributes.addFlashAttribute("productForm", productForm);
+            attributes.addFlashAttribute("productCats", productForm.getCategories());
+            return "redirect:/admin/edit/product/" + URLUtil.encode(sku);
         }
 
-        productForm.getAttributeValues().forEach(attributeValue ->
-                System.out.println(attributeValue.getAttribute() + " " + attributeValue.getValue()));
         Product product = new Product();
         product.setSku(productForm.getSku());
         product.setName(productForm.getName());
@@ -116,15 +118,87 @@ public class AdminController {
                 .map(category -> new CategoryAssociation(product, category))
                 .collect(Collectors.toList())));
         product.setAttributes(new HashSet<>(productForm.getAttributeValues().parallelStream()
-                .map(attributeValue -> new AttributeAssociation(product, new Attribute(attributeValue.getAttribute()), attributeValue.getValue()))
+                .map(attributeValue ->
+                        new AttributeAssociation(
+                                product, new Attribute(attributeValue.getAttribute()), attributeValue.getValue())
+                )
                 .collect(Collectors.toList())));
 
-        productService.save(product);
+        productService.update(product);
+        attributes.addFlashAttribute("mess", "Продукт обновлен");
         return "redirect:/admin/edit/product/" + URLUtil.encode(sku);
+    }
+
+    @GetMapping("/add/product")
+    public String product(Model model) {
+        Set<Category> cats = categoryService.findAll();
+        List<Attribute> attributes = attributeService.findAll();
+        if (!model.containsAttribute("productForm")) {
+            model.addAttribute("productForm", new ProductForm());
+        }
+        model.addAttribute("cats", cats)
+                .addAttribute("attributes", attributes.parallelStream()
+                        .map(Attribute::getName)
+                        .collect(Collectors.toList())
+                );
+        return "add_product";
+    }
+
+    @PostMapping("/add/product")
+    public String addProduct(@ModelAttribute("productForm") @Valid ProductForm productForm,
+                             BindingResult binding, RedirectAttributes attributes) {
+        if (binding.hasErrors()) {
+            attributes.addFlashAttribute(
+                    "org.springframework.validation.BindingResult.productForm", binding
+            );
+            attributes.addFlashAttribute("productForm", productForm);
+            attributes.addFlashAttribute("productCats", productForm.getCategories());
+            return "redirect:/admin/add/product/";
+        }
+        if (productForm.getSize() > 0) {
+            for (int i = 0; i < productForm.getSize(); i++) {
+                productForm.getAttributeValues().add(new ProductForm.AttributeValue("", ""));
+            }
+            productForm.setSize(0);
+            attributes.addFlashAttribute("productForm", productForm);
+            attributes.addFlashAttribute("productCats", productForm.getCategories());
+            return "redirect:/admin/add/product/";
+        }
+
+        Product product = new Product();
+        //// FIXME: 08.05.17 Create sequence to generate product sku
+        Random random = new Random();
+        product.setSku(generateRandomString(random, 5));
+        product.setName(productForm.getName());
+        product.setPrice(productForm.getPrice());
+        product.setAmount(productForm.getAmount());
+        product.setDescription(productForm.getDescription());
+        product.setCategories(new HashSet<>(productForm.getCategories().parallelStream()
+                .map(category -> new CategoryAssociation(product, category))
+                .collect(Collectors.toList())));
+        product.setAttributes(new HashSet<>(productForm.getAttributeValues().parallelStream()
+                .map(attributeValue ->
+                        new AttributeAssociation(
+                                product, new Attribute(attributeValue.getAttribute()), attributeValue.getValue())
+                )
+                .collect(Collectors.toList())));
+
+        productService.create(product);
+        attributes.addFlashAttribute("mess", "Продукт добавлен");
+        return "redirect:/admin/add/product/";
     }
 
     @ModelAttribute("categories")
     public Set<Category> loadCategories() {
         return categories = categoryService.findAllByParent(null);
+    }
+
+    private static String generateRandomString(Random random, int length) {
+        return random.ints(48, 122)
+                .filter(i -> (i < 57 || i > 65) && (i < 90 || i > 97))
+                .mapToObj(i -> (char) i)
+                .limit(length)
+                .collect(StringBuilder::new, StringBuilder::append, StringBuilder::append)
+                .toString();
     }
 }

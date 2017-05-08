@@ -26,9 +26,9 @@ public class ProductForm {
 
     private int size;
 
-    private List<Category> categories = Collections.emptyList();
+    private List<Category> categories = new ArrayList<>();
 
-    private List<AttributeValue> attributeValues;
+    private List<AttributeValue> attributeValues = new ArrayList<>();
 
     public String getSku() {
         return sku;

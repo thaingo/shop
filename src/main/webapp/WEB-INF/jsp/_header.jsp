@@ -33,9 +33,16 @@
                         <a href="#" data-toggle="dropdown" class="dropdown-toggle"><span
                                 class="glyphicon glyphicon-plus"></span> Добавить <b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                            <li><a href="#">Продукт</a></li>
-                            <li><a href="#">Категорию</a></li>
-                            <li><a href="#">Атрибут</a></li>
+                            <li>
+                                <c:url var="addProduct" value="/admin/add/product"/>
+                                <a href="${addProduct}">Продукт</a>
+                            </li>
+                            <li>
+                                <a href="#">Категорию</a>
+                            </li>
+                            <li>
+                                <a href="#">Атрибут</a>
+                            </li>
                         </ul>
                     </li>
                 </ul>

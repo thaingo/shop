@@ -43,7 +43,7 @@
     </div>
     <h2>Редактировать продукт</h2>
     <h3>${mess}</h3>
-    <c:url var="refreshProduct" value="/admin/edit/product/${product.sku}"/>
+    <c:url var="addProduct" value="/admin/add/product"/>
     <form:form method="post" modelAttribute="productForm" action="${refreshProduct}" target="_top">
         <div class="form-group">
             <form:input path="sku" type="text" cssClass="hidden"/>

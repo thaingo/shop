@@ -39,7 +39,15 @@ public class AdminProductService {
         return product;
     }
 
-    public void save(Product product) {
+    public void create(Product product) {
+        productDAO.create(product);
+        product.getCategories().parallelStream()
+                .forEach(categoryAssociationDAO::create);
+        product.getAttributes().parallelStream()
+                .forEach(attributeAssociationDAO::create);
+    }
+
+    public void update(Product product) {
         productDAO.update(product);
         categoryAssociationDAO.deleteByProduct(product.getSku());
         product.getCategories().parallelStream()
