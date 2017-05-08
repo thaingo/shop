@@ -47,6 +47,7 @@ public class ProductDAO extends AbstractJdbcDAO<Product, String> {
     public int update(Product entity) {
         String sql = "update " + "product" +
                 " set " +
+                "price" + " = ?, " +
                 "amount" + " = ?, " +
                 "description" + " = ?, " +
                 "likes" + " = ?, " +
@@ -54,7 +55,7 @@ public class ProductDAO extends AbstractJdbcDAO<Product, String> {
                 "name" + " = ?" +
                 " where " + "sku" + " = ?";
         return template.update(
-                sql, entity.getAmount(), entity.getDescription(), entity.getLikes(),
+                sql, entity.getPrice(), entity.getAmount(), entity.getDescription(), entity.getLikes(),
                 entity.getDislikes(), entity.getName(), entity.getSku()
         );
     }

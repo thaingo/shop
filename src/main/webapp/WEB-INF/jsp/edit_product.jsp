@@ -41,58 +41,83 @@
         <jsp:include page="_categories-menu.jsp"/>
         <jsp:include page="_category-nav.jsp"/>
     </div>
-    <form:form method="post" modelAttribute="productForm"
-               action="${pageContext.request.contextPath}/edit/product/${product.sku}"
-               target="_top">
-        <table>
-            <tr>
-                <td><form:input path="sku" type="text" cssClass="hidden"/></td>
-            </tr>
-            <tr>
-                <td><form:label path="name">Имя</form:label></td>
-                <td><form:input path="name" type="text"
-                                placeholder="Наименование" required="required"/></td>
-                <td><form:errors path="name"/></td>
-            </tr>
-            <tr>
-                <td><form:label path="price">Цена</form:label></td>
-                <td><form:input path="price" type="number"
-                                placeholder="Цена" required="required"/></td>
-                <td><form:errors path="price"/></td>
-            </tr>
-            <tr>
-                <td><form:label path="amount">Количество</form:label></td>
-                <td><form:input path="amount" type="number"
-                                placeholder="Количество" required="required"/></td>
-                <td><form:errors path="amount"/></td>
-            </tr>
-            <tr>
-                <td><form:label path="description">Описание</form:label></td>
-                <td><form:textarea path="description" rows="5" cols="30"/></td>
-                <td><form:errors path="description"/></td>
-            </tr>
-            <tr>
-                <td><form:label path="categories">Категории</form:label></td>
-                <td>
-                    <form:select path="categories" multiple="true">
-                        <c:forEach var="item" items="${cats}">
-                            <c:choose>
-                                <c:when test="${productCats.contains(item)}">
-                                    <form:option value="${item.id}" selected="selected">${item.name}</form:option>
-                                </c:when>
-                                <c:otherwise>
-                                    <form:option value="${item.id}">${item.name}</form:option>
-                                </c:otherwise>
-                            </c:choose>
-                        </c:forEach>
-                    </form:select>
-                </td>
-                <td><form:errors path="categories"/></td>
-            </tr>
-            <tr>
-                <td><input type="submit" value="Обновить"/></td>
-            </tr>
-        </table>
+    <h2>Редактировать продукт</h2>
+    <c:url var="refreshProduct" value="/admin/edit/product/${product.sku}"/>
+    <form:form method="post" modelAttribute="productForm" action="${refreshProduct}" target="_top">
+        <div class="form-group">
+            <form:input path="sku" type="text" cssClass="hidden"/>
+            <form:label path="name">Имя</form:label>
+            <form:input path="name" type="text" class="form-control"
+                        placeholder="Наименование" required="required"/>
+            <form:errors path="name"/>
+            <br>
+            <form:label path="price">Цена</form:label>
+            <form:input path="price" type="number" class="form-control"
+                        placeholder="Цена" required="required"/>
+            <form:errors path="price"/>
+            <br>
+            <form:label path="amount">Количество</form:label>
+            <form:input path="amount" type="number" class="form-control"
+                        placeholder="Количество" required="required"/>
+            <form:errors path="amount"/>
+            <br>
+            <form:label path="description">Описание</form:label>
+            <form:textarea path="description" class="form-control" rows="10"/>
+            <form:errors path="description"/>
+            <br>
+            <form:label path="categories">Категории</form:label>
+            <form:select path="categories" multiple="true" class="form-control">
+                <c:forEach var="item" items="${cats}">
+                    <c:choose>
+                        <c:when test="${productCats.contains(item)}">
+                            <form:option value="${item.id}" selected="selected">${item.name}</form:option>
+                        </c:when>
+                        <c:otherwise>
+                            <form:option value="${item.id}">${item.name}</form:option>
+                        </c:otherwise>
+                    </c:choose>
+                </c:forEach>
+            </form:select>
+            <form:errors path="categories"/>
+            <br>
+            <form:label path="attributeValues">Спецификация</form:label>
+            <table class="table table-hover table-condensed">
+                <thead>
+                <tr>
+                    <th>Ключ</th>
+                    <th>Значение</th>
+                </tr>
+                </thead>
+                <tbody>
+                <c:forEach items="${productForm.attributeValues}" var="attributeValue" varStatus="i" begin="0">
+                    <tr>
+                        <td>
+                            <form:select path="attributeValues[${i.index}].attribute" id="attribute${i.index}"
+                                         class="form-control">
+                                <form:option value="${attributeValue.attribute}" selected="selected">
+                                    ${attributeValue.attribute}
+                                </form:option>
+                                <form:options items="${attributes}"/>
+                            </form:select>
+                        </td>
+                        <td>
+                            <form:input path="attributeValues[${i.index}].value" type="text" class="form-control"/>
+                        </td>
+                    </tr>
+                </c:forEach>
+                </tbody>
+                <tfoot>
+                <tr>
+                    <td><form:label path="size">Количество атрибутов для добавления</form:label></td>
+                    <td><form:input path="size" type="number" class="form-control" min="0" max="100" step="1"/></td>
+                    <td><form:errors path="size"/></td>
+                </tr>
+                </tfoot>
+            </table>
+            <label for="update" class="btn btn-info btn-sm"><i
+                    class="glyphicon glyphicon-refresh"></i> Обновить</label>
+            <input id="update" type="submit" class="hidden"/>
+        </div>
     </form:form>
 </div>
 <jsp:include page="_footer.jsp"/>

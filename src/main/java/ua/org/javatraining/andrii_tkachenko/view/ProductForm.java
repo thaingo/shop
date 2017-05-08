@@ -4,6 +4,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.stereotype.Component;
 import ua.org.javatraining.andrii_tkachenko.data.model.category.Category;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -23,7 +24,11 @@ public class ProductForm {
 
     private String description;
 
+    private int size;
+
     private List<Category> categories = Collections.emptyList();
+
+    private List<AttributeValue> attributeValues;
 
     public String getSku() {
         return sku;
@@ -71,5 +76,51 @@ public class ProductForm {
 
     public void setCategories(List<Category> categories) {
         this.categories = categories;
+    }
+
+    public List<AttributeValue> getAttributeValues() {
+        return attributeValues;
+    }
+
+    public void setAttributeValues(List<AttributeValue> attributeValues) {
+        this.attributeValues = attributeValues;
+    }
+
+    public int getSize() {
+        return size;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
+    }
+
+    public static class AttributeValue {
+        private String attribute;
+        private String value;
+
+        public AttributeValue() {
+
+        }
+
+        public AttributeValue(String attribute, String value) {
+            this.attribute = attribute;
+            this.value = value;
+        }
+
+        public String getAttribute() {
+            return attribute;
+        }
+
+        public void setAttribute(String attribute) {
+            this.attribute = attribute;
+        }
+
+        public String getValue() {
+            return value;
+        }
+
+        public void setValue(String value) {
+            this.value = value;
+        }
     }
 }

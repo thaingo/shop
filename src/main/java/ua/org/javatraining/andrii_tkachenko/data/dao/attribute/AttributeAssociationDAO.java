@@ -33,6 +33,29 @@ public class AttributeAssociationDAO extends AbstractJdbcDAO<AttributeAssociatio
         return template.query(sql, new Object[]{sku}, associationRowMapper);
     }
 
+    public int create(AttributeAssociation entity) {
+        String sql = "select nextval('hibernate_sequence')";
+        Integer res = template.queryForObject(sql, Integer.class);
+        if (res == null) {
+            return 0;
+        }
+        sql = "insert into " + "value" + "(" +
+                "id" + ", " +
+                "value" + ", " +
+                "attribute_name" + ", " +
+                "product_sku" +
+                ") values(?, ?, ?, ?)";
+        return template.update(
+                sql, res, entity.getValue(), entity.getAttribute().getName(), entity.getProduct().getSku()
+        );
+    }
+
+    public void deleteByProduct(String sku) {
+        String sql = "delete from " + "value" +
+                " where " + "product_sku" + "= ?";
+        template.update(sql, sku);
+    }
+
 //    public int create(AttributeAssociation entity) {
 //        String sql = "insert into " + "value" + "(" +
 //                "category_id" + ", " +

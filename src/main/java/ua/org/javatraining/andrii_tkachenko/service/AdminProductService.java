@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import ua.org.javatraining.andrii_tkachenko.data.dao.ProductDAO;
 import ua.org.javatraining.andrii_tkachenko.data.dao.VisualizationDAO;
 import ua.org.javatraining.andrii_tkachenko.data.dao.attribute.AttributeAssociationDAO;
+import ua.org.javatraining.andrii_tkachenko.data.dao.attribute.AttributeDAO;
 import ua.org.javatraining.andrii_tkachenko.data.dao.category.CategoryAssociationDAO;
 import ua.org.javatraining.andrii_tkachenko.data.model.Product;
 
@@ -43,5 +44,8 @@ public class AdminProductService {
         categoryAssociationDAO.deleteByProduct(product.getSku());
         product.getCategories().parallelStream()
                 .forEach(categoryAssociationDAO::create);
+        attributeAssociationDAO.deleteByProduct(product.getSku());
+        product.getAttributes().parallelStream()
+                .forEach(attributeAssociationDAO::create);
     }
 }

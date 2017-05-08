@@ -115,7 +115,7 @@
                                     </button>
                                 </form>
                             </div>
-                            <c:url var="edit" value="/edit/product/${product.sku}"/>
+                            <c:url var="edit" value="/admin/edit/product/${product.sku}"/>
                             <a href="${edit}">Редактировать</a>
                         </div>
                     </div>
@@ -159,6 +159,7 @@
             </div>
         </div>
     </div>
-    <jsp:include page="_footer.jsp"/>
+</div>
+<jsp:include page="_footer.jsp"/>
 </body>
 </html>

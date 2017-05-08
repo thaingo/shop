@@ -29,6 +29,15 @@
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="${cart}"><span class="glyphicon glyphicon-shopping-cart"></span> ${cartSize}</a></li>
                     <li><a href="${login}"><span class="glyphicon glyphicon-log-in"></span> Войти</a></li>
+                    <li class="dropdown">
+                        <a href="#" data-toggle="dropdown" class="dropdown-toggle"><span
+                                class="glyphicon glyphicon-plus"></span> Добавить <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Продукт</a></li>
+                            <li><a href="#">Категорию</a></li>
+                            <li><a href="#">Атрибут</a></li>
+                        </ul>
+                    </li>
                 </ul>
                 <form class="navbar-form navbar-right" role="search" method="get"
                       action="${pageContext.request.contextPath}/search">

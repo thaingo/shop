@@ -6,17 +6,20 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import ua.org.javatraining.andrii_tkachenko.data.dao.ProductDAO;
 import ua.org.javatraining.andrii_tkachenko.data.model.Product;
+import ua.org.javatraining.andrii_tkachenko.data.model.attribute.Attribute;
+import ua.org.javatraining.andrii_tkachenko.data.model.attribute.AttributeAssociation;
 import ua.org.javatraining.andrii_tkachenko.data.model.category.Category;
 import ua.org.javatraining.andrii_tkachenko.data.model.category.CategoryAssociation;
 import ua.org.javatraining.andrii_tkachenko.service.AdminProductService;
+import ua.org.javatraining.andrii_tkachenko.service.AttributeService;
 import ua.org.javatraining.andrii_tkachenko.service.CategoryService;
 import ua.org.javatraining.andrii_tkachenko.util.URLUtil;
 import ua.org.javatraining.andrii_tkachenko.view.ProductForm;
 
 import javax.validation.Valid;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -26,20 +29,23 @@ import java.util.stream.Collectors;
  * Created by tkaczenko on 18.04.17.
  */
 @Controller
-@RequestMapping("/edit")
+@RequestMapping("/admin")
 public class AdminController {
     private final AdminProductService productService;
     private final CategoryService categoryService;
+    private final AttributeService attributeService;
 
     private Set<Category> categories;
 
     @Autowired
-    public AdminController(AdminProductService productService, CategoryService categoryService) {
+    public AdminController(AdminProductService productService, CategoryService categoryService,
+                           AttributeService attributeService) {
         this.productService = productService;
         this.categoryService = categoryService;
+        this.attributeService = attributeService;
     }
 
-    @GetMapping("/product/{productSku}")
+    @GetMapping("/edit/product/{productSku}")
     public String product(@PathVariable("productSku") String sku,
                           Model model) {
         Product product = productService.getFullProduct(sku);
@@ -48,21 +54,39 @@ public class AdminController {
                 .map(CategoryAssociation::getCategory)
                 .collect(Collectors.toList());
 
-        ProductForm productForm = new ProductForm();
-        productForm.setSku(product.getSku());
-        productForm.setName(product.getName());
-        productForm.setAmount(product.getAmount());
-        productForm.setPrice(product.getPrice());
-        productForm.setDescription(product.getDescription());
+        List<Attribute> attributes = attributeService.findAll();
+        List<ProductForm.AttributeValue> productAttributeValues = product.getAttributes().parallelStream()
+                .map(attributeAssociation ->
+                        new ProductForm.AttributeValue(
+                                attributeAssociation.getAttribute().getName(), attributeAssociation.getValue()
+                        ))
+                .collect(Collectors.toList());
 
+        List<Attribute> attributeList = product.getAttributes().parallelStream()
+                .map(AttributeAssociation::getAttribute)
+                .collect(Collectors.toList());
+        attributes.removeIf(attributeList::contains);
+
+        if (!model.containsAttribute("productForm")) {
+            ProductForm productForm = new ProductForm();
+            productForm.setSku(product.getSku());
+            productForm.setName(product.getName());
+            productForm.setAmount(product.getAmount());
+            productForm.setPrice(product.getPrice());
+            productForm.setDescription(product.getDescription());
+            productForm.setAttributeValues(productAttributeValues);
+            model.addAttribute("productForm", productForm);
+        }
         model.addAttribute("product", product)
-                .addAttribute("productForm", productForm)
                 .addAttribute("cats", cats)
-                .addAttribute("productCats", productCats);
+                .addAttribute("productCats", productCats)
+                .addAttribute("attributes", attributes.parallelStream()
+                        .map(Attribute::getName)
+                        .collect(Collectors.toList()));
         return "edit_product";
     }
 
-    @PostMapping("/product/{productSku}")
+    @PostMapping("/edit/product/{productSku}")
     public String updateProduct(@PathVariable("productSku") String sku,
                                 @ModelAttribute("productForm") @Valid ProductForm productForm,
                                 BindingResult binding, RedirectAttributes attributes)
@@ -71,9 +95,17 @@ public class AdminController {
             attributes.addFlashAttribute(
                     "org.springframework.validation.BindingResult.productForm", binding
             );
-            return "redirect:/edit/product/" + URLUtil.encode(sku);
+            return "redirect:/admin/edit/product/" + URLUtil.encode(sku);
+        }
+        if (productForm.getSize() > 0) {
+            for (int i = 0; i < productForm.getSize(); i++) {
+                productForm.getAttributeValues().add(productForm.getAttributeValues().get(0));
+            }
+            attributes.addFlashAttribute("productForm", productForm);
         }
 
+        productForm.getAttributeValues().forEach(attributeValue ->
+                System.out.println(attributeValue.getAttribute() + " " + attributeValue.getValue()));
         Product product = new Product();
         product.setSku(productForm.getSku());
         product.setName(productForm.getName());
@@ -83,9 +115,12 @@ public class AdminController {
         product.setCategories(new HashSet<>(productForm.getCategories().parallelStream()
                 .map(category -> new CategoryAssociation(product, category))
                 .collect(Collectors.toList())));
+        product.setAttributes(new HashSet<>(productForm.getAttributeValues().parallelStream()
+                .map(attributeValue -> new AttributeAssociation(product, new Attribute(attributeValue.getAttribute()), attributeValue.getValue()))
+                .collect(Collectors.toList())));
 
         productService.save(product);
-        return "redirect:/edit/product/" + URLUtil.encode(sku);
+        return "redirect:/admin/edit/product/" + URLUtil.encode(sku);
     }
 
     @ModelAttribute("categories")

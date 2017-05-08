@@ -150,28 +150,28 @@
             <tbody>
             <tr>
                 <td><form:label path="email">E-mail *</form:label></td>
-                <td><form:input path="email" type="email"
+                <td><form:input path="email" type="email" class="form-control"
                                 placeholder="Ваш e-mail"
                                 value="${customerForm.email}" required="required"/></td>
                 <td><form:errors path="email"/></td>
             </tr>
             <tr>
                 <td><form:label path="address">Адрес *</form:label></td>
-                <td><form:input path="address" type="text"
+                <td><form:input path="address" type="text" class="form-control"
                                 placeholder="Ваш адрес"
                                 value="${customerForm.address}" required="required"/></td>
                 <td><form:errors path="address"/></td>
             </tr>
             <tr>
                 <td><form:label path="phone">Номер телефона</form:label></td>
-                <td><form:input path="phone" name="phone" type="tel"
+                <td><form:input path="phone" name="phone" type="tel" class="form-control"
                                 placeholder="Ваш номер телефона"
                                 value="${customerForm.phone}"/></td>
                 <td><form:errors path="phone"/></td>
             </tr>
             <tr>
                 <td><form:label path="name">Имя</form:label></td>
-                <td><form:input path="name" type="text"
+                <td><form:input path="name" type="text" class="form-control"
                                 placeholder="Ваше имя"
                                 value="${customerForm.name}"/></td>
                 <td><form:errors path="name"/></td>

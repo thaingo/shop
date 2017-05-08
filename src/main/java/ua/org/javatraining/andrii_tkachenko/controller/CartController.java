@@ -152,4 +152,9 @@ public class CartController {
         session.setAttribute("cartSize", cart.sumQuantity());
         return "redirect:/cart";
     }
+
+    @ModelAttribute("cartSize")
+    private int cartSize() {
+        return cart.sumQuantity();
+    }
 }
