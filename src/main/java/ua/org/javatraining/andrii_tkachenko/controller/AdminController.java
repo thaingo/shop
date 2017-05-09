@@ -15,6 +15,7 @@ import ua.org.javatraining.andrii_tkachenko.service.AdminProductService;
 import ua.org.javatraining.andrii_tkachenko.service.AttributeService;
 import ua.org.javatraining.andrii_tkachenko.service.CategoryService;
 import ua.org.javatraining.andrii_tkachenko.util.URLUtil;
+import ua.org.javatraining.andrii_tkachenko.view.AttributesForm;
 import ua.org.javatraining.andrii_tkachenko.view.CategoryForm;
 import ua.org.javatraining.andrii_tkachenko.view.ProductForm;
 
@@ -286,6 +287,53 @@ public class AdminController {
         categoryService.save(subCategories);
         attributes.addFlashAttribute("mess", "Категория добавлена");
         return "redirect:/admin/add/category";
+    }
+
+    @GetMapping("/edit/attributes")
+    public String attributes(Model model) {
+        if (!model.containsAttribute("attributesForm")) {
+            List<AttributesForm.Attribute> attributes = attributeService.findAll().parallelStream()
+                    .map(attribute -> new AttributesForm.Attribute(attribute.getName(), null))
+                    .collect(Collectors.toList());
+
+            AttributesForm attributesForm = new AttributesForm();
+            attributesForm.setAttributes(attributes);
+
+            model.addAttribute("attributesForm", attributesForm);
+        }
+        return "attributes";
+    }
+
+    @PostMapping("/edit/attributes")
+    public String updateAttributes(@ModelAttribute("attributesForm") @Valid AttributesForm attributesForm,
+                                BindingResult binding, RedirectAttributes attributes)
+            throws UnsupportedEncodingException {
+        if (binding.hasErrors()) {
+            attributes.addFlashAttribute(
+                    "org.springframework.validation.BindingResult.attributesForm", binding
+            );
+            attributes.addFlashAttribute("attributesForm", attributesForm);
+            return "redirect:/admin/edit/attributes";
+        }
+        if (attributesForm.getNumOfAttributes() > 0) {
+            for (int i = 0; i < attributesForm.getNumOfAttributes(); i++) {
+                attributesForm.getAttributes().add(new AttributesForm.Attribute());
+            }
+            attributesForm.setNumOfAttributes(0);
+            attributes.addFlashAttribute("attributesForm", attributesForm);
+            return "redirect:/admin/edit/attributes";
+        }
+
+        List<Attribute> create = attributesForm.getAttributes().parallelStream()
+                .filter(attribute -> attribute.getOldName() == null)
+                .map(attribute -> new Attribute(attribute.getNewName()))
+                .collect(Collectors.toList());
+        attributesForm.getAttributes().parallelStream()
+                .filter(attribute -> attribute.getOldName() != null)
+                .forEach(attribute -> attributeService.updateForeign(attribute.getOldName(), attribute.getNewName()));
+        attributeService.save(create);
+
+        return "redirect:/admin/edit/attributes";
     }
 
     @ModelAttribute("categories")

@@ -31,7 +31,7 @@
                     <li><a href="${login}"><span class="glyphicon glyphicon-log-in"></span> Войти</a></li>
                     <li class="dropdown">
                         <a href="#" data-toggle="dropdown" class="dropdown-toggle"><span
-                                class="glyphicon glyphicon-plus"></span> Добавить <b class="caret"></b></a>
+                                class="glyphicon glyphicon-edit"></span><b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             <li>
                                 <c:url var="addProduct" value="/admin/add/product"/>
@@ -42,9 +42,13 @@
                                 <a href="${addCategory}">Категорию</a>
                             </li>
                             <li>
-                                <a href="#">Атрибут</a>
+                                <c:url var="editAttributes" value="/admin/edit/attributes"/>
+                                <a href="${editAttributes}">Атрибут</a>
                             </li>
                         </ul>
+                    </li>
+                    <li>
+
                     </li>
                 </ul>
                 <form class="navbar-form navbar-right" role="search" method="get"
