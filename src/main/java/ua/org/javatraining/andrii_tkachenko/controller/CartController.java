@@ -12,10 +12,7 @@ import ua.org.javatraining.andrii_tkachenko.data.model.Product;
 import ua.org.javatraining.andrii_tkachenko.data.model.enumeration.OrderType;
 import ua.org.javatraining.andrii_tkachenko.data.model.enumeration.VisualizationType;
 import ua.org.javatraining.andrii_tkachenko.data.session.Cart;
-import ua.org.javatraining.andrii_tkachenko.service.CustomerService;
-import ua.org.javatraining.andrii_tkachenko.service.OrderItemService;
-import ua.org.javatraining.andrii_tkachenko.service.OrderService;
-import ua.org.javatraining.andrii_tkachenko.service.ProductService;
+import ua.org.javatraining.andrii_tkachenko.service.*;
 import ua.org.javatraining.andrii_tkachenko.view.CustomerForm;
 
 import javax.servlet.http.HttpSession;
@@ -33,15 +30,17 @@ public class CartController {
     private final ProductService productService;
     private final OrderService orderService;
     private final OrderItemService orderItemService;
+    private final EmailService emailService;
 
     @Autowired
     public CartController(Cart cart, CustomerService customerService, ProductService productService,
-                          OrderService orderService, OrderItemService orderItemService) {
+                          OrderService orderService, OrderItemService orderItemService, EmailService emailService) {
         this.cart = cart;
         this.customerService = customerService;
         this.productService = productService;
         this.orderService = orderService;
         this.orderItemService = orderItemService;
+        this.emailService = emailService;
     }
 
     @PostMapping("/cart/buyByOne")
@@ -93,6 +92,11 @@ public class CartController {
         productService.save(itemMap.keySet());
         order.setStatus(OrderType.SUBMITTED.getCode());
         orderService.save(order);
+
+        // Send e-mail with order id
+        emailService.sendSimpleMessage(customer.getEmail(), "Заказ " + order.getId(),
+                "Ваш заказ подтвержден. Ожидайте письма с номером посылки." +
+                "Спасибо, что воспользовались нашим интернет-магазином");
 
         attributes.addFlashAttribute("orderId", order.getId());
         cart.clear();

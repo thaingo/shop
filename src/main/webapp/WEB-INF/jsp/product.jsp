@@ -108,7 +108,7 @@
                                 <form>
                                     <c:url var="buyByOne" value="${linkToProduct}/buyByOne?sku=${product.sku}"/>
                                     <button class="btn btn-danger" formmethod="post"
-                                            formaction="${buyByOnel}"
+                                            formaction="${buyByOne}"
                                             <c:if test="${product.amount <= 0}"><c:out
                                                     value="disabled='disabled'"/></c:if>>
                                         Купить
