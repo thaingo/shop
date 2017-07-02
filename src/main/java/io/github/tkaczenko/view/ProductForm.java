@@ -4,6 +4,7 @@ import io.github.tkaczenko.data.model.category.Category;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +18,7 @@ public class ProductForm {
     @NotEmpty
     private String name;
 
-    private int price;
+    private BigDecimal price;
 
     private int amount;
 
@@ -33,7 +34,7 @@ public class ProductForm {
 
     }
 
-    public ProductForm(String sku, String name, int price, int amount) {
+    public ProductForm(String sku, String name, BigDecimal price, int amount) {
         this.sku = sku;
         this.name = name;
         this.price = price;
@@ -56,11 +57,11 @@ public class ProductForm {
         this.name = name;
     }
 
-    public int getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 

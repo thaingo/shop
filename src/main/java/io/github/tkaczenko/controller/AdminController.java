@@ -69,7 +69,7 @@ public class AdminController extends BaseController {
                                     attributeAssociation.getAttribute().getName(), attributeAssociation.getValue()
                             ))
                     .collect(Collectors.toList());
-            ProductForm productForm = new ProductForm(product.getSku(), product.getName(), product.getAmount(), product.getPrice());
+            ProductForm productForm = new ProductForm(product.getSku(), product.getName(), product.getPrice(), product.getAmount());
             productForm.setDescription(product.getDescription());
             productForm.setAttributeValues(productAttributeValues);
             model.addAttribute("productForm", productForm);

@@ -19,6 +19,9 @@ public class Category implements Serializable {
     @Column(nullable = false)
     private String name;
 
+    @Column(updatable = false, insertable = false)
+    private String url;
+
     @Column(nullable = false)
     private String description;
 
@@ -65,6 +68,14 @@ public class Category implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     public String getDescription() {

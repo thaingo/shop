@@ -15,7 +15,7 @@ public class ProductDAO extends AbstractJdbcDAO<Product, String> {
         product.setLikes(rs.getInt("likes"));
         product.setDislikes(rs.getInt("dislikes"));
         product.setName(rs.getString("name"));
-        product.setPrice(rs.getInt("price"));
+        product.setPrice(rs.getBigDecimal("price"));
         return product;
     };
 

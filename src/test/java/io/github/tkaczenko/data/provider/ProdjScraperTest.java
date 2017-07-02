@@ -1,4 +1,4 @@
-package io.github.tkaczenko.scraper;
+package io.github.tkaczenko.data.provider;
 
 import io.github.tkaczenko.data.model.Product;
 import io.github.tkaczenko.data.model.Visualization;
@@ -23,6 +23,7 @@ import java.util.Set;
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
+@Ignore
 public class ProdjScraperTest {
     private ProdjScraper scraper;
 
@@ -49,7 +50,6 @@ public class ProdjScraperTest {
         scraper = new ProdjScraper();
     }
 
-    @Ignore
     @Test
     public void process() throws Exception {
         scraper.setNumOfCategories(1);

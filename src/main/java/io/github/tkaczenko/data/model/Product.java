@@ -2,11 +2,13 @@ package io.github.tkaczenko.data.model;
 
 import io.github.tkaczenko.data.model.attribute.AttributeAssociation;
 import io.github.tkaczenko.data.model.category.CategoryAssociation;
+import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Indexed;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Set;
 
 /**
@@ -16,15 +18,19 @@ import java.util.Set;
 @Entity
 public class Product implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(generator = "uuid")
+    @GenericGenerator(name = "uuid", strategy = "uuid")
     private String sku;
 
     @Field
     @Column(nullable = false)
     private String name;
 
+    @Column(updatable = false, insertable = false)
+    private String url;
+
     @Column(nullable = false)
-    private int price;
+    private BigDecimal price;
 
     @Column(nullable = false)
     private int amount;
@@ -50,7 +56,7 @@ public class Product implements Serializable {
 
     }
 
-    public Product(String name, int price, int amount) {
+    public Product(String name, BigDecimal price, int amount) {
         this.name = name;
         this.price = price;
         this.amount = amount;
@@ -76,11 +82,19 @@ public class Product implements Serializable {
         }
     }
 
-    public int getPrice() {
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 

@@ -17,7 +17,7 @@ public class OrderItemDAO extends AbstractJdbcDAO<OrderItem, String> {
         order.setId(rs.getInt("order_orderID"));
         item.setProduct(product);
         item.setOrder(order);
-        item.setSubtotal(rs.getInt("subtotal"));
+        item.setSubtotal(rs.getBigDecimal("subtotal"));
         item.setAmount(rs.getInt("amount"));
         return item;
     };

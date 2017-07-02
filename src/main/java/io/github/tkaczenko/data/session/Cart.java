@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.*;
 
@@ -68,12 +69,11 @@ public class Cart {
     }
 
     public double calculateSubTotal() {
-        double sum = 0;
+        BigDecimal sum = BigDecimal.ZERO;
         if (items.size() != 0) {
             Set<Map.Entry<Product, Integer>> entries = items.entrySet();
             for (Map.Entry<Product, Integer> entry : entries) {
-                sum += entry.getKey().getPrice()
-                        * entry.getValue();
+                sum = sum.add(entry.getKey().getPrice().multiply(BigDecimal.valueOf(entry.getValue())));
             }
         }
         DecimalFormat form = new DecimalFormat("#.##");

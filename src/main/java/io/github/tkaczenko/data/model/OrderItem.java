@@ -2,6 +2,7 @@ package io.github.tkaczenko.data.model;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 /**
  * Created by tkaczenko on 15.12.16.
@@ -13,7 +14,7 @@ public class OrderItem implements Serializable {
     private int id;
 
     @Column(nullable = false)
-    private int subtotal;
+    private BigDecimal subtotal;
 
     @Column(nullable = false)
     private int amount;
@@ -30,7 +31,7 @@ public class OrderItem implements Serializable {
 
     }
 
-    public OrderItem(int subtotal, int amount, Product product, CustomOrder order) {
+    public OrderItem(BigDecimal subtotal, int amount, Product product, CustomOrder order) {
         this.subtotal = subtotal;
         this.amount = amount;
         this.product = product;
@@ -41,11 +42,11 @@ public class OrderItem implements Serializable {
         return id;
     }
 
-    public int getSubtotal() {
+    public BigDecimal getSubtotal() {
         return subtotal;
     }
 
-    public void setSubtotal(int subtotal) {
+    public void setSubtotal(BigDecimal subtotal) {
         this.subtotal = subtotal;
     }
 

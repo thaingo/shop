@@ -1,4 +1,4 @@
-package io.github.tkaczenko.scraper;
+package io.github.tkaczenko.data.provider;
 
 import io.github.tkaczenko.data.model.Product;
 import io.github.tkaczenko.data.model.Visualization;
@@ -152,10 +152,10 @@ public class ProdjScraper {
                 Product product = new Product();
                 product.setSku(category.getText() + "_" + i);
                 product.setName(titles.get(i).getText());
-                product.setPrice(
-                        Integer.parseInt(prices.get(i).getText()
-                                .replaceAll("\\D", ""))
-                );
+//                product.setPrice(
+//                        Integer.parseInt(prices.get(i).getText()
+//                                .replaceAll("\\D", ""))
+//                );
                 product.setAmount(10);
 
                 Category c = null;
