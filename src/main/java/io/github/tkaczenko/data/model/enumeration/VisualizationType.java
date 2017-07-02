@@ -12,8 +12,7 @@ public enum VisualizationType {
     BIG_PICTURE(1),
     PICTURE(2);
 
-    private static final Map<Integer, VisualizationType> lookup
-            = new HashMap<>();
+    private static final Map<Integer, VisualizationType> lookup = new HashMap<>();
 
     static {
         for (VisualizationType v : EnumSet.allOf(VisualizationType.class))

@@ -16,6 +16,7 @@ import java.util.Set;
 @Entity
 public class Product implements Serializable {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String sku;
 
     @Field
@@ -49,8 +50,7 @@ public class Product implements Serializable {
 
     }
 
-    public Product(String sku, String name, int price, int amount) {
-        this.sku = sku;
+    public Product(String name, int price, int amount) {
         this.name = name;
         this.price = price;
         this.amount = amount;

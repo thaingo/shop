@@ -11,7 +11,7 @@ import java.io.Serializable;
 @Entity
 public class CategoryAssociation implements Serializable {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @ManyToOne

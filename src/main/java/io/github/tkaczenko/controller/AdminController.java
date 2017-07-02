@@ -69,8 +69,7 @@ public class AdminController extends BaseController {
                                     attributeAssociation.getAttribute().getName(), attributeAssociation.getValue()
                             ))
                     .collect(Collectors.toList());
-            ProductForm productForm =
-                    new ProductForm(product.getSku(), product.getName(), product.getAmount(), product.getPrice());
+            ProductForm productForm = new ProductForm(product.getSku(), product.getName(), product.getAmount(), product.getPrice());
             productForm.setDescription(product.getDescription());
             productForm.setAttributeValues(productAttributeValues);
             model.addAttribute("productForm", productForm);
@@ -173,12 +172,7 @@ public class AdminController extends BaseController {
             return "redirect:/admin/add/product/";
         }
 
-        //// FIXME: 08.05.17 Create sequence to generate product sku
-        Random random = new Random();
-        Product product = new Product(
-                ShopUtil.generateRandomString(random, 5), productForm.getName(), productForm.getPrice(),
-                productForm.getAmount()
-        );
+        Product product = new Product(productForm.getName(), productForm.getPrice(), productForm.getAmount());
         product.setDescription(productForm.getDescription());
         product.setCategories(productForm.getCategories().parallelStream()
                 .map(category -> new CategoryAssociation(product, category))

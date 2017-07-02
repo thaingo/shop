@@ -9,7 +9,7 @@ import java.io.Serializable;
 @Entity
 public class OrderItem implements Serializable {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @Column(nullable = false)

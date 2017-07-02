@@ -12,7 +12,7 @@ import java.io.Serializable;
 @Table(name = "Value")
 public class AttributeAssociation implements Serializable {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @ManyToOne

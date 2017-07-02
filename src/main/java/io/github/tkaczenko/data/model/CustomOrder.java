@@ -10,7 +10,7 @@ import java.util.Set;
 @Entity
 public class CustomOrder implements Serializable {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @Column(nullable = false)
