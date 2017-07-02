@@ -15,42 +15,42 @@
     </bean>
 
     <bean id="dao"
-          class="ua.org.javatraining.andrii_tkachenko.data.dao.AbstractJdbcDAO" abstract="true">
+          class="io.github.tkaczenko.data.dao.AbstractJdbcDAO" abstract="true">
         <property name="dataSource" ref="dataSource"/>
     </bean>
 
     <bean id="customerDAO"
-          class="ua.org.javatraining.andrii_tkachenko.data.dao.CustomerDAO" parent="dao">
+          class="io.github.tkaczenko.data.dao.CustomerDAO" parent="dao">
     </bean>
 
     <bean id="orderDAO"
-          class="ua.org.javatraining.andrii_tkachenko.data.dao.CustomOrderDAO" parent="dao">
+          class="io.github.tkaczenko.data.dao.CustomOrderDAO" parent="dao">
     </bean>
 
     <bean id="orderItemDAO"
-          class="ua.org.javatraining.andrii_tkachenko.data.dao.OrderItemDAO" parent="dao">
+          class="io.github.tkaczenko.data.dao.OrderItemDAO" parent="dao">
     </bean>
 
     <bean id="productDAO"
-          class="ua.org.javatraining.andrii_tkachenko.data.dao.ProductDAO" parent="dao">
+          class="io.github.tkaczenko.data.dao.ProductDAO" parent="dao">
     </bean>
 
     <bean id="visualizationDAO"
-          class="ua.org.javatraining.andrii_tkachenko.data.dao.VisualizationDAO" parent="dao">
+          class="io.github.tkaczenko.data.dao.VisualizationDAO" parent="dao">
     </bean>
 
     <bean id="attributeDAO"
-          class="ua.org.javatraining.andrii_tkachenko.data.dao.attribute.AttributeDAO" parent="dao">
+          class="io.github.tkaczenko.data.dao.attribute.AttributeDAO" parent="dao">
     </bean>
 
     <bean id="categoryDAO"
-          class="ua.org.javatraining.andrii_tkachenko.data.dao.category.CategoryDAO" parent="dao">
+          class="io.github.tkaczenko.data.dao.category.CategoryDAO" parent="dao">
     </bean>
 
     <bean id="categoryAssociationDAO"
-          class="ua.org.javatraining.andrii_tkachenko.data.dao.category.CategoryAssociationDAO" parent="dao">
+          class="io.github.tkaczenko.data.dao.category.CategoryAssociationDAO" parent="dao">
     </bean>
     <bean id="attributeAssociationDAO"
-          class="ua.org.javatraining.andrii_tkachenko.data.dao.attribute.AttributeAssociationDAO" parent="dao">
+          class="io.github.tkaczenko.data.dao.attribute.AttributeAssociationDAO" parent="dao">
     </bean>
 </beans>

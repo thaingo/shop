@@ -37,7 +37,7 @@
 <div class="container">
     <div class="page-header">
         <jsp:include page="_categories-menu.jsp"/>
-        <h4>${mess}</h4>
+        <h4>${message}</h4>
     </div>
     <jsp:include page="_products.jsp"/>
 </div>

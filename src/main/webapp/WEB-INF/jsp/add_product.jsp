@@ -42,7 +42,7 @@
         <jsp:include page="_category-nav.jsp"/>
     </div>
     <h2>Добавить продукт</h2>
-    <h3>${mess}</h3>
+    <h3>${message}</h3>
     <c:url var="addProduct" value="/admin/add/product"/>
     <form:form method="post" modelAttribute="productForm" action="${refreshProduct}" target="_top">
         <div class="form-group">
@@ -68,15 +68,8 @@
             <br>
             <form:label path="categories">Категории</form:label>
             <form:select path="categories" multiple="true" class="form-control">
-                <c:forEach var="item" items="${cats}">
-                    <c:choose>
-                        <c:when test="${productCats.contains(item)}">
-                            <form:option value="${item.id}" selected="selected">${item.name}</form:option>
-                        </c:when>
-                        <c:otherwise>
-                            <form:option value="${item.id}">${item.name}</form:option>
-                        </c:otherwise>
-                    </c:choose>
+                <c:forEach var="item" items="${categories}">
+                    <form:option value="${item.id}">${item.name}</form:option>
                 </c:forEach>
             </form:select>
             <form:errors path="categories"/>

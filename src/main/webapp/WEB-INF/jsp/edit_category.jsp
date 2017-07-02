@@ -42,7 +42,7 @@
         <jsp:include page="_category-nav.jsp"/>
     </div>
     <h2>Редактировать категорию</h2>
-    <h3>${mess}</h3>
+    <h3>${message}</h3>
     <c:url var="refreshCategory" value="/admin/edit/category/${category.id}"/>
     <form:form method="post" modelAttribute="categoryForm" action="${refreshCategory}" target="_top">
         <div class="form-group">
@@ -59,7 +59,7 @@
             <form:label path="parentCategory">Родительская категория</form:label>
             <form:select path="parentCategory" class="form-control">
                 <form:option value="">NONE</form:option>
-                <c:forEach var="item" items="${roots}">
+                <c:forEach var="item" items="${rootCategories}">
                     <c:choose>
                         <c:when test="${category.parentCategory.equals(item)}">
                             <form:option value="${item.id}" selected="selected">${item.name}</form:option>
@@ -77,9 +77,9 @@
             </div>
             <form:label path="subCategories">Дочерние категории</form:label>
             <form:select path="subCategories" multiple="true" class="form-control">
-                <c:forEach var="item" items="${children}">
+                <c:forEach var="item" items="${childCategories}">
                     <c:choose>
-                        <c:when test="${categoryChildren.contains(item)}">
+                        <c:when test="${categoryChildCategories.contains(item)}">
                             <form:option value="${item.id}" selected="selected">${item.name}</form:option>
                         </c:when>
                         <c:otherwise>

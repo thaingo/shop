@@ -6,7 +6,11 @@
     <c:forEach var="entry" items="${products}">
         <div class="col-md-3 col-sm-6">
             <c:url var="productLink" value="/category/${entry.value}/product/${entry.key.name}"/>
+            <c:url var="categoryLink" value="/category/${entry.value}"/>
             <span class="thumbnail">
+                <c:if test="${showCategory}">
+                    <a href="${categoryLink}">${entry.value}</a>
+                </c:if>
             <a href="${productLink}">
                 <c:forEach var="visualization" items="${entry.key.visualizations}">
                     <c:if test="${visualization.type == 0}">
