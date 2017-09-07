@@ -16,6 +16,8 @@ public class CategoryForm {
 
     @NotEmpty
     private String name;
+    @NotEmpty
+    private String url;
 
     private String description;
     private Category parentCategory;
@@ -26,9 +28,10 @@ public class CategoryForm {
 
     }
 
-    public CategoryForm(int id, String name) {
+    public CategoryForm(int id, String name, String url) {
         this.id = id;
         this.name = name;
+        this.url = url;
     }
 
     public int getId() {
@@ -69,5 +72,13 @@ public class CategoryForm {
 
     public void setSubCategories(List<Category> subCategories) {
         this.subCategories = subCategories;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 }

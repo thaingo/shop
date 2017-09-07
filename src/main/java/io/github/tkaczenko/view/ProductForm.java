@@ -18,6 +18,8 @@ public class ProductForm {
     @NotEmpty
     private String name;
 
+    private String url;
+
     private BigDecimal price;
 
     private int amount;
@@ -103,6 +105,14 @@ public class ProductForm {
 
     public void setSize(int size) {
         this.size = size;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     public static class AttributeValue {

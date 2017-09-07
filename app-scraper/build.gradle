@@ -1,0 +1,36 @@
+buildscript {
+    repositories { mavenCentral() }
+}
+
+ext { springBootVersion = '1.5.2.RELEASE' }
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'io.spring.dependency-management'
+
+jar {
+    baseName = 'shop-scraper'
+    version = '0.0.1-SNAPSHOT'
+}
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile project(':app-data')
+    compile('org.hibernate:hibernate-core:5.2.9.Final')
+    compile('org.apache.commons:commons-lang3:3.0')
+    compile('org.jsoup:jsoup:1.10.3')
+    compile('org.seleniumhq.selenium:selenium-java:3.3.1')
+    compile('org.seleniumhq.selenium:selenium-support:3.3.1')
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+    testCompile('junit:junit:4.12')
+}
+
+dependencyManagement {
+    imports { mavenBom("org.springframework.boot:spring-boot-dependencies:${springBootVersion}") }
+}
+

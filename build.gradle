@@ -22,20 +22,15 @@ repositories {
 }
 
 dependencies {
+    compile project(':app-data')
+    compile project(':app-scraper')
     compile('org.springframework.boot:spring-boot-starter-web')
+    compile('org.hibernate:hibernate-core:5.2.9.Final')
     compile('org.springframework.boot:spring-boot-starter-aop')
-    compile('org.springframework.boot:spring-boot-starter-data-jpa')
-    compile('org.springframework.boot:spring-boot-starter-jdbc')
     compile('org.springframework.boot:spring-boot-starter-mail')
     compile('javax.servlet:jstl')
     runtime('org.springframework.boot:spring-boot-starter-tomcat')
     runtime('org.apache.tomcat.embed:tomcat-embed-jasper')
-    runtime('org.postgresql:postgresql')
-    compile('org.hibernate:hibernate-core:5.2.9.Final')
-    compile('org.hibernate:hibernate-search-orm:5.7.0.Final')
-    compile('org.seleniumhq.selenium:selenium-java:3.3.1')
-    compile('org.seleniumhq.selenium:selenium-support:3.3.1')
-    compile('org.jsoup:jsoup:1.10.3')
     testCompile('org.springframework.boot:spring-boot-starter-test')
     testCompile('org.dbunit:dbunit:2.5.3')
     testCompile('com.github.springtestdbunit:spring-test-dbunit:1.3.0')

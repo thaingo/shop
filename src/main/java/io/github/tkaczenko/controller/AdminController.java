@@ -9,7 +9,6 @@ import io.github.tkaczenko.data.session.Cart;
 import io.github.tkaczenko.service.AttributeService;
 import io.github.tkaczenko.service.CategoryService;
 import io.github.tkaczenko.service.ProductService;
-import io.github.tkaczenko.util.ShopUtil;
 import io.github.tkaczenko.util.UrlUtil;
 import io.github.tkaczenko.view.AttributesForm;
 import io.github.tkaczenko.view.CategoryForm;
@@ -25,7 +24,6 @@ import javax.validation.Valid;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -172,7 +170,9 @@ public class AdminController extends BaseController {
             return "redirect:/admin/add/product/";
         }
 
-        Product product = new Product(productForm.getName(), productForm.getPrice(), productForm.getAmount());
+        Product product = new Product(productForm.getName(), productForm.getUrl(),
+                productForm.getPrice(), productForm.getSku(), productForm.getAmount()
+        );
         product.setDescription(productForm.getDescription());
         product.setCategories(productForm.getCategories().parallelStream()
                 .map(category -> new CategoryAssociation(product, category))
@@ -198,7 +198,7 @@ public class AdminController extends BaseController {
                 .filter(c -> !rootCategories.contains(c))
                 .collect(Collectors.toSet());
 
-        CategoryForm categoryForm = new CategoryForm(categoryId, category.getName());
+        CategoryForm categoryForm = new CategoryForm(categoryId, category.getName(), category.getUrl());
         categoryForm.setDescription(category.getDescription());
         categoryForm.setParentCategory(category.getParentCategory());
 
@@ -264,7 +264,7 @@ public class AdminController extends BaseController {
         }
 
         // Update categories
-        Category category = new Category(categoryForm.getName(), categoryForm.getDescription());
+        Category category = new Category(categoryForm.getName(), categoryForm.getDescription(), categoryForm.getUrl());
         category.setParentCategory(categoryForm.getParentCategory());
         List<Category> subCategories = new ArrayList<>();
         subCategories.add(category);

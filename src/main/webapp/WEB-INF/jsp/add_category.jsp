@@ -52,6 +52,8 @@
                         placeholder="Наименование" required="required"/>
             <form:errors path="name"/>
             <br>
+            <form:input path="url" type="text" cssClass="hidden"/>
+            <br>
             <form:label path="description">Описание</form:label>
             <form:textarea path="description" class="form-control" rows="10"/>
             <form:errors path="description"/>
