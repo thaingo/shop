@@ -2,7 +2,7 @@ package io.github.tkaczenko.provider_impl;
 
 import io.github.tkaczenko.ScraperApplication;
 import io.github.tkaczenko.loader.BaseLoader;
-import io.github.tkaczenko.provider.Scraper;
+import io.github.tkaczenko.provider.BaseScraper;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -15,6 +15,9 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+
 @Ignore
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {ScraperApplication.class})
@@ -24,19 +27,21 @@ import org.springframework.test.context.transaction.TransactionalTestExecutionLi
         TransactionalTestExecutionListener.class,
 })
 public class ProdjScraperTest {
-    private Scraper scraper;
+    private BaseScraper baseScraper;
 
     @Autowired
     private BaseLoader baseLoader;
 
     @Before
     public void setUp() throws Exception {
-        scraper = new ProdjScraper(2, 2, 15);
+        baseScraper = new ProdjScraper(2, 2, 5, 15, new ProdjScraper.Extractor());
     }
 
     @Test
     public void testSaveSuccessfully() throws Exception {
-        scraper.load();
-        baseLoader.save(scraper);
+        baseScraper.load();
+        baseLoader.save(baseScraper);
+        assertThat(baseScraper.getCategories().size(), equalTo(2));
+        assertThat(baseScraper.getProducts().size(), equalTo(5));
     }
 }

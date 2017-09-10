@@ -4,7 +4,7 @@ import io.github.tkaczenko.data.repository.AttributeRepository;
 import io.github.tkaczenko.data.repository.CategoryRepository;
 import io.github.tkaczenko.data.repository.ProductRepository;
 import io.github.tkaczenko.data.repository.VisualizationRepository;
-import io.github.tkaczenko.provider.Scraper;
+import io.github.tkaczenko.provider.BaseScraper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,10 +24,10 @@ public class BaseLoader {
         this.visualizationRepository = visualizationRepository;
     }
 
-    public void save(Scraper scraper) {
-        scraper.getCategories().parallelStream().forEach(categoryRepository::save);
-        scraper.getVisualizations().parallelStream().forEach(visualizationRepository::save);
-        scraper.getAttributes().parallelStream().forEach(attributeRepository::save);
-        scraper.getProducts().parallelStream().forEach(productRepository::save);
+    public void save(BaseScraper baseScraper) {
+        baseScraper.getCategories().parallelStream().forEach(categoryRepository::save);
+        baseScraper.getAttributes().parallelStream().forEach(attributeRepository::save);
+        baseScraper.getProducts().parallelStream().forEach(productRepository::save);
+        baseScraper.getVisualizations().parallelStream().forEach(visualizationRepository::save);
     }
 }
