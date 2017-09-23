@@ -1,5 +1,6 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <table class="table-responsive table">
     <c:if test="${entries.size() > 0}">
@@ -12,8 +13,10 @@
                             <c:set var="entry" value="${entries.get(j)}"/>
                             <c:url var="link" value="/category/${entry.getKey().getName()}"/>
                             <a href="${link}">${entry.getKey().getName()} (${entry.getValue()})</a>
-                            <c:url var="edit" value="/admin/edit/category/${entry.getKey().getId()}"/>
-                            <a href="${edit}">Редактировать</a>
+                            <sec:authorize access="hasRole('ADMIN')">
+                                <c:url var="edit" value="/admin/edit/category/${entry.getKey().getId()}"/>
+                                <a href="${edit}">Редактировать</a>
+                            </sec:authorize>
                         </td>
                     </c:if>
                 </c:forEach>

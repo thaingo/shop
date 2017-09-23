@@ -1,6 +1,7 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <div class="container">
     <c:forEach var="entry" items="${products}">
@@ -22,7 +23,9 @@
       			<div class="ratings">
                     <span class="glyphicon glyphicon-thumbs-up"></span> ${entry.key.likes}
                     <span class="glyphicon glyphicon-thumbs-down"></span> ${entry.key.dislikes}
-                    <span class="price">${entry.key.price}</span>
+                    <span class="price">
+                        <fmt:formatNumber value="${entry.key.price}" minFractionDigits="0"/>
+                    </span>
                 </div>
                     <c:set var="desc" value="${entry.key.description}"/>
                     <c:set var="size" value="${desc.length()}"/>

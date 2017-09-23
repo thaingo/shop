@@ -1,11 +1,14 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+
 
 <c:url var="home" value="/"/>
 <c:url var="shop" value="/shop"/>
 <c:url var="cart" value="/cart"/>
 <c:url var="contact" value="#"/>
-<c:url var="login" value="#"/>
+<c:url var="login" value="/login"/>
+<c:url var="logout" value="/logout"/>
 
 <footer class="footer">
     <div class="container">
@@ -27,8 +30,16 @@
             <ul>
                 <li><a href="${cart}" target="_blank"><span
                         class="glyphicon glyphicon-shopping-cart"></span> ${cartSize}</a></li>
-                <li><a href="${login}" target="_blank"><span class="glyphicon glyphicon-log-in"></span> Войти</a>
-                </li>
+                <sec:authorize access="!isAuthenticated()">
+                    <li>
+                        <a href="${login}" target="_blank"><span class="glyphicon glyphicon-log-in"></span> Войти</a>
+                    </li>
+                </sec:authorize>
+                <sec:authorize access="isAuthenticated()">
+                    <li>
+                        <a href="${logout}" target="_blank"><span class="glyphicon glyphicon-log-in"></span> Выйти</a>
+                    </li>
+                </sec:authorize>
             </ul>
         </div>
         <div class="col-lg-3  col-md-3 col-sm-6 col-xs-12 ">

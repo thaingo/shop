@@ -3,14 +3,15 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <html lang="ru"
       xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <meta charset="UTF-8"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <meta name="viewport" content="width=device-width; initial-scale=1; maximum-scale=1"/>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Интернет-магазин dj оборудования"/>
     <meta name="author" content="tkaczenko"/>
 
@@ -30,7 +31,6 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
             integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
             crossorigin="anonymous"></script>
-    <script src="<c:url value="/resources/js/scripts.js"/>"></script>
 
     <title>Интернет-магазин DJ</title>
 </head>
@@ -39,29 +39,26 @@
 <div class="container">
     <div class="page-header">
         <jsp:include page="_categories-menu.jsp"/>
-        <jsp:include page="_category-nav.jsp"/>
     </div>
-    <h2>Аттрибуты</h2>
-    <c:url var="refreshAttributes" value="/admin/edit/attributes"/>
-    <form:form method="post" modelAttribute="attributesForm" action="${refreshAttributes}" target="_top">
-        <div class="form-group">
-            <c:forEach items="${attributesForm.attributes}" var="attribute" varStatus="i" begin="0">
-                <div class="form-group">
-                    <form:input path="attributes[${i.index}].oldName" type="text" cssClass="hidden"/>
-                    <form:input path="attributes[${i.index}].newName" type="text" class="form-control"
-                                value="${attribute.oldName}"/>
-                </div>
-            </c:forEach>
-            <form:label path="numOfAttributes">Количество атрибутов для добавления</form:label>
-            <form:input path="numOfAttributes" type="number" class="form-control" min="0" max="100"
-                        step="1"/>
-            <form:errors path="numOfAttributes"/>
-            <br>
-            <label for="update" class="btn btn-info btn-sm"><i
-                    class="glyphicon glyphicon-refresh"></i> Обновить</label>
-            <input id="update" type="submit" class="hidden"/>
+    <div class="container">
+        <div class="page-header">
+            <label>Войти</label>
         </div>
-    </form:form>
+        <c:url var="login" value="/login"/>
+        <form:form modelAttribute="loginForm" action="${login}" method="post">
+        <div class="form-group">
+            <form:label path="username">Логин</form:label>
+            <form:input path="username" type="text" class="form-control"/>
+            <form:errors path="username"/>
+            <br>
+            <form:label path="password">Пароль</form:label>
+            <form:input path="password" type="password" class="form-control"/>
+            <form:errors path="password"/>
+            <br>
+            <input type="submit" value="Войти"/>
+            </form:form>
+        </div>
+    </div>
 </div>
 <jsp:include page="_footer.jsp"/>
 </body>

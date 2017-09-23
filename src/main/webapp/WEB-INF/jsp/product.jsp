@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 
-<!DOCTYPE html>
-
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+
 
 <html lang="en"
       xmlns="http://www.w3.org/1999/xhtml">
@@ -39,7 +39,7 @@
     <script type="text/javascript" src="//cdn.jsdelivr.net/jquery.slick/1.6.0/slick.min.js"></script>
     <script type="text/javascript"
             src="https://cdnjs.cloudflare.com/ajax/libs/jquery-migrate/3.0.0/jquery-migrate.min.js"></script>
-    <script type="text/javascript" src="/resources/scripts.js"></script>
+    <script type="text/javascript" src="<c:url value="/resources/js/scripts.js"/>"></script>
 
     <title>${pageContext.request.contextPath} | ${product.name}</title>
 </head>
@@ -83,7 +83,9 @@
                                 </form>
                             </div>
                             <hr>
-                            <div class="product-price">${product.price}</div>
+                            <div class="product-price">
+                                <fmt:formatNumber value="${product.price}" minFractionDigits="0"/>
+                            </div>
                             <c:choose>
                                 <c:when test="${product.amount > 0}">
                                     <div class="product-stock">В наличии</div>
@@ -115,8 +117,10 @@
                                     </button>
                                 </form>
                             </div>
-                            <c:url var="edit" value="/admin/edit/product/${product.sku}"/>
-                            <a href="${edit}">Редактировать</a>
+                            <sec:authorize access="hasRole('ADMIN')">
+                                <c:url var="edit" value="/admin/edit/product/${product.sku}"/>
+                                <a href="${edit}">Редактировать</a>
+                            </sec:authorize>
                         </div>
                     </div>
                 </div>

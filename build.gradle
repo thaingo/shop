@@ -27,6 +27,8 @@ dependencies {
     compile('org.springframework.boot:spring-boot-starter-web')
     compile('org.hibernate:hibernate-core:5.2.9.Final')
     compile('org.springframework.boot:spring-boot-starter-aop')
+    compile('org.springframework.boot:spring-boot-starter-security')
+    compile('org.springframework.security:spring-security-taglibs')
     compile('org.springframework.boot:spring-boot-starter-mail')
     compile('javax.servlet:jstl')
     runtime('org.springframework.boot:spring-boot-starter-tomcat')

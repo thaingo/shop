@@ -10,7 +10,12 @@ import io.github.tkaczenko.service.CategoryService;
 import io.github.tkaczenko.service.ProductService;
 import io.github.tkaczenko.util.UrlUtil;
 import io.github.tkaczenko.view.CustomerForm;
+import io.github.tkaczenko.view.LoginForm;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +23,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.UnsupportedEncodingException;
 import java.util.*;
@@ -54,6 +61,22 @@ public class BrowsingController extends BaseController {
                 .addAttribute("products",
                         products == null ? null : prepareMapProductCategoryName(products));
         return "index";
+    }
+
+    @GetMapping("/login")
+    public String login(Model model) {
+        model.addAttribute("loginForm", new LoginForm());
+        return "login";
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest request, HttpServletResponse response) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null) {
+            new SecurityContextLogoutHandler().logout(request, response, auth);
+        }
+        return "redirect:/login?logout";
+
     }
 
     @GetMapping("/category/{name}")
@@ -206,5 +229,16 @@ public class BrowsingController extends BaseController {
                     .orElse(null);
         }
         return found;
+    }
+
+    private String getPrincipal() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String userName;
+        if (principal instanceof UserDetails) {
+            userName = ((UserDetails) principal).getUsername();
+        } else {
+            userName = principal.toString();
+        }
+        return userName;
     }
 }
