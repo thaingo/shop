@@ -1,45 +1,19 @@
 package io.github.tkaczenko.provider;
 
-import io.github.tkaczenko.data.model.Product;
-import io.github.tkaczenko.data.model.Visualization;
-import io.github.tkaczenko.data.model.attribute.Attribute;
-import io.github.tkaczenko.data.model.category.Category;
+import io.github.tkaczenko.model.Product;
+import io.github.tkaczenko.model.category.Category;
+import io.github.tkaczenko.provider.interfaces.ProductExtractor;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.remote.RemoteWebDriver;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
-import java.util.logging.Level;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public abstract class BaseScraper extends Scraper {
-    protected final Logger logger = LoggerFactory.getLogger(getScraperClass());
-    protected final String URL = initUrl();
-    protected final String CODE = setCode();
-
-    private static final String pathToDriver =
-            "/home/tkaczenko/Desktop/chromedriver";
     protected static final int DEFAULT_PRODUCT_AMOUNT = 10;
-
-    protected static WebDriver driver;
-
-    static {
-        System.setProperty("webdriver.chrome.driver", pathToDriver);
-
-        driver = new ChromeDriver();
-        ((RemoteWebDriver) driver).setLogLevel(Level.SEVERE);
-    }
 
     protected int numOfRootCategories;
     protected int numOfSubCategories;
@@ -47,11 +21,8 @@ public abstract class BaseScraper extends Scraper {
     protected int countOfProducts;
     protected int numOfOnePageProducts;
 
-    private ProductExtractor productExtractor;
-    private List<Category> categories;
-    private List<Product> products;
-    private List<Attribute> attributes = new ArrayList<>();
-    private List<Visualization> visualizations = new ArrayList<>();
+    private int newEntriesCount;
+    private int goodEntriesCount;
 
     public BaseScraper(int numOfRootCategories, int numOfSubCategories, int numOfProducts, int numOfOnePageProducts,
                        ProductExtractor productExtractor) {
@@ -63,53 +34,11 @@ public abstract class BaseScraper extends Scraper {
     }
 
     public BaseScraper(ProductExtractor productExtractor) {
-        this.numOfRootCategories = Integer.MAX_VALUE;
-        this.numOfSubCategories = Integer.MAX_VALUE;
+        this.numOfRootCategories = 0;
+        this.numOfSubCategories = 0;
         this.numOfProducts = Integer.MAX_VALUE;
-        this.numOfOnePageProducts = Integer.MAX_VALUE;
+        this.numOfOnePageProducts = 0;
         this.productExtractor = productExtractor;
-    }
-
-    @Override
-    protected List<Category> parseCategories() throws Exception {
-        Document page = Jsoup.connect(URL).get();
-        List<Category> categories = new ArrayList<>();
-        Elements categoryItems = getCategoryItems(page);
-        for (int i = 0; i < numOfRootCategories; i++) {
-            Category category = extractCategory(categoryItems, i);
-            categories.add(category);
-        }
-        return categories;
-    }
-
-    @Override
-    protected Map<String, Product> parseProductList(List<Category> categories) throws Exception {
-        Map<String, Product> productMap = new HashMap<>();
-        categories.parallelStream()
-                .forEach(category -> category.getSubCategories().parallelStream()
-                        .forEach(subCategory -> {
-                            try {
-                                String url = subCategory.getUrl();
-                                Document page = Jsoup.connect(url).get();
-                                List<String> pageLinks = getNextPageUrls(page);
-                                if (pageLinks == null) {
-                                    pageLinks = new ArrayList<>();
-                                    pageLinks.add(url);
-                                }
-                                int size = getSize(pageLinks);
-                                for (int i = 0; i < size; i++) {
-                                    if (page == null) {
-                                        page = Jsoup.connect(pageLinks.get(i)).get();
-                                    }
-                                    Elements productItems = extractProductItems(page);
-                                    productMap.putAll(processProducts(category, subCategory, productItems));
-                                    page = null;
-                                }
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                        }));
-        return productMap;
     }
 
     public void load() {
@@ -117,8 +46,10 @@ public abstract class BaseScraper extends Scraper {
             logger.info("Start loading categories");
             categories = this.parseCategories();
             logger.info("Start loading product lists");
-            Map<String, Product> productMap = this.parseProductList(categories);
-            products = productMap.values().parallelStream()
+            Set<Product> productSet = this.parseProductList();
+            newEntriesCount = productSet.size();
+            logger.info("Processed products " + newEntriesCount);
+            products = productSet.parallelStream()
                     .map(product -> {
                         try {
                             logger.info("Load product details at {}", product.getUrl());
@@ -128,7 +59,10 @@ public abstract class BaseScraper extends Scraper {
                             return null;
                         }
                     })
-                    .collect(Collectors.toList());
+                    .filter(Objects::nonNull)
+                    .collect(Collectors.toSet());
+            goodEntriesCount = products.size();
+            logger.info("Finished products " + goodEntriesCount);
             products.forEach(product -> {
                 try {
                     attributes.addAll(productExtractor.parseAttributes(product));
@@ -149,6 +83,54 @@ public abstract class BaseScraper extends Scraper {
         }
     }
 
+    @Override
+    public Set<Category> parseCategories() throws Exception {
+        Document page = Jsoup.connect(URL).get();
+        Set<Category> categories = new HashSet<>();
+        Elements categoryItems = getCategoryItems(page);
+        if (numOfRootCategories == 0) {
+            numOfRootCategories = categoryItems.size();
+        }
+        for (int i = 0; i < numOfRootCategories; i++) {
+            if (i >= categoryItems.size()) {
+                i = categoryItems.size() - 1;
+            }
+            Category category = extractCategory(categoryItems, i);
+            categories.add(category);
+        }
+        return categories;
+    }
+
+    @Override
+    public Set<Product> parseProductList() throws Exception {
+        Set<Product> products = new HashSet<>();
+        categories.parallelStream()
+                .forEach(category -> category.getSubCategories().parallelStream()
+                        .forEach(subCategory -> {
+                            try {
+                                String url = subCategory.getUrl();
+                                Document page = Jsoup.connect(url).get();
+                                List<String> pageLinks = getNextPageUrls(page);
+                                if (pageLinks == null) {
+                                    pageLinks = new ArrayList<>();
+                                    pageLinks.add(url);
+                                }
+                                int size = getSize(pageLinks);
+                                for (int i = 0; i < size; i++) {
+                                    if (page == null) {
+                                        page = Jsoup.connect(pageLinks.get(i)).get();
+                                    }
+                                    Elements productItems = extractProductItems(page);
+                                    products.addAll(processProducts(category, subCategory, productItems));
+                                    page = null;
+                                }
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }));
+        return products;
+    }
+
     protected abstract Elements getCategoryItems(Document page);
 
     protected abstract Category extractCategory(Elements categoryItems, int i);
@@ -159,17 +141,24 @@ public abstract class BaseScraper extends Scraper {
 
     protected abstract List<String> getNextPageUrls(Document page);
 
-    private int getSize(List<String> pageLinks) {
-        int size = numOfProducts / numOfOnePageProducts;
-        if (size == 0 && countOfProducts < numOfProducts)
-            size = 1;
-        return size > pageLinks.size() ? pageLinks.size() : size;
+    protected void validateNumOfSubCategories(Elements subCategoryItems) {
+        if (numOfSubCategories == 0) {
+            numOfSubCategories = subCategoryItems.size();
+        }
     }
 
-    private Map<String, Product> processProducts(Category category, Category subCategory, Elements productItems) {
+    private int getSize(List<String> pageLinks) {
+        int size = numOfOnePageProducts == 0 ? pageLinks.size() : numOfProducts / numOfOnePageProducts;
+        if (size == 0 && countOfProducts < numOfProducts)
+            size = 1;
+        return size > pageLinks.size() || size < 0 ? pageLinks.size() : size;
+    }
+
+    private Set<Product> processProducts(Category category, Category subCategory, Elements productItems) {
         return productItems.parallelStream().limit(numOfProducts)
                 .map(productItem -> extractProductBasicInfo(category, subCategory, productItem))
-                .collect(Collectors.toMap(Product::getSku, Function.identity()));
+                .filter(Objects::nonNull)
+                .collect(Collectors.toSet());
     }
 
     public int getNumOfRootCategories() {
@@ -186,21 +175,5 @@ public abstract class BaseScraper extends Scraper {
 
     public int getNumOfProducts() {
         return numOfProducts;
-    }
-
-    public List<Category> getCategories() {
-        return categories;
-    }
-
-    public List<Product> getProducts() {
-        return products;
-    }
-
-    public List<Attribute> getAttributes() {
-        return attributes;
-    }
-
-    public List<Visualization> getVisualizations() {
-        return visualizations;
     }
 }

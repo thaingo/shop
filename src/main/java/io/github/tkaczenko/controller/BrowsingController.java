@@ -1,13 +1,13 @@
 package io.github.tkaczenko.controller;
 
-import io.github.tkaczenko.data.model.Product;
-import io.github.tkaczenko.data.model.category.Category;
-import io.github.tkaczenko.data.model.category.CategoryAssociation;
-import io.github.tkaczenko.data.model.enumeration.VisualizationType;
-import io.github.tkaczenko.data.session.Cart;
-import io.github.tkaczenko.data.session.LikedCart;
+import io.github.tkaczenko.model.Product;
+import io.github.tkaczenko.model.category.Category;
+import io.github.tkaczenko.model.category.CategoryAssociation;
+import io.github.tkaczenko.model.enumeration.VisualizationType;
 import io.github.tkaczenko.service.CategoryService;
 import io.github.tkaczenko.service.ProductService;
+import io.github.tkaczenko.session.Cart;
+import io.github.tkaczenko.session.LikedCart;
 import io.github.tkaczenko.util.UrlUtil;
 import io.github.tkaczenko.view.CustomerForm;
 import io.github.tkaczenko.view.LoginForm;

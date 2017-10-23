@@ -1,6 +1,6 @@
 package io.github.tkaczenko.view;
 
-import io.github.tkaczenko.data.model.category.Category;
+import io.github.tkaczenko.model.category.Category;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.stereotype.Component;
 

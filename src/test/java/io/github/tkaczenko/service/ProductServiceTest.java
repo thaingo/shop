@@ -2,10 +2,10 @@ package io.github.tkaczenko.service;
 
 import com.github.springtestdbunit.DbUnitTestExecutionListener;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
-import io.github.tkaczenko.data.model.Product;
-import io.github.tkaczenko.data.model.Visualization;
-import io.github.tkaczenko.data.model.attribute.AttributeAssociation;
-import io.github.tkaczenko.data.model.category.CategoryAssociation;
+import io.github.tkaczenko.model.Product;
+import io.github.tkaczenko.model.Visualization;
+import io.github.tkaczenko.model.attribute.AttributeAssociation;
+import io.github.tkaczenko.model.category.CategoryAssociation;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

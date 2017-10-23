@@ -6,8 +6,8 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
-@EntityScan(basePackages = {"io.github.tkaczenko.data.model"})
-@EnableJpaRepositories(basePackages = {"io.github.tkaczenko.data.repository"})
+@EntityScan(basePackages = {"io.github.tkaczenko.model"})
+@EnableJpaRepositories(basePackages = {"io.github.tkaczenko.repository"})
 public class ShopApplication {
 
     public static void main(String[] args) {

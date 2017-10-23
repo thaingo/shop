@@ -1,9 +1,9 @@
 package io.github.tkaczenko.service;
 
-import io.github.tkaczenko.data.model.CustomOrder;
-import io.github.tkaczenko.data.model.Customer;
-import io.github.tkaczenko.data.repository.CustomOrderRepository;
-import io.github.tkaczenko.data.repository.CustomerRepository;
+import io.github.tkaczenko.model.CustomOrder;
+import io.github.tkaczenko.model.Customer;
+import io.github.tkaczenko.repository.CustomOrderRepository;
+import io.github.tkaczenko.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

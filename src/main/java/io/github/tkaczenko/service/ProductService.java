@@ -1,9 +1,9 @@
 package io.github.tkaczenko.service;
 
-import io.github.tkaczenko.data.model.Product;
-import io.github.tkaczenko.data.model.category.Category;
-import io.github.tkaczenko.data.model.category.CategoryAssociation;
-import io.github.tkaczenko.data.repository.*;
+import io.github.tkaczenko.model.Product;
+import io.github.tkaczenko.model.category.Category;
+import io.github.tkaczenko.model.category.CategoryAssociation;
+import io.github.tkaczenko.repository.*;
 import org.apache.lucene.search.Query;
 import org.hibernate.search.jpa.FullTextEntityManager;
 import org.hibernate.search.jpa.FullTextQuery;

@@ -1,8 +1,8 @@
 package io.github.tkaczenko.controller;
 
-import io.github.tkaczenko.data.model.category.Category;
-import io.github.tkaczenko.data.session.Cart;
+import io.github.tkaczenko.model.category.Category;
 import io.github.tkaczenko.service.CategoryService;
+import io.github.tkaczenko.session.Cart;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ModelAttribute;
 

@@ -2,7 +2,7 @@ package io.github.tkaczenko.controller;
 
 import com.github.springtestdbunit.DbUnitTestExecutionListener;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
-import io.github.tkaczenko.data.model.category.Category;
+import io.github.tkaczenko.model.category.Category;
 import io.github.tkaczenko.service.CategoryService;
 import org.junit.After;
 import org.junit.Before;

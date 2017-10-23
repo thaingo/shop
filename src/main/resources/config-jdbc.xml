@@ -15,42 +15,42 @@
     </bean>
 
     <bean id="dao"
-          class="io.github.tkaczenko.data.dao.AbstractJdbcDAO" abstract="true">
+          class="io.github.tkaczenko.dao.AbstractJdbcDAO" abstract="true">
         <property name="dataSource" ref="dataSource"/>
     </bean>
 
     <bean id="customerDAO"
-          class="io.github.tkaczenko.data.dao.CustomerDAO" parent="dao">
+          class="io.github.tkaczenko.dao.CustomerDAO" parent="dao">
     </bean>
 
     <bean id="orderDAO"
-          class="io.github.tkaczenko.data.dao.CustomOrderDAO" parent="dao">
+          class="io.github.tkaczenko.dao.CustomOrderDAO" parent="dao">
     </bean>
 
     <bean id="orderItemDAO"
-          class="io.github.tkaczenko.data.dao.OrderItemDAO" parent="dao">
+          class="io.github.tkaczenko.dao.OrderItemDAO" parent="dao">
     </bean>
 
     <bean id="productDAO"
-          class="io.github.tkaczenko.data.dao.ProductDAO" parent="dao">
+          class="io.github.tkaczenko.dao.ProductDAO" parent="dao">
     </bean>
 
     <bean id="visualizationDAO"
-          class="io.github.tkaczenko.data.dao.VisualizationDAO" parent="dao">
+          class="io.github.tkaczenko.dao.VisualizationDAO" parent="dao">
     </bean>
 
     <bean id="attributeDAO"
-          class="io.github.tkaczenko.data.dao.attribute.AttributeDAO" parent="dao">
+          class="io.github.tkaczenko.dao.attribute.AttributeDAO" parent="dao">
     </bean>
 
     <bean id="categoryDAO"
-          class="io.github.tkaczenko.data.dao.category.CategoryDAO" parent="dao">
+          class="io.github.tkaczenko.dao.category.CategoryDAO" parent="dao">
     </bean>
 
     <bean id="categoryAssociationDAO"
-          class="io.github.tkaczenko.data.dao.category.CategoryAssociationDAO" parent="dao">
+          class="io.github.tkaczenko.dao.category.CategoryAssociationDAO" parent="dao">
     </bean>
     <bean id="attributeAssociationDAO"
-          class="io.github.tkaczenko.data.dao.attribute.AttributeAssociationDAO" parent="dao">
+          class="io.github.tkaczenko.dao.attribute.AttributeAssociationDAO" parent="dao">
     </bean>
 </beans>

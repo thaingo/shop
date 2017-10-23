@@ -1,8 +1,8 @@
 package io.github.tkaczenko.service;
 
-import io.github.tkaczenko.data.model.attribute.Attribute;
-import io.github.tkaczenko.data.repository.AttributeAssociationRepository;
-import io.github.tkaczenko.data.repository.AttributeRepository;
+import io.github.tkaczenko.model.attribute.Attribute;
+import io.github.tkaczenko.repository.AttributeAssociationRepository;
+import io.github.tkaczenko.repository.AttributeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

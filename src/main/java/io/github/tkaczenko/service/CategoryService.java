@@ -1,8 +1,8 @@
 package io.github.tkaczenko.service;
 
 import com.google.common.collect.Sets;
-import io.github.tkaczenko.data.model.category.Category;
-import io.github.tkaczenko.data.repository.CategoryRepository;
+import io.github.tkaczenko.model.category.Category;
+import io.github.tkaczenko.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

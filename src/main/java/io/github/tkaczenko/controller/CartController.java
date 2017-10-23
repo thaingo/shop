@@ -1,12 +1,12 @@
 package io.github.tkaczenko.controller;
 
-import io.github.tkaczenko.data.model.CustomOrder;
-import io.github.tkaczenko.data.model.Customer;
-import io.github.tkaczenko.data.model.Product;
-import io.github.tkaczenko.data.model.enumeration.OrderType;
-import io.github.tkaczenko.data.model.enumeration.VisualizationType;
-import io.github.tkaczenko.data.session.Cart;
+import io.github.tkaczenko.model.CustomOrder;
+import io.github.tkaczenko.model.Customer;
+import io.github.tkaczenko.model.Product;
+import io.github.tkaczenko.model.enumeration.OrderType;
+import io.github.tkaczenko.model.enumeration.VisualizationType;
 import io.github.tkaczenko.service.*;
+import io.github.tkaczenko.session.Cart;
 import io.github.tkaczenko.view.CustomerForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

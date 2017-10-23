@@ -1,16 +1,16 @@
 package io.github.tkaczenko.provider_impl;
 
 import com.google.common.collect.Sets;
-import io.github.tkaczenko.data.model.Product;
-import io.github.tkaczenko.data.model.Visualization;
-import io.github.tkaczenko.data.model.attribute.Attribute;
-import io.github.tkaczenko.data.model.attribute.AttributeAssociation;
-import io.github.tkaczenko.data.model.category.Category;
-import io.github.tkaczenko.data.model.category.CategoryAssociation;
-import io.github.tkaczenko.data.model.enumeration.VisualizationType;
+import io.github.tkaczenko.model.Product;
+import io.github.tkaczenko.model.Visualization;
+import io.github.tkaczenko.model.attribute.Attribute;
+import io.github.tkaczenko.model.attribute.AttributeAssociation;
+import io.github.tkaczenko.model.category.Category;
+import io.github.tkaczenko.model.category.CategoryAssociation;
+import io.github.tkaczenko.model.enumeration.VisualizationType;
 import io.github.tkaczenko.provider.BaseScraper;
-import io.github.tkaczenko.provider.ProductExtractor;
 import io.github.tkaczenko.provider.SiteCode;
+import io.github.tkaczenko.provider.interfaces.ProductExtractor;
 import io.github.tkaczenko.util.ProductUtil;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -18,7 +18,6 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -31,6 +30,10 @@ public class ProdjScraper extends BaseScraper {
 
     ProdjScraper(int numOfRootCategories, int numOfSubCategories, int numOfProducts, int numOfOnePageProducts, ProductExtractor productExtractor) {
         super(numOfRootCategories, numOfSubCategories, numOfProducts, numOfOnePageProducts, productExtractor);
+    }
+
+    ProdjScraper() {
+        super(new ProdjScraper.Extractor());
     }
 
     @Override
@@ -75,18 +78,27 @@ public class ProdjScraper extends BaseScraper {
     @Override
     protected Product extractProductBasicInfo(Category category, Category subCategory, Element productItem) {
         Element a = productItem.select("a").first();
-        String title = a.select("strong").first().text()
+        String title = a.select("b").first().text()
                 .replace(category.getName(), "")
                 .trim();
         String url = a.absUrl("href");
-        String priceStr = productItem.select(".bt-price").select(".tov-price").first().text()
+        Element priceElem = productItem.select(".bt-price").select(".tov-price").first();
+        if (priceElem == null) {
+            return null;
+        }
+        String priceStr = priceElem.text()
                 .replace("Суперцена!", "")
+                .replace("Акция!", "")
                 .replace("\u00a0", "")
                 .replace("грн", "")
                 .trim();
         BigDecimal price = BigDecimal.valueOf(Integer.parseInt(priceStr));
         String sku = CODE + ProductUtil.makeSkuWithUrl(url);
+        Element img = productItem.select("img[src]").first();
         Product product = new Product(title, url, price, sku, DEFAULT_PRODUCT_AMOUNT);
+        product.setVisualizations(Sets.newHashSet(
+                new Visualization(VisualizationType.ORIGINAL_PICTURE.getCode(), img.absUrl("src"), product)
+        ));
         product.setCategories(Sets.newHashSet(new CategoryAssociation(product, subCategory)));
         countOfProducts++;
         return product;
@@ -102,7 +114,9 @@ public class ProdjScraper extends BaseScraper {
                 .collect(Collectors.toList());
     }
 
-    private Set<Category> processSubCategories(Elements subCategoryItems, Category category) {
+    @Override
+    public Set<Category> processSubCategories(Elements subCategoryItems, Category category) {
+        validateNumOfSubCategories(subCategoryItems);
         return subCategoryItems.parallelStream().limit(numOfSubCategories)
                 .map(subCategoryItem -> {
                     String subTitle = subCategoryItem.text().trim();
@@ -136,8 +150,8 @@ public class ProdjScraper extends BaseScraper {
         }
 
         @Override
-        public List<Visualization> parseVisualizations(Product product) {
-            List<Visualization> visualizations = new ArrayList<>();
+        public Set<Visualization> parseVisualizations(Product product) {
+            Set<Visualization> visualizations = new HashSet<>();
             Elements images = page.select("div[id=gallery] > a > img");
             for (int i = 1; i < images.size(); i++) {
                 Visualization big = new Visualization();
@@ -148,21 +162,22 @@ public class ProdjScraper extends BaseScraper {
                 src.setProduct(product);
                 src.setType(VisualizationType.PICTURE.getCode());
                 src.setUrl(images.get(i).absUrl("src"));
-                visualizations.add(big);
                 visualizations.add(src);
+                visualizations.add(big);
             }
+            product.getVisualizations().addAll(visualizations);
             return visualizations;
         }
 
         @Override
-        public List<Attribute> parseAttributes(Product product) {
-            List<Attribute> attributes = new ArrayList<>();
+        public Set<Attribute> parseAttributes(Product product) {
+            Set<Attribute> attributes = new HashSet<>();
             Elements titles = container.select("p > b > span > span");
             Elements lists = container.select("ul");
             Set<AttributeAssociation> attributeAssociations = new HashSet<>();
             for (int i = 0; i < titles.size(); i++) {
                 String title = titles.get(i).text();
-                if (lists.size() <= i || title.contains("Гарантия")) {
+                if (lists.size() <= i || title.contains("Гарантия") || title.isEmpty()) {
                     break;
                 }
                 Elements properties = lists.get(i).select("li");
