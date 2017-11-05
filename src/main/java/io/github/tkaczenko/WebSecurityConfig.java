@@ -13,7 +13,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/", "/shop", "/search", "/cart", "/category/**", "/login", "/logout").permitAll()
+                .antMatchers("/", "/shop", "/search", "/category/**", "/login", "/logout", "/order",
+                        "/cart/**", "/addToCart", "/clearCart", "/updateCart", "/deleteFromCart").permitAll()
                 .antMatchers("/resources/**").permitAll()
                 .antMatchers("/admin", "/attributes").access("hasRole('ADMIN')")
                 .anyRequest().authenticated()

@@ -7,7 +7,10 @@
     <c:forEach var="entry" items="${products}">
         <div class="col-md-3 col-sm-6">
             <c:url var="productLink" value="/category/${entry.value}/product/${entry.key.name}"/>
-            <c:url var="categoryLink" value="/category/${entry.value}"/>
+            <c:url var="categoryLink" value="/category/${entry.value}">
+                <c:param name="page" value="${currentPage}"/>
+                <c:param name="size" value="${offset}"/>
+            </c:url>
             <span class="thumbnail">
                 <c:if test="${showCategory}">
                     <a href="${categoryLink}">${entry.value}</a>

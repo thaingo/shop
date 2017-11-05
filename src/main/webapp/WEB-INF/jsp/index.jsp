@@ -40,6 +40,7 @@
     </div>
     <jsp:include page="_products.jsp"/>
 </div>
+<jsp:include page="_pagination.jsp"/>
 <jsp:include page="_footer.jsp"/>
 </body>
 </html>

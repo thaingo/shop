@@ -12,5 +12,7 @@ import java.util.Set;
 public interface CategoryAssociationRepository extends CrudRepository<CategoryAssociation, Integer> {
     Long countByCategory(Category category);
 
+    Set<CategoryAssociation> findAllByCategoryId(int id);
+
     Set<CategoryAssociation> findAllByProductSku(String sku);
 }

@@ -9,6 +9,8 @@ import org.hibernate.search.jpa.FullTextEntityManager;
 import org.hibernate.search.jpa.FullTextQuery;
 import org.hibernate.search.query.dsl.QueryBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
@@ -66,6 +68,16 @@ public class ProductService {
 
     public long countByCategory(Category category) {
         return categoryAssociationRepository.countByCategory(category);
+    }
+
+    public Page<Product> listAllByCategoryId(int categoryId, Pageable pageable) {
+        return productRepository.findAllByCategoriesIn(categoryAssociationRepository.findAllByCategoryId(categoryId), pageable);
+    }
+
+    public Page<Product> listAllByCategoryName(String categoryName, Pageable pageable) {
+        Category category = categoryRepository.findByName(categoryName).get(0);
+        return productRepository.findAllByCategoriesIn(
+                categoryAssociationRepository.findAllByCategoryId(category.getId()), pageable);
     }
 
     public Set<Product> findAllByCategoryName(String name) {

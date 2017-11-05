@@ -12,6 +12,9 @@ import io.github.tkaczenko.util.UrlUtil;
 import io.github.tkaczenko.view.CustomerForm;
 import io.github.tkaczenko.view.LoginForm;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -34,6 +37,9 @@ import java.util.*;
  */
 @Controller
 public class BrowsingController extends BaseController {
+    private static final int DEFAULT_OFFSET = 10;
+    private static final int DEFAULT_STEP_FOR_CATEGORY_LIST = 3;
+
     private final ProductService productService;
     private final LikedCart likedCart;
 
@@ -49,17 +55,28 @@ public class BrowsingController extends BaseController {
     public String home(Model model) {
         // // TODO: 17.04.17 Implement Best products
         Category category;
-        Set<Product> products = null;
+        PageRequest pageRequest = new PageRequest(0, DEFAULT_OFFSET);
+        Page<Product> page = null;
         if (rootCategories.size() != 0) {
             category = rootCategories.iterator().next();
             Iterator<Category> iterator = category.getSubCategories().iterator();
             if (iterator.hasNext()) {
-                products = productService.findAllByCategoryId(iterator.next().getId());
+                page = productService.listAllByCategoryId(iterator.next().getId(), pageRequest);
             }
         }
+        Map<Product, String> products = new HashMap<>();
+        if (page != null) {
+            products = prepareMapProductCategoryName(page.getContent());
+        }
+        int currentPage = 0;
+        int totalPages = page != null ? page.getTotalPages() : 0;
         model.addAttribute("showCategory", true)
-                .addAttribute("products",
-                        products == null ? null : prepareMapProductCategoryName(products));
+                .addAttribute("currentPage", 0)
+                .addAttribute("totalPages", totalPages)
+                .addAttribute("hasPrevious", currentPage - 1 > totalPages)
+                .addAttribute("hasNext", currentPage + 1 < totalPages)
+                .addAttribute("offset", DEFAULT_OFFSET)
+                .addAttribute("products", products);
         return "index";
     }
 
@@ -80,7 +97,7 @@ public class BrowsingController extends BaseController {
     }
 
     @GetMapping("/category/{name}")
-    public String category(@PathVariable String name,
+    public String category(@PathVariable String name, Pageable pageable,
                            Model model) {
         Category found = findCategoryByName(name);
         if (found == null) {
@@ -90,7 +107,7 @@ public class BrowsingController extends BaseController {
         // Calculate number of category's products
         Map<Category, Long> categoryCountMap = new HashMap<>();
         List<Map.Entry<Category, Long>> entries = null;
-        Set<Product> products = null;
+        Page<Product> page = null;
         if (found.getParentCategory() == null) {
             found.getSubCategories().forEach(c ->
                     categoryCountMap.put(c, productService.countByCategory(c)));
@@ -98,14 +115,27 @@ public class BrowsingController extends BaseController {
 
             Iterator<Category> iterator = found.getSubCategories().iterator();
             if (iterator.hasNext()) {
-                products = productService.findAllByCategoryId(iterator.next().getId());
+                page = productService.listAllByCategoryId(iterator.next().getId(), pageable);
             }
         } else {
-            products = productService.findAllByCategoryName(name);
+            page = productService.listAllByCategoryName(name, pageable);
+        }
+        Map<Product, String> products = new HashMap<>();
+        if (page != null) {
+            page.getContent().parallelStream()
+                    .forEach(product -> products.put(product, name));
         }
 
+        int currentPage = pageable.getPageNumber();
+        int totalPages = page != null ? page.getTotalPages() : 0;
         model.addAttribute("category", found)
-                .addAttribute("step", 3)
+                .addAttribute("showCategory", true)
+                .addAttribute("currentPage", currentPage)
+                .addAttribute("totalPages", totalPages)
+                .addAttribute("hasPrevious", currentPage - 1 > totalPages)
+                .addAttribute("hasNext", currentPage + 1 < totalPages)
+                .addAttribute("offset", DEFAULT_OFFSET)
+                .addAttribute("step", DEFAULT_STEP_FOR_CATEGORY_LIST)
                 .addAttribute("entries", entries)
                 .addAttribute("products", products);
         return "category";
