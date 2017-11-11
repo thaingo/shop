@@ -65,6 +65,8 @@
                       action="${search}">
                     <div class="input-group">
                         <input type="text" class="form-control" placeholder="Найти" name="query">
+                        <input type="text" class="hidden" name="page" value="0">
+                        <input type="text" class="hidden" name="size" value="${offset}">
                         <div class="input-group-btn">
                             <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i>
                             </button>

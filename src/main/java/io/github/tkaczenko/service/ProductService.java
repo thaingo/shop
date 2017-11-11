@@ -48,7 +48,7 @@ public class ProductService {
         this.attributeAssociationRepository = attributeAssociationRepository;
     }
 
-    public List<Product> search(String text) {
+    public SearchPage search(String text, Pageable pageable) {
         // get the full text entity manager
         FullTextEntityManager fullTextEntityManager = org.hibernate.search.jpa.Search
                 .getFullTextEntityManager(entityManager);
@@ -60,10 +60,13 @@ public class ProductService {
                 .createQuery();
         // wrap Lucene query in an Hibernate Query object
         FullTextQuery jpaQuery = fullTextEntityManager.createFullTextQuery(query, Product.class);
+        int resultSize = jpaQuery.getResultSize();
+        jpaQuery.setFirstResult(pageable.getPageNumber() * pageable.getPageSize());
+        jpaQuery.setMaxResults(pageable.getPageSize());
         // execute search and return results (sorted by relevance as default)
         @SuppressWarnings("unchecked")
         List<Product> results = jpaQuery.getResultList();
-        return results;
+        return new SearchPage(resultSize, results);
     }
 
     public long countByCategory(Category category) {
@@ -125,5 +128,23 @@ public class ProductService {
 
     public void delete(String id) {
         productRepository.delete(id);
+    }
+
+    public static class SearchPage {
+        private int resultSize;
+        private List<Product> products;
+
+        public SearchPage(int resultSize, List<Product> products) {
+            this.resultSize = resultSize;
+            this.products = products;
+        }
+
+        public int getResultSize() {
+            return resultSize;
+        }
+
+        public List<Product> getProducts() {
+            return products;
+        }
     }
 }

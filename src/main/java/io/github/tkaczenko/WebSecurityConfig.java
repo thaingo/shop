@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        http.csrf().disable();
         http.authorizeRequests()
                 .antMatchers("/", "/shop", "/search", "/category/**", "/login", "/logout", "/order",
                         "/cart/**", "/addToCart", "/clearCart", "/updateCart", "/deleteFromCart").permitAll()

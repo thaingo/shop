@@ -6,8 +6,8 @@ public final class TextCleaner {
                 .trim();
     }
 
-    public static String normalizeSku(String juid) {
-        return juid
+    public static String normalizeUid(String uid) {
+        return uid
                 .replace(String.valueOf((char) 160), " ")
                 .replaceAll("\\s+", "")
                 .replace("/", "_")

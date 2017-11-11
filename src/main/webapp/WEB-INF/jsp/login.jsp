@@ -32,7 +32,7 @@
             integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
             crossorigin="anonymous"></script>
 
-    <title>Интернет-магазин DJ</title>
+    <title>Интернет-магазин DJ | Войти</title>
 </head>
 <body>
 <jsp:include page="_header.jsp"/>
@@ -55,7 +55,7 @@
             <form:input path="password" type="password" class="form-control"/>
             <form:errors path="password"/>
             <br>
-            <input type="submit" value="Войти"/>
+            <input type="submit" value="Войти" class="btn btn-success"/>
             </form:form>
         </div>
     </div>

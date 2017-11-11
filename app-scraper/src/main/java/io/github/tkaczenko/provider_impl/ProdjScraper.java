@@ -12,6 +12,7 @@ import io.github.tkaczenko.provider.BaseScraper;
 import io.github.tkaczenko.provider.SiteCode;
 import io.github.tkaczenko.provider.interfaces.ProductExtractor;
 import io.github.tkaczenko.util.ProductUtil;
+import io.github.tkaczenko.util.TextCleaner;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -60,7 +61,7 @@ public class ProdjScraper extends BaseScraper {
     protected Category extractCategory(Elements categoryItems, int i) {
         Element categoryItem = categoryItems.get(i);
         Element link = categoryItem.select("a").first();
-        String title = link.text().trim();
+        String title = TextCleaner.normalizeUid(link.text().trim());
         String url = link.absUrl("href");
         Elements subCategoryItems = categoryItem.select(".sub").first().select("a");
         Category category = new Category(title, url, "");

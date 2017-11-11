@@ -37,7 +37,7 @@ import java.util.*;
  */
 @Controller
 public class BrowsingController extends BaseController {
-    private static final int DEFAULT_OFFSET = 10;
+    public static final int DEFAULT_OFFSET = 10;
     private static final int DEFAULT_STEP_FOR_CATEGORY_LIST = 3;
 
     private final ProductService productService;
@@ -53,7 +53,7 @@ public class BrowsingController extends BaseController {
 
     @GetMapping(value = {"/", "/shop"})
     public String home(Model model) {
-        // // TODO: 17.04.17 Implement Best products
+        // // TODO: 17.04.17 Implement Best products with pagination
         Category category;
         PageRequest pageRequest = new PageRequest(0, DEFAULT_OFFSET);
         Page<Product> page = null;
@@ -71,10 +71,6 @@ public class BrowsingController extends BaseController {
         int currentPage = 0;
         int totalPages = page != null ? page.getTotalPages() : 0;
         model.addAttribute("showCategory", true)
-                .addAttribute("currentPage", 0)
-                .addAttribute("totalPages", totalPages)
-                .addAttribute("hasPrevious", currentPage - 1 > totalPages)
-                .addAttribute("hasNext", currentPage + 1 < totalPages)
                 .addAttribute("offset", DEFAULT_OFFSET)
                 .addAttribute("products", products);
         return "index";
@@ -82,7 +78,8 @@ public class BrowsingController extends BaseController {
 
     @GetMapping("/login")
     public String login(Model model) {
-        model.addAttribute("loginForm", new LoginForm());
+        model.addAttribute("loginForm", new LoginForm())
+                .addAttribute("offset", DEFAULT_OFFSET);
         return "login";
     }
 
@@ -132,7 +129,7 @@ public class BrowsingController extends BaseController {
                 .addAttribute("showCategory", true)
                 .addAttribute("currentPage", currentPage)
                 .addAttribute("totalPages", totalPages)
-                .addAttribute("hasPrevious", currentPage - 1 > totalPages)
+                .addAttribute("hasPrevious", currentPage > 0 && currentPage - 1 < totalPages)
                 .addAttribute("hasNext", currentPage + 1 < totalPages)
                 .addAttribute("offset", DEFAULT_OFFSET)
                 .addAttribute("step", DEFAULT_STEP_FOR_CATEGORY_LIST)
@@ -147,13 +144,11 @@ public class BrowsingController extends BaseController {
                           Model model) {
         Category found = findCategoryByName(categoryName);
         if (found == null) {
-            //// TODO: 09.04.17 Implement not found page
-            return "index";
+            return "404";
         } else {
             Product product = productService.findByName(productName);
             if (product == null) {
-                //// TODO: 09.04.17 Implement not found page
-                return "index";
+                return "404";
             }
             String sku = product.getSku();
             LikedCart.Item item = likedCart.getItem(sku);
@@ -166,7 +161,8 @@ public class BrowsingController extends BaseController {
                     .addAttribute("product", product)
                     .addAttribute("customerForm", new CustomerForm())
                     .addAttribute("liked", item.isLiked())
-                    .addAttribute("disliked", item.isDisliked());
+                    .addAttribute("disliked", item.isDisliked())
+                    .addAttribute("offset", DEFAULT_OFFSET);
             return "product";
         }
     }
@@ -219,17 +215,25 @@ public class BrowsingController extends BaseController {
     }
 
     @GetMapping("/search")
-    public String search(String query, Model model) {
-        List<Product> searchResults;
+    public String search(String query, Pageable pageable, Model model) {
+        ProductService.SearchPage searchPage;
         try {
-            searchResults = productService.search(query);
+            searchPage = productService.search(query, pageable);
         } catch (Exception ex) {
-            //// TODO: 17.04.17 Implement not found page
-            return "";
+            return "404";
         }
-        model.addAttribute("message", String.format("Найдено %d результатов", searchResults.size()))
+        int currentPage = pageable.getPageNumber();
+        int totalPages = (searchPage.getResultSize() + DEFAULT_OFFSET - 1) / DEFAULT_OFFSET;
+        model.addAttribute("message", String.format("Найдено %d результатов", searchPage.getResultSize()))
                 .addAttribute("showCategory", true)
-                .addAttribute("products", searchResults.isEmpty() ? null : prepareMapProductCategoryName(searchResults));
+                .addAttribute("currentPage", currentPage)
+                .addAttribute("totalPages", totalPages)
+                .addAttribute("hasPrevious", currentPage > 0 && currentPage - 1 < totalPages)
+                .addAttribute("hasNext", currentPage + 1 < totalPages)
+                .addAttribute("offset", DEFAULT_OFFSET)
+                .addAttribute("products", searchPage.getProducts().isEmpty() ? null
+                        : prepareMapProductCategoryName(searchPage.getProducts()))
+                .addAttribute("offset", DEFAULT_OFFSET);
         return "search";
     }
 

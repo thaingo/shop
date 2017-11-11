@@ -15,7 +15,7 @@ import java.util.*;
 @Component
 @Scope(proxyMode = ScopedProxyMode.TARGET_CLASS, value = "session")
 public class Cart {
-    private static final double DEFAULT_ESTIMATED = 36;
+    private static final double DEFAULT_ESTIMATED = 60;
     private double estimated = DEFAULT_ESTIMATED;
 
     private Map<Product, Integer> items = new HashMap<>(0);

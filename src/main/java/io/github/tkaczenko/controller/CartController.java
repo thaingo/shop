@@ -20,6 +20,8 @@ import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.Map;
 
+import static io.github.tkaczenko.controller.BrowsingController.DEFAULT_OFFSET;
+
 /**
  * Created by tkaczenko on 17.04.17.
  */
@@ -108,6 +110,7 @@ public class CartController {
 
     @GetMapping("/order")
     public String order(Model model) {
+        model.addAttribute("offset", DEFAULT_OFFSET);
         return "order";
     }
 
@@ -119,7 +122,8 @@ public class CartController {
         model.addAttribute("itemMap", itemMap)
                 .addAttribute("subTotal", subTotal)
                 .addAttribute("total", subTotal == 0 ? 0 : total)
-                .addAttribute("estimated", cart.getEstimated());
+                .addAttribute("estimated", cart.getEstimated())
+                .addAttribute("offset", DEFAULT_OFFSET);
         if (!model.containsAttribute("customerForm")) {
             model.addAttribute("customerForm", new CustomerForm());
         }

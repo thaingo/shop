@@ -30,7 +30,7 @@
             integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
             crossorigin="anonymous"></script>
 
-    <title>Интернет-магазин DJ</title>
+    <title>Интернет-магазин DJ | Поиск</title>
 </head>
 <body>
 <jsp:include page="_header.jsp"/>
@@ -41,6 +41,7 @@
     </div>
     <jsp:include page="_products.jsp"/>
 </div>
+<jsp:include page="_pagination_search.jsp"/>
 <jsp:include page="_footer.jsp"/>
 </body>
 </html>

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
@@ -39,7 +39,9 @@
         <h2>Ваш заказ добавлен ${orderId}</h2>
     </div>
     <c:url var="shop" value="/shop"/>
-    <a href="${shop}">Продолжить покупки</a>
+    <a href="${home}" class="btn btn-warning"><i class="glyphicon glyphicon-chevron-left"></i>
+        Продолжить
+        покупки</a>
 </div>
 <jsp:include page="_footer.jsp"/>
 </body>

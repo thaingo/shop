@@ -23,7 +23,8 @@
                     <c:set var="end" value="${totalPages}"/>
                 </c:otherwise>
             </c:choose>
-            <c:url var="link" value="/category/${category.getName()}">
+            <c:url var="link" value="/search">
+                <c:param name="query" value="${param.query}"/>
                 <c:param name="page" value="${currentPage - 1}"/>
                 <c:param name="size" value="${offset}"/>
             </c:url>
@@ -36,7 +37,8 @@
                 </c:otherwise>
             </c:choose>
             <c:forEach var="i" begin="${start}" end="${end}" step="1">
-                <c:url var="link" value="/category/${category.getName()}">
+                <c:url var="link" value="/search">
+                    <c:param name="query" value="${param.query}"/>
                     <c:param name="page" value="${i}"/>
                     <c:param name="size" value="${offset}"/>
                 </c:url>
@@ -53,7 +55,8 @@
                     </c:otherwise>
                 </c:choose>
             </c:forEach>
-            <c:url var="link" value="/category/${category.getName()}">
+            <c:url var="link" value="/search">
+                <c:param name="query" value="${param.query}"/>
                 <c:param name="page" value="${currentPage + 1}"/>
                 <c:param name="size" value="${offset}"/>
             </c:url>

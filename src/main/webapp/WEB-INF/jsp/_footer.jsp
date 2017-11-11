@@ -67,7 +67,11 @@
 
 <div class="footer-bottom">
     <div class="container">
-        <p class="pull-left"> &copy; Интернет-магазин "DJ" 2017. </p>
+        <p class="pull-left"> &copy; Интернет-магазин "DJ" 2017.
+            Developed by
+            <a href="https://github.com/tkaczenko/"><b>Andrii Tkachenko</b></a>.
+            Sources available at <a href="https://github.com/tkaczenko/shop/">Github</a>
+        </p>
         <div class="pull-right">
             <ul class="nav nav-pills payments">
                 <li><i class="fa fa-cc-visa"></i></li>

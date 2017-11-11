@@ -42,7 +42,7 @@
             src="https://cdnjs.cloudflare.com/ajax/libs/jquery-migrate/3.0.0/jquery-migrate.min.js"></script>
     <script type="text/javascript" src="<c:url value="/resources/js/scripts.js"/>"></script>
 
-    <title>${pageContext.request.contextPath} | ${product.name}</title>
+    <title>Интернет-магазин DJ | ${product.name}</title>
 </head>
 <body>
 <jsp:include page="_header.jsp"/>

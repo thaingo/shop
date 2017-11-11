@@ -27,6 +27,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import static io.github.tkaczenko.controller.BrowsingController.DEFAULT_OFFSET;
+
 /**
  * Created by tkaczenko on 18.04.17.
  */
@@ -78,7 +80,8 @@ public class AdminController extends BaseController {
                 .addAttribute("attributes",
                         attributes.parallelStream()
                                 .map(Attribute::getName)
-                                .collect(Collectors.toList()));
+                                .collect(Collectors.toList()))
+                .addAttribute("offset", DEFAULT_OFFSET);
         return "edit_product";
     }
 
@@ -143,7 +146,8 @@ public class AdminController extends BaseController {
                         attributes.parallelStream()
                                 .map(Attribute::getName)
                                 .collect(Collectors.toList())
-                );
+                )
+                .addAttribute("offset", DEFAULT_OFFSET);
         return "add_product";
     }
 
@@ -206,7 +210,8 @@ public class AdminController extends BaseController {
                 .addAttribute("categoryForm", categoryForm)
                 .addAttribute("rootCategories", rootCategories)
                 .addAttribute("childCategories", childCategories)
-                .addAttribute("categoryChildCategories", categoryChildCategories);
+                .addAttribute("categoryChildCategories", categoryChildCategories)
+                .addAttribute("offset", DEFAULT_OFFSET);
         return "edit_category";
     }
 
@@ -247,7 +252,8 @@ public class AdminController extends BaseController {
             model.addAttribute("categoryForm", new CategoryForm());
         }
         model.addAttribute("rootCategories", rootCategories)
-                .addAttribute("childCategories", childCategories);
+                .addAttribute("childCategories", childCategories)
+                .addAttribute("offset", DEFAULT_OFFSET);
         return "add_category";
     }
 
@@ -291,6 +297,7 @@ public class AdminController extends BaseController {
             AttributesForm attributesForm = new AttributesForm(attributes);
             model.addAttribute("attributesForm", attributesForm);
         }
+        model.addAttribute("offset", DEFAULT_OFFSET);
         return "attributes";
     }
 

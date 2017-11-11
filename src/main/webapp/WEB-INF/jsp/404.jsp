@@ -7,9 +7,9 @@
 <html lang="ru"
       xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <meta charset="UTF-8"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <meta name="viewport" content="width=device-width; initial-scale=1; maximum-scale=1"/>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Интернет-магазин dj оборудования"/>
     <meta name="author" content="tkaczenko"/>
 
@@ -30,19 +30,36 @@
             integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
             crossorigin="anonymous"></script>
 
-    <title>Интернет-магазин DJ | ${category.name}</title>
+    <title>Интернет-магазин DJ</title>
 </head>
 <body>
+<c:url var="home" value="/"/>
 <jsp:include page="_header.jsp"/>
 <div class="container">
     <div class="page-header">
         <jsp:include page="_categories-menu.jsp"/>
     </div>
-    <jsp:include page="_category-nav.jsp"/>
-    <jsp:include page="_subcategories-list.jsp"/>
-    <jsp:include page="_products.jsp"/>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="error-template">
+                    <h1>
+                        Oops!</h1>
+                    <h2>
+                        404 Страница не найдена</h2>
+                    <div class="error-details">
+                        Извините, произошла ошибка, Запрошенная страница не найдена!
+                    </div>
+                    <div class="error-actions">
+                        <a href="${home}" class="btn btn-primary btn-lg"><span
+                                class="glyphicon glyphicon-home"></span>
+                            На главную </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-<jsp:include page="_pagination.jsp"/>
 <jsp:include page="_footer.jsp"/>
 </body>
 </html>
