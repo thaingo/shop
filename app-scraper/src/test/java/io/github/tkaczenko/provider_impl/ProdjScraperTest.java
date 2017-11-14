@@ -34,7 +34,7 @@ public class ProdjScraperTest {
 
     @Before
     public void setUp() throws Exception {
-        baseScraper = new ProdjScraper(2, 2, 5, 15, new ProdjScraper.Extractor());
+        baseScraper = new ProdjScraper(0, 0, 1000, 0, new ProdjScraper.Extractor());
     }
 
     @Test
@@ -42,6 +42,6 @@ public class ProdjScraperTest {
         baseScraper.load();
         baseLoader.save(baseScraper);
         assertThat(baseScraper.getCategories().size(), equalTo(2));
-        assertThat(baseScraper.getProducts().size(), equalTo(5));
+        assertThat(baseScraper.getProducts().size(), equalTo(9));
     }
 }

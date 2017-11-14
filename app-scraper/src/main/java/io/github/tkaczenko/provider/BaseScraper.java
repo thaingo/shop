@@ -108,6 +108,9 @@ public abstract class BaseScraper extends Scraper {
                 .forEach(category -> category.getSubCategories().parallelStream()
                         .forEach(subCategory -> {
                             try {
+                                if (products.size() >= numOfProducts) {
+                                    return;
+                                }
                                 String url = subCategory.getUrl();
                                 Document page = Jsoup.connect(url).get();
                                 List<String> pageLinks = getNextPageUrls(page);
@@ -121,6 +124,9 @@ public abstract class BaseScraper extends Scraper {
                                         page = Jsoup.connect(pageLinks.get(i)).get();
                                     }
                                     Elements productItems = extractProductItems(page);
+                                    if (products.size() >= numOfProducts) {
+                                        break;
+                                    }
                                     products.addAll(processProducts(category, subCategory, productItems));
                                     page = null;
                                 }
@@ -155,7 +161,7 @@ public abstract class BaseScraper extends Scraper {
     }
 
     private Set<Product> processProducts(Category category, Category subCategory, Elements productItems) {
-        return productItems.parallelStream().limit(numOfProducts)
+        return productItems.parallelStream()
                 .map(productItem -> extractProductBasicInfo(category, subCategory, productItem))
                 .filter(Objects::nonNull)
                 .collect(Collectors.toSet());
