@@ -2,6 +2,7 @@ package io.github.tkaczenko.service;
 
 import com.github.springtestdbunit.DbUnitTestExecutionListener;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
+import io.github.tkaczenko.ShopApplication;
 import io.github.tkaczenko.model.Product;
 import io.github.tkaczenko.model.Visualization;
 import io.github.tkaczenko.model.attribute.AttributeAssociation;
@@ -25,7 +26,7 @@ import static org.hamcrest.Matchers.*;
  * Created by tkaczenko on 12.03.17.
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest
+@SpringBootTest(classes = ShopApplication.class)
 @TestExecutionListeners({
         DependencyInjectionTestExecutionListener.class,
         DirtiesContextTestExecutionListener.class,

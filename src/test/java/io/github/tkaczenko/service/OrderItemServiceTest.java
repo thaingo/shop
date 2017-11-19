@@ -4,6 +4,7 @@ import com.github.springtestdbunit.DbUnitTestExecutionListener;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
 import com.github.springtestdbunit.annotation.ExpectedDatabase;
 import com.github.springtestdbunit.assertion.DatabaseAssertionMode;
+import io.github.tkaczenko.ShopApplication;
 import io.github.tkaczenko.model.CustomOrder;
 import io.github.tkaczenko.model.Product;
 import org.junit.Test;
@@ -23,7 +24,7 @@ import java.util.Map;
  * Created by tkaczenko on 13.03.17.
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest
+@SpringBootTest(classes = ShopApplication.class)
 @TestExecutionListeners({
         DependencyInjectionTestExecutionListener.class,
         DirtiesContextTestExecutionListener.class,

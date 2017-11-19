@@ -2,6 +2,7 @@ package io.github.tkaczenko.controller;
 
 import com.github.springtestdbunit.DbUnitTestExecutionListener;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
+import io.github.tkaczenko.ShopApplication;
 import io.github.tkaczenko.model.category.Category;
 import io.github.tkaczenko.service.CategoryService;
 import org.junit.After;
@@ -32,7 +33,7 @@ import static org.junit.Assert.assertEquals;
  * Created by tkaczenko on 09.04.17.
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(classes = ShopApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestExecutionListeners({
         DependencyInjectionTestExecutionListener.class,
         DirtiesContextTestExecutionListener.class,

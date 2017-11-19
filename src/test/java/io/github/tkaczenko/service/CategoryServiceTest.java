@@ -2,6 +2,7 @@ package io.github.tkaczenko.service;
 
 import com.github.springtestdbunit.DbUnitTestExecutionListener;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
+import io.github.tkaczenko.ShopApplication;
 import io.github.tkaczenko.model.category.Category;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,7 +25,7 @@ import static org.junit.Assert.assertThat;
  * Created by tkaczenko on 12.03.17.
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest
+@SpringBootTest(classes = ShopApplication.class)
 @TestExecutionListeners({
         DependencyInjectionTestExecutionListener.class,
         DirtiesContextTestExecutionListener.class,
