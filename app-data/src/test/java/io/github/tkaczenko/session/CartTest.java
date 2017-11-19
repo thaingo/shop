@@ -86,7 +86,7 @@ public class CartTest {
 
     @Test
     public void testCalculateTotal() {
-        assertThat(cart.calculateTotal(80.00), is(83.0));
+        assertThat(cart.calculateTotal(80.00), is(140.0));
     }
 
     @Test
