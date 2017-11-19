@@ -5,6 +5,7 @@ import com.github.springtestdbunit.annotation.DatabaseSetup;
 import io.github.tkaczenko.ShopApplication;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
@@ -25,6 +26,7 @@ import static org.junit.Assert.assertEquals;
 /**
  * Created by tkaczenko on 13.04.17.
  */
+@Ignore
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = ShopApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestExecutionListeners({

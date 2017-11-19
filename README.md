@@ -1,4 +1,5 @@
 # Online shop "Интернет-магазин DJ"
+[![Build Status](https://travis-ci.org/tkaczenko/shop.svg?branch=master)](https://travis-ci.org/tkaczenko/shop)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](/LICENSE.md)
 
 Online store of dj equipment. `shop` is written in Java 8.

@@ -7,6 +7,7 @@ import com.github.springtestdbunit.assertion.DatabaseAssertionMode;
 import io.github.tkaczenko.ShopApplication;
 import io.github.tkaczenko.model.CustomOrder;
 import io.github.tkaczenko.model.Product;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,7 @@ import java.util.Map;
 /**
  * Created by tkaczenko on 13.03.17.
  */
+@Ignore
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = ShopApplication.class)
 @TestExecutionListeners({

@@ -4,6 +4,7 @@ import com.github.springtestdbunit.DbUnitTestExecutionListener;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
 import io.github.tkaczenko.ShopApplication;
 import io.github.tkaczenko.model.category.Category;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,7 @@ import static org.junit.Assert.assertThat;
 /**
  * Created by tkaczenko on 12.03.17.
  */
+@Ignore
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = ShopApplication.class)
 @TestExecutionListeners({

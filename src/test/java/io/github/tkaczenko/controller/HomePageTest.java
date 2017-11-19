@@ -7,6 +7,7 @@ import io.github.tkaczenko.model.category.Category;
 import io.github.tkaczenko.service.CategoryService;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
@@ -32,6 +33,7 @@ import static org.junit.Assert.assertEquals;
 /**
  * Created by tkaczenko on 09.04.17.
  */
+@Ignore
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = ShopApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestExecutionListeners({

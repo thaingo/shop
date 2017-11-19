@@ -7,6 +7,7 @@ import io.github.tkaczenko.model.Product;
 import io.github.tkaczenko.model.Visualization;
 import io.github.tkaczenko.model.attribute.AttributeAssociation;
 import io.github.tkaczenko.model.category.CategoryAssociation;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,7 @@ import static org.hamcrest.Matchers.*;
 /**
  * Created by tkaczenko on 12.03.17.
  */
+@Ignore
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = ShopApplication.class)
 @TestExecutionListeners({
