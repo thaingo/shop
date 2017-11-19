@@ -10,13 +10,16 @@ buildscript {
     }
 }
 
-apply plugin: 'java'
-apply plugin: 'eclipse'
+allprojects {
+    apply plugin: 'java'
+    apply plugin: 'eclipse'
+    apply plugin: 'jacoco'
+
+    sourceCompatibility = 1.8
+}
 apply plugin: 'org.springframework.boot'
-apply plugin: 'jacoco'
 
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = 1.8
 
 repositories {
     mavenCentral()
@@ -39,11 +42,21 @@ dependencies {
     testCompile('com.github.springtestdbunit:spring-test-dbunit:1.3.0')
 }
 
-jacocoTestReport {
+task codeCoverageReport(type: JacocoReport) {
+    executionData fileTree(project.rootDir.absolutePath).include("**/build/jacoco/*.exec")
+
+    subprojects.each {
+        sourceSets it.sourceSets.main
+    }
+
     reports {
         xml.enabled true
+        xml.destination "${buildDir}/reports/jacoco/report.xml"
         html.enabled false
+        csv.enabled false
     }
 }
 
-check.dependsOn jacocoTestReport
+codeCoverageReport.dependsOn {
+    subprojects*.test
+}

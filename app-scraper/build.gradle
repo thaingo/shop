@@ -4,16 +4,12 @@ buildscript {
 
 ext { springBootVersion = '1.5.2.RELEASE' }
 
-apply plugin: 'java'
-apply plugin: 'eclipse'
 apply plugin: 'io.spring.dependency-management'
 
 jar {
     baseName = 'shop-scraper'
     version = '0.0.1-SNAPSHOT'
 }
-
-sourceCompatibility = 1.8
 
 repositories {
     mavenCentral()
