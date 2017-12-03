@@ -69,13 +69,14 @@ Then you can get access to the application through the following URL:
 ## UML diagrams
 For better understanding how `shop` works, you can look at UML diagrams below
 * [Use case diagram](/docs/use-case-diagram.png)
-* [Entity-relationship diagram](/docs/entity-relationship-diagram.png)
+* [Entity-relationship diagram](/docs/entity-relationship-model.png)
 * [Activity diagram of purchase](/docs/activity-diagram-of-purchase.png)
-* [Sequance diagram](/docs/sequance-diagram.png)
+* [Sequence diagram](/docs/sequence-diagram.png)
 * [Communication diagram](/docs/communication-diagram.png)
 * [Logical data model](/docs/logical-data-model.png)
 * [Physical data model](/docs/physical-data-model.png)
 * [Deployment diagram](/docs/deployment-diagram.png)
+* [Class diagram for "View catalog" use case](/docs/class-diagram-view-catalog.png)
 * [Class diagram 1](/docs/class-diagram-one.png), [Class diagram 2](/docs/class-diagram-two.png), [Class diagram 3](/docs/class-diagram-three.png)
 
 ## Authors

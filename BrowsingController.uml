@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>io.github.tkaczenko.controller.BrowsingController</OriginalElement>
+  <nodes>
+    <node x="3452.408670462602" y="979.0">io.github.tkaczenko.session.LikedCart.Item</node>
+    <node x="0.0" y="1001.0">io.github.tkaczenko.repository.AttributeRepository</node>
+    <node x="1075.9999999999998" y="979.0">io.github.tkaczenko.repository.CategoryRepository</node>
+    <node x="3340.9420037959353" y="1460.0">io.github.tkaczenko.session.LikedCart</node>
+    <node x="1482.9999999999998" y="979.0">io.github.tkaczenko.repository.AttributeAssociationRepository</node>
+    <node x="930.75" y="1273.0">io.github.tkaczenko.service.ProductService</node>
+    <node x="2582.0545986943166" y="457.0">io.github.tkaczenko.model.Product</node>
+    <node x="3011.9420037959353" y="1438.0">io.github.tkaczenko.controller.BaseController</node>
+    <node x="2534.0" y="967.5">io.github.tkaczenko.service.ProductService.SearchPage</node>
+    <node x="758.75" y="1494.0">org.springframework.stereotype.Controller</node>
+    <node x="2705.4935280781046" y="0.0">io.github.tkaczenko.model.attribute.Attribute</node>
+    <node x="619.9999999999998" y="979.0">io.github.tkaczenko.repository.VisualizationRepository</node>
+    <node x="2988.4420037959353" y="879.0">io.github.tkaczenko.session.Cart</node>
+    <node x="192.99999999999977" y="968.0">io.github.tkaczenko.repository.CategoryAssociationRepository</node>
+    <node x="2762.375" y="1857.0">io.github.tkaczenko.controller.BrowsingController</node>
+    <node x="1533.6250948983811" y="214.0">io.github.tkaczenko.model.Visualization</node>
+    <node x="2689.793528078105" y="214.0">io.github.tkaczenko.model.attribute.AttributeAssociation</node>
+    <node x="2642.0118316495336" y="1460.5">io.github.tkaczenko.view.LoginForm</node>
+    <node x="1932.9999999999998" y="979.0">io.github.tkaczenko.repository.ProductRepository</node>
+    <node x="3601.9420037959353" y="1483.0">io.github.tkaczenko.util.UrlUtil</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="io.github.tkaczenko.controller.BrowsingController" target="org.springframework.stereotype.Controller">
+      <point x="-258.46153846153857" y="-203.0" />
+      <point x="2783.9134615384614" y="1837.0" />
+      <point x="834.75" y="1837.0" />
+      <point x="0.0" y="26.0" />
+    </edge>
+    <edge source="io.github.tkaczenko.controller.BrowsingController" target="io.github.tkaczenko.controller.BaseController">
+      <point x="43.07692307692332" y="-203.0" />
+      <point x="3085.4519230769233" y="1787.0" />
+      <point x="3166.4420037959353" y="1787.0" />
+      <point x="0.0" y="82.0" />
+    </edge>
+    <edge source="io.github.tkaczenko.session.LikedCart.Item" target="io.github.tkaczenko.session.LikedCart">
+      <point x="0.0" y="37.0" />
+      <point x="3530.408670462602" y="1253.0" />
+      <point x="3531.775337129269" y="1253.0" />
+      <point x="76.33333333333348" y="-60.0" />
+    </edge>
+    <edge source="io.github.tkaczenko.service.ProductService.SearchPage" target="io.github.tkaczenko.service.ProductService">
+      <point x="32.625" y="48.5" />
+      <point x="2697.125" y="1243.0" />
+      <point x="1991.5312499999998" y="1243.0" />
+      <point x="513.2812499999998" y="-247.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.20000000000000015" x="2233.0" y="1527.0000000000007" />
+  <SelectedNodes>
+    <node>io.github.tkaczenko.controller.BrowsingController</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Fields</Category>
+    <Category>Inner Classes</Category>
+    <Category>Constructors</Category>
+    <Category>Properties</Category>
+    <Category>Methods</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
