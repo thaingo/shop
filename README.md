@@ -75,8 +75,12 @@ For better understanding how `shop` works, you can look at UML diagrams below
 * [Communication diagram](/docs/communication-diagram.png)
 * [Logical data model](/docs/logical-data-model.png)
 * [Physical data model](/docs/physical-data-model.png)
+* [Component diagram](/docs/component-diagram.png)
 * [Deployment diagram](/docs/deployment-diagram.png)
 * [Class diagram for "View catalog" use case](/docs/class-diagram-view-catalog.png)
+* [Analysis model, class diagram for "Manage cart" use case](/docs/analysis-model-class-diagram-manage-cart.png)
+* [Analysis model, communication diagram for "Manage cart" use case](/docs/analysis-model-communication-diagram-manage-cart.png)
+* [Class diagram for "Manage cart" use case](/docs/class-diagram-manage-cart.png)
 * [Class diagram 1](/docs/class-diagram-one.png), [Class diagram 2](/docs/class-diagram-two.png), [Class diagram 3](/docs/class-diagram-three.png)
 
 ## Authors

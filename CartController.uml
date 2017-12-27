@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement />
+  <nodes>
+    <node x="494.0" y="407.0">io.github.tkaczenko.service.OrderItemService</node>
+    <node x="0.0" y="660.0">io.github.tkaczenko.model.OrderItem</node>
+    <node x="429.0" y="660.0">io.github.tkaczenko.model.CustomOrder</node>
+    <node x="738.0" y="0.0">io.github.tkaczenko.model.Product</node>
+    <node x="703.0" y="660.0">io.github.tkaczenko.service.CustomerService</node>
+    <node x="264.0" y="890.0">io.github.tkaczenko.service.EmailService</node>
+    <node x="0.0" y="0.0">io.github.tkaczenko.controller.CartController</node>
+    <node x="664.0" y="890.0">io.github.tkaczenko.repository.CustomerRepository</node>
+    <node x="0.0" y="407.0">io.github.tkaczenko.service.OrderService</node>
+    <node x="0.0" y="890.0">io.github.tkaczenko.model.Customer</node>
+  </nodes>
+  <notes />
+  <edges />
+  <settings layout="Hierarchic Group" zoom="0.584953395472703" x="664.0045526974734" y="673.0232187571137" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Fields</Category>
+    <Category>Inner Classes</Category>
+    <Category>Constructors</Category>
+    <Category>Properties</Category>
+    <Category>Methods</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
